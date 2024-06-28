@@ -2,11 +2,24 @@
 #include "lemlib/api.hpp"
 #include "robot-config.hpp"
 
-pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
 // motor groups
-pros::MotorGroup leftMotors({10, 9, 19}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
-pros::MotorGroup rightMotors({-1, 13, 2}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+pros::Controller master(pros::E_CONTROLLER_MASTER);
+
+pros::MotorGroup leftMotors({-11, -13, -15}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
+pros::MotorGroup rightMotors({12, 14, 16}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+
+// ------------ //
+// Other Motors //
+// ------------ //
+
+pros::Motor intake(-10, pros::MotorGearset::blue);
+// pros:: Motor smthing else(+-PORT, MotorGearset);
+
+// ---------- //
+// PNEUMATICS //
+// ---------- //
+
+pros::adi::DigitalOut mogo_mech (8);
 
 // Inertial Sensor on port 10
 pros::Imu imu(10);
@@ -69,6 +82,8 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
+    intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
 
     pros::Task screenTask([]() {
         while (true) {
@@ -81,6 +96,21 @@ void initialize() {
     });
 }
 
-void disabled() {}
+// Implement error hdling later
 
-void competition_initialize() {}
+void auton_init()
+{
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    // Additional auton init code
+}
+
+
+
+void controller_controls()
+{
+    int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    // move the chassis with curvature drive
+    chassis.curvature(leftY, rightX);
+}
+

@@ -8,28 +8,6 @@
  * When this callback is fired, it will toggle line 2 of the LCD text between
  * "I was pressed!" and nothing.
  */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
-
-/**
- * Runs initialization code. This occurs as soon as the program is started.
- *
- * All other competition modes are blocked by initialize; it is recommended
- * to keep execution time for this mode under a few seconds.
- */
-void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
-
-	pros::lcd::register_btn1_cb(on_center_button);
-}
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -60,7 +38,11 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() 
+{
+    auton_init();
+    chassis.moveToPose(100, 100, 60, 100);
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -80,16 +62,118 @@ void autonomous() {}
 /**
  * Runs in driver control
  */
-void opcontrol() {
+void opcontrol() 
+{
     // controller
     // loop to continuously update motors
+
+    // pros::Controller master(pros::E_CONTROLLER_MASTER);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    bool intake_spinning = true;
+    bool mogo_pis = false;
+    bool toggle = false;
+    bool latch = false;
+    
     while (true) {
-        // get joystick positions
-        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-        // move the chassis with curvature drive
-        chassis.arcade(leftY, rightX);
-        // delay to save resources
+
+        // --------------- //
+        // intake controls //
+        // --------------- //
+
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
+        {
+            intake.move(127); // Spin forward
+            intake_spinning = false;
+            pros::delay(10);
+        }
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+        {
+            intake.move(-127); // Spin reverse
+            intake_spinning = false;
+            pros::delay(10);
+        }
+        else if (intake_spinning == false)
+        {
+            intake.brake();
+            intake_spinning = true;
+            pros::delay(10);
+        }
+        // --------------- // 
+
+
+
+        // --------------- //
+        //  Mogo Mech Ctl  //
+        // --------------- //
+
+
+        // When button pressed
+            // If button released, run following
+
+        bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_R2);
+
+        if (toggle)
+        {
+            mogo_mech.set_value(true); // turns clamp solenoid on
+        }
+        else 
+        {
+            mogo_mech.set_value(false); // turns clamp solenoid off
+        }
+
+        if (b_button) 
+        {
+            if(!latch)
+            { // if latch is false, flip toggle one time and set latch to true
+                toggle = !toggle;
+                latch = true;
+            }
+        }
+        else 
+        {
+            latch = false; //once button is released then release the latch too
+        }
+
+        // while (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) // Mogo Mech
+        // {
+        //     if (mogo_pis)
+        //     {
+        //         mogo_mech.set_value(true); // Retract piston
+        //         mogo_pis = !mogo_pis;
+        //         pros::delay(400);
+        //     }
+        //     else
+        //     {
+        //         mogo_mech.set_value(false); // Extend piston
+        //         mogo_pis = !mogo_pis;
+        //         pros::delay(400);
+        //     }            
+        // }
+        
+        // --------------- // 
+
+
+        // --------------- //
+        //  Intake Lifter  //
+        // --------------- //
+
+
+
+
+
+
+
+
+
+        // ---------------- //
+        //  Controller Ctl  //
+        // ---------------- //
+
+        controller_controls();
+
+        // --------------- // 
         pros::delay(10);
     }
 }
+

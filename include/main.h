@@ -60,6 +60,7 @@
  */
 #ifdef __cplusplus
 extern "C" {
+extern pros::Controller master;
 #endif
 void autonomous(void);
 void initialize(void);

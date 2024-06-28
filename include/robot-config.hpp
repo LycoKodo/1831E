@@ -4,8 +4,6 @@
 #include "main.h"
 #include "lemlib/api.hpp"
 
-extern pros::Controller controller;
-
 // motor groups
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
@@ -33,8 +31,13 @@ extern lemlib::OdomSensors sensors;
 
 extern lemlib::Chassis chassis;
 
+extern pros::Motor intake;
+extern pros::adi::DigitalOut mogo_mech;
+
 void initialize();
 void disabled();
 void competition_initialize();
+void auton_init();
+void controller_controls();
 
 #endif // ROBOT_CONFIG_HPP
