@@ -1,7 +1,11 @@
 # 1831E
-This is a side project to familiarise with Git, PROS API and LemLib, working with IST clawbot.
+This respiratory is for all Autonomous, Driver and Skills codes of 1831E.
 
-In collaboration with Arav Pandit from 1831D
+Before contribution, please contact me in person if possible, otherwise, just create a pull request. 
 
-Thanks for reading this!
+Thank you for actually reading this!
+
+I use arch btw,
 Alex Cai
+
+Cheers!
