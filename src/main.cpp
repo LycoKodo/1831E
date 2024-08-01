@@ -1,5 +1,6 @@
 #include "main.h"
 #include "lemlib/api.hpp"
+#include "pros/rtos.hpp"
 #include "robot-config.hpp"
 
 /**
@@ -41,7 +42,15 @@ void competition_initialize() {}
 void autonomous() 
 {
     auton_init();
-    chassis.moveToPose(100, 100, 60, 100);
+    // set position to x:0, y:0, heading:0
+    chassis.setPose(0, 0, 0);
+    // turn to face heading 90 with a very long timeout
+    chassis.moveToPoint(0, 24, 200000);
+    pros::delay(1000);
+    chassis.turnToHeading(90, 200000);
+    pros::delay(1000);
+    chassis.moveToPoint(24, 24, 200000);
+
 }
 
 /**
@@ -73,7 +82,9 @@ void opcontrol()
     bool intake_spinning = true;
     bool mogo_pis = false;
     bool toggle = false;
+    bool toogle_end = false;
     bool latch = false;
+    bool latch_end = false;
     
     while (true) {
 
@@ -106,7 +117,6 @@ void opcontrol()
         // --------------- //
         //  Mogo Mech Ctl  //
         // --------------- //
-
 
         // When button pressed
             // If button released, run following
@@ -155,8 +165,36 @@ void opcontrol()
 
 
         // --------------- //
-        //  Intake Lifter  //
+        //   Endgame Ctl   //
         // --------------- //
+
+        
+        // When button pressed
+            // If button released, run following
+
+        bool c_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+
+        if (toogle_end)
+        {
+            endgame.set_value(true); // turns clamp solenoid on
+        }
+        else 
+        {
+            endgame.set_value(false); // turns clamp solenoid off
+        }
+
+        if (c_button) 
+        {
+            if(!latch_end)
+            { // if latch is false, flip toggle one time and set latch to true
+                toogle_end = !toogle_end;
+                latch_end = true;
+            }
+        }
+        else 
+        {
+            latch_end = false; //once button is released then release the latch too
+        }
 
 
 

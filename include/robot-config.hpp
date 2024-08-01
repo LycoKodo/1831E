@@ -31,8 +31,11 @@ extern lemlib::OdomSensors sensors;
 
 extern lemlib::Chassis chassis;
 
-extern pros::Motor intake;
+extern pros::MotorGroup intake;
+
 extern pros::adi::DigitalOut mogo_mech;
+
+extern pros::adi::DigitalOut endgame;
 
 void initialize();
 void disabled();

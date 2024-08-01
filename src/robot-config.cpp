@@ -12,7 +12,8 @@ pros::MotorGroup rightMotors({12, 14, 16}, pros::MotorGearset::blue); // right m
 // Other Motors //
 // ------------ //
 
-pros::Motor intake(-10, pros::MotorGearset::blue);
+pros::MotorGroup intake({17, -8}, pros::MotorGearset::blue);
+
 // pros:: Motor smthing else(+-PORT, MotorGearset);
 
 // ---------- //
@@ -21,8 +22,10 @@ pros::Motor intake(-10, pros::MotorGearset::blue);
 
 pros::adi::DigitalOut mogo_mech (8);
 
+pros::adi::DigitalOut endgame (7);
+
 // Inertial Sensor on port 10
-pros::Imu imu(10);
+pros::Imu imu(1);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
@@ -34,10 +37,10 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(10, // proportional gain (kP)
+lemlib::ControllerSettings linearController(12, // proportional gain (kP)
                                             0, // integral gain (kI)
-                                            0, // derivative gain (kD)
-                                            3, // anti windup
+                                            2, // derivative gain (kD)
+                                            0, // anti windup
                                             1, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
                                             3, // large error range, in inches
@@ -46,9 +49,9 @@ lemlib::ControllerSettings linearController(10, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+lemlib::ControllerSettings angularController(3.85, // proportional gain (kP)
                                              0, // integral gain (kI)
-                                             0, // derivative gain (kD)
+                                             19, // derivative gain (kD)
                                              3, // anti windup
                                              1, // small error range, in degrees
                                              100, // small error range timeout, in milliseconds
