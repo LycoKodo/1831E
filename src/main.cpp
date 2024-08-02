@@ -1,5 +1,8 @@
 #include "main.h"
 #include "lemlib/api.hpp"
+#include "pros/device.hpp"
+#include "pros/motors.h"
+#include "pros/rtos.h"
 #include "pros/rtos.hpp"
 #include "robot-config.hpp"
 
@@ -43,14 +46,13 @@ void autonomous()
 {
     auton_init();
     // set position to x:0, y:0, heading:0
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
-    chassis.moveToPoint(0, 24, 200000);
-    pros::delay(1000);
-    chassis.turnToHeading(90, 200000);
-    pros::delay(1000);
-    chassis.moveToPoint(24, 24, 200000);
-
+    chassis.turnToHeading(180, 10000);
+    pros::c::delay(3000);
+    chassis.turnToHeading(0, 10000);
+    // chassis.moveToPoint(0, 24, 1000);
 }
 
 /**
@@ -92,13 +94,13 @@ void opcontrol()
         // intake controls //
         // --------------- //
 
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
         {
             intake.move(127); // Spin forward
             intake_spinning = false;
             pros::delay(10);
         }
-        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
         {
             intake.move(-127); // Spin reverse
             intake_spinning = false;

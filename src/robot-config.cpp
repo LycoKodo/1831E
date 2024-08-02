@@ -12,7 +12,7 @@ pros::MotorGroup rightMotors({12, 14, 16}, pros::MotorGearset::blue); // right m
 // Other Motors //
 // ------------ //
 
-pros::MotorGroup intake({17, -8}, pros::MotorGearset::blue);
+pros::MotorGroup intake({2, -8}, pros::MotorGearset::blue);
 
 // pros:: Motor smthing else(+-PORT, MotorGearset);
 
@@ -49,14 +49,14 @@ lemlib::ControllerSettings linearController(12, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(3.85, // proportional gain (kP)
+lemlib::ControllerSettings angularController(4.5, // proportional gain (kP)
                                              0, // integral gain (kI)
-                                             19, // derivative gain (kD)
-                                             3, // anti windup
-                                             1, // small error range, in degrees
-                                             100, // small error range timeout, in milliseconds
-                                             3, // large error range, in degrees
-                                             500, // large error range timeout, in milliseconds
+                                             6, // derivative gain (kD)
+                                             0, // anti windup
+                                             0.5, // small error range, in degrees
+                                             0, // small error range timeout, in milliseconds
+                                             0, // large error range, in degrees
+                                             0, // large error range timeout, in milliseconds
                                              0 // maximum acceleration (slew)
 );
 
