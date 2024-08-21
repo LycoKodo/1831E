@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Prod. SRC. V1.0",
+    "project_name": "Prod. SRC. V2.0",
     "target": "v5",
     "templates": {
       "LemLib": {

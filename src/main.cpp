@@ -1,6 +1,7 @@
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "pros/device.hpp"
+#include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/rtos.h"
 #include "pros/rtos.hpp"
@@ -98,19 +99,16 @@ void opcontrol()
         {
             intake.move(127); // Spin forward
             intake_spinning = false;
-            pros::delay(10);
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
         {
             intake.move(-127); // Spin reverse
             intake_spinning = false;
-            pros::delay(10);
         }
         else if (intake_spinning == false)
         {
             intake.brake();
             intake_spinning = true;
-            pros::delay(10);
         }
         // --------------- // 
 
@@ -146,6 +144,15 @@ void opcontrol()
         {
             latch = false; //once button is released then release the latch too
         }
+
+        // TODO: Check MaoMao's Toggle code
+
+        
+        // bool R2_toggle = master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2);
+        // if (R2_toggle) {
+        //     toggle = !toggle;
+        //     mogo_mech.set_value(toggle);
+        // }
 
         // while (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) // Mogo Mech
         // {

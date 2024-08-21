@@ -1,3 +1,4 @@
+#include "lemlib/chassis/trackingWheel.hpp"
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "robot-config.hpp"
@@ -27,6 +28,25 @@ pros::adi::DigitalOut endgame (7);
 // Inertial Sensor on port 10
 pros::Imu imu(1);
 
+// ------------ //
+// ODOM SENSORS //
+// ------------ //
+
+// TODO: init odom sensors
+
+pros::Rotation horizontal_encoder(3);
+
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
+
+// tracking center:
+    // 8.75, 7.25
+
+// total chassis
+    // 17.5, 14.5
+
+// horizontal wheel
+    // 7.6, 11
+    
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
@@ -49,16 +69,19 @@ lemlib::ControllerSettings linearController(12, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(4.5, // proportional gain (kP)
-                                             0, // integral gain (kI)
-                                             6, // derivative gain (kD)
-                                             0, // anti windup
+
+// TODO: TUNE KI, Others should be fine, KI might be too big now but the previous value of 0.01 was too small
+
+lemlib::ControllerSettings angularController(4.0, // proportional gain (kP)
+                                             0.5, // integral gain (kI)
+                                             21.3, // derivative gain (kD)
+                                             7, // anti windup
                                              0.5, // small error range, in degrees
-                                             0, // small error range timeout, in milliseconds
-                                             0, // large error range, in degrees
-                                             0, // large error range timeout, in milliseconds
+                                             1000, // small error range timeout, in milliseconds
+                                             2, // large error range, in degrees
+                                             1000, // large error range timeout, in milliseconds
                                              0 // maximum acceleration (slew)
-);
+); 
 
 // input curve for throttle input during driver control
 lemlib::ExpoDriveCurve throttleCurve(3, // joystick deadband out of 127
@@ -75,7 +98,7 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 // sensors for odometry
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr, // horizontal tracking wheel
+                            &horizontal_tracking_wheel, // horizontal tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
