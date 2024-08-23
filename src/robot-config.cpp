@@ -56,24 +56,24 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               5 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
+// TODO: DrivePID NEEDS TUING
 // lateral motion controller
-lemlib::ControllerSettings linearController(12, // proportional gain (kP)
-                                            0, // integral gain (kI)
-                                            2, // derivative gain (kD)
-                                            0, // anti windup
-                                            1, // small error range, in inches
-                                            100, // small error range timeout, in milliseconds
-                                            3, // large error range, in inches
-                                            500, // large error range timeout, in milliseconds
-                                            20 // maximum acceleration (slew)
+lemlib::ControllerSettings linearController(20, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              7, // derivative gain (kD)
+                                              0, // anti windup
+                                              0, // small error range, in inches
+                                              0, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
-
 // angular motion controller
 
 // TODO: TUNE KI, Others should be fine, KI might be too big now but the previous value of 0.01 was too small
 
 lemlib::ControllerSettings angularController(4.0, // proportional gain (kP)
-                                             0.5, // integral gain (kI)
+                                             0.30, // integral gain (kI)
                                              21.3, // derivative gain (kD)
                                              7, // anti windup
                                              0.5, // small error range, in degrees
@@ -98,9 +98,9 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 // sensors for odometry
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            &horizontal_tracking_wheel, // horizontal tracking wheel
+                            &horizontal_tracking_wheel, // &horizontal_tracking_wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
-                            &imu // inertial sensor
+                            &imu // inertial sensor &imu
 );
 
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);

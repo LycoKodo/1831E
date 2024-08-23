@@ -50,9 +50,16 @@ void autonomous()
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
-    chassis.turnToHeading(180, 10000);
-    pros::c::delay(3000);
-    chassis.turnToHeading(0, 10000);
+    // chassis.turnToHeading(180, 10000);
+    // pros::c::delay(3000);
+    // chassis.turnToHeading(0, 10000);
+
+    // chassis.moveToPose(0, 24, 0, 10000);
+    // chassis.moveToPose(0, 0, 0, 10000);
+    // chassis.turnToHeading(0, 10000);
+    chassis.moveToPoint(32.522, 70.657, 5000);
+
+
     // chassis.moveToPoint(0, 24, 1000);
 }
 
