@@ -5,14 +5,146 @@
 #include "pros/motors.h"
 #include "pros/rtos.h"
 #include "pros/rtos.hpp"
-#include "robot-config.hpp"
+
+// motor groups
+pros::Controller master(pros::E_CONTROLLER_MASTER);
+
+pros::MotorGroup leftMotors({-11, -13, -15}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
+pros::MotorGroup rightMotors({12, 14, 16}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+
+// ------------ //
+// Other Motors //
+// ------------ //
+
+pros::MotorGroup intake({2, -8}, pros::MotorGearset::blue);
+
+// pros:: Motor smthing else(+-PORT, MotorGearset);
+
+// ---------- //
+// PNEUMATICS //
+// ---------- //
+
+pros::adi::DigitalOut mogo_mech (8);
+
+pros::adi::DigitalOut endgame (7);
+
+// Inertial Sensor on port 10
+pros::Imu imu(1);
+
+// ------------ //
+// ODOM SENSORS //
+// ------------ //
+
+// TODO: init odom sensors
+
+pros::Rotation horizontal_encoder(3);
+
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
+
+// tracking center:
+    // 8.75, 7.25
+
+// total chassis
+    // 17.5, 14.5
+
+// horizontal wheel
+    // 7.6, 11
+    
+// drivetrain settings
+lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
+                              &rightMotors, // right motor group
+                              15.2, // 11.6 inch track width
+                              lemlib::Omniwheel::NEW_325, // using new 4" omnis
+                              360, // drivetrain rpm is 200 (green direct)
+                              5 // horizontal drift is 2. If we had traction wheels, it would have been 8
+);
+
+// TODO: DrivePID NEEDS TUING
+// lateral motion controller
+lemlib::ControllerSettings linearController(200, // proportional gain (kP)
+                                              10, // integral gain (kI)
+                                              0, // derivative gain (kD)
+                                              0, // anti windup
+                                              0, // small error range, in inches
+                                              0, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
+);
+// angular motion controller
+
+// TODO: TUNE KI, Others should be fine, KI might be too big now but the previous value of 0.01 was too small
+
+lemlib::ControllerSettings angularController(4.0, // proportional gain (kP)
+                                             0.30, // integral gain (kI)
+                                             21.3, // derivative gain (kD)
+                                             7, // anti windup
+                                             0.5, // small error range, in degrees
+                                             1000, // small error range timeout, in milliseconds
+                                             2, // large error range, in degrees
+                                             1000, // large error range timeout, in milliseconds
+                                             0 // maximum acceleration (slew)
+); 
+
+// input curve for throttle input during driver control
+lemlib::ExpoDriveCurve throttleCurve(3, // joystick deadband out of 127
+                                     10, // minimum output where drivetrain will move out of 127
+                                     1.019 // expo curve gain
+);
+
+// input curve for steer input during driver control
+lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
+                                  10, // minimum output where drivetrain will move out of 127
+                                  1.019 // expo curve gain
+);
+
+// sensors for odometry
+lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
+                            nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
+                            &horizontal_tracking_wheel, // &horizontal_tracking_wheel
+                            nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
+                            &imu // inertial sensor &imu
+);
+
+lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
+
+void auton_init()
+{
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.calibrate(); // calibrate sensors
+    // Additional auton init code
+}
+
+void controller_controls()
+{
+    int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    // move the chassis with curvature drive
+    chassis.curvature(leftY, rightX);
+}
 
 /**
- * A callback function for LLEMU's center button.
+ * Runs initialization code. This occurs as soon as the program is started.
  *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
+ * All other competition modes are blocked by initialize; it is recommended
+ * to keep execution time for this mode under a few seconds.
  */
+
+void initialize() {
+    pros::lcd::initialize(); // initialize brain screen
+    chassis.calibrate(); // calibrate sensors
+    intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+
+    pros::Task screenTask([]() {
+        while (true) {
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            pros::delay(50);
+        }
+    });
+}
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -30,7 +162,8 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -41,7 +174,7 @@ void competition_initialize() {}
  *
  * If the robot is disabled or communications is lost, the autonomous task
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
- * from where it left off.
+ * from where it left off. 
  */
 void autonomous() 
 {
@@ -49,6 +182,7 @@ void autonomous()
     // set position to x:0, y:0, heading:0
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(0, 0, 0);
+
     // turn to face heading 90 with a very long timeout
     // chassis.turnToHeading(180, 10000);
     // pros::c::delay(3000);
@@ -57,7 +191,7 @@ void autonomous()
     // chassis.moveToPose(0, 24, 0, 10000);
     // chassis.moveToPose(0, 0, 0, 10000);
     // chassis.turnToHeading(0, 10000);
-    chassis.moveToPoint(32.522, 70.657, 5000);
+    chassis.moveToPose(0, 24, 0, 10000);
 
 
     // chassis.moveToPoint(0, 24, 1000);

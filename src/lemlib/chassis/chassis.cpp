@@ -1,5 +1,6 @@
 #include <math.h>
 #include "pros/imu.hpp"
+#include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/rtos.h"
 #include "lemlib/logger/logger.hpp"
@@ -89,6 +90,7 @@ void lemlib::Chassis::calibrate(bool calibrateImu) {
     setSensors(sensors, drivetrain);
     init();
     // rumble to controller to indicate success
+    pros::c::controller_print(pros::E_CONTROLLER_MASTER, 1, 1, "AAA");
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, ".");
 }
 
