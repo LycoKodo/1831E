@@ -6,6 +6,7 @@
 #include "pros/motors.h"
 #include "pros/rtos.h"
 #include "pros/rtos.hpp"
+#include <sys/wait.h>
 
 // motor groups
 pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -63,7 +64,7 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 // TODO: DrivePID NEEDS TUING
 // lateral motion controller
 lemlib::ControllerSettings linearController(15, // proportional gain (kP)
-                                              0.1, // integral gain (kI)
+                                              0.3, // integral gain (kI)
                                               3, // derivative gain (kD)
                                               7, // anti windup
                                               0.5, // small error range, in inches
@@ -191,13 +192,35 @@ void autonomous()
     // pros::c::delay(3000);
     // chassis.turnToHeading(0, 10000);
     // chassis.moveToPoint(0, 24, 1000);
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPose(0.0, 27.0, 180, 4000, { .forwards = false }, false);
+
+    // Stage 1
+
+    chassis.setPose(0, 0, 180);
+    chassis.moveToPose(2.2, 29.0, 165, 2000, { .forwards = false }, false);
     mogo_mech.set_value(true);
+    pros::delay(1000);
+    intake.move(-127);
+    pros::delay(2000);
+    intake.move(0);
+    mogo_mech.set_value(false);
+
+    // Stage 2
+    chassis.turnToHeading(90, 2000);
+    intake.move(-127);
+    chassis.moveToPose(27.0, 35, 90, 1200, { .forwards = true }, false);
+    intake.move(0);
+
+    chassis.moveToPose(33.0, 52, 160, 2000, { .forwards = false }, false);
+    mogo_mech.set_value(true);
+    intake.move(-127);
+
+
+
+
 }
 
 /**
- * Runs the operator control code. This function will be started in its own task
+ * Runs the operator control code. This fun ction will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
  * the Field Management System or the VEX Competition Switch in the operator
  * control mode.

@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Prod. SRC. V2.0",
+    "project_name": "R-AUTON-15",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -298,7 +298,7 @@
       }
     },
     "upload_options": {
-      "description": "Production PROS V1.0 (LemLib)",
+      "description": "Right Auton ",
       "icon": "pros"
     },
     "use_early_access": false
