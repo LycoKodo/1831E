@@ -1,5 +1,6 @@
 #include "main.h"
 #include "lemlib/api.hpp"
+#include "lemlib/chassis/chassis.hpp"
 #include "pros/device.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
@@ -61,14 +62,14 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 // TODO: DrivePID NEEDS TUING
 // lateral motion controller
-lemlib::ControllerSettings linearController(200, // proportional gain (kP)
-                                              10, // integral gain (kI)
-                                              0, // derivative gain (kD)
-                                              0, // anti windup
-                                              0, // small error range, in inches
-                                              0, // small error range timeout, in milliseconds
-                                              0, // large error range, in inches
-                                              0, // large error range timeout, in milliseconds
+lemlib::ControllerSettings linearController(15, // proportional gain (kP)
+                                              0.1, // integral gain (kI)
+                                              3, // derivative gain (kD)
+                                              7, // anti windup
+                                              0.5, // small error range, in inches
+                                              1000, // small error range timeout, in milliseconds
+                                              2, // large error range, in inches
+                                              1000, // large error range timeout, in milliseconds
                                               0 // maximum acceleration (slew)
 );
 // angular motion controller
@@ -101,7 +102,7 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 // sensors for odometry
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            &horizontal_tracking_wheel, // &horizontal_tracking_wheel
+                            nullptr, // &horizontal_tracking_wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor &imu
 );
@@ -134,7 +135,6 @@ void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-
     pros::Task screenTask([]() {
         while (true) {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
@@ -144,6 +144,9 @@ void initialize() {
             pros::delay(50);
         }
     });
+    auton_init();
+    // set position to x:0, y:0, heading:0
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
 /**
@@ -151,7 +154,8 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() 
+{}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -163,6 +167,10 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
+    auton_init();
+    // set position to x:0, y:0, heading:0
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.setPose(0, 0, 0);
 }
 
 /**
@@ -178,23 +186,14 @@ void competition_initialize() {
  */
 void autonomous() 
 {
-    auton_init();
-    // set position to x:0, y:0, heading:0
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.setPose(0, 0, 0);
-
     // turn to face heading 90 with a very long timeout
     // chassis.turnToHeading(180, 10000);
     // pros::c::delay(3000);
     // chassis.turnToHeading(0, 10000);
-
-    // chassis.moveToPose(0, 24, 0, 10000);
-    // chassis.moveToPose(0, 0, 0, 10000);
-    // chassis.turnToHeading(0, 10000);
-    chassis.moveToPose(0, 24, 0, 10000);
-
-
     // chassis.moveToPoint(0, 24, 1000);
+    chassis.setPose(0, 0, 0);
+    chassis.moveToPose(0.0, 27.0, 180, 4000, { .forwards = false }, false);
+    mogo_mech.set_value(true);
 }
 
 /**
@@ -345,14 +344,6 @@ void opcontrol()
         {
             latch_end = false; //once button is released then release the latch too
         }
-
-
-
-
-
-
-
-
 
         // ---------------- //
         //  Controller Ctl  //
