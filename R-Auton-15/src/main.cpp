@@ -110,13 +110,6 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
 
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
-void auton_init()
-{
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.calibrate(); // calibrate sensors
-    // Additional auton init code
-}
-
 void controller_controls()
 {
     int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -131,9 +124,10 @@ void controller_controls()
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+bool battery_cap_low = false;
 
 void initialize() {
-    pros::lcd::initialize(); // initialize brain screen
+    pros::lcd::initialize(); // initialize brain screen  d
     chassis.calibrate(); // calibrate sensors
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     pros::Task screenTask([]() {
@@ -145,8 +139,6 @@ void initialize() {
             pros::delay(50);
         }
     });
-    auton_init();
-    // set position to x:0, y:0, heading:0
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
@@ -168,7 +160,6 @@ void disabled()
  * starts.
  */
 void competition_initialize() {
-    auton_init();
     // set position to x:0, y:0, heading:0
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(0, 0, 0);
@@ -210,12 +201,16 @@ void autonomous()
     chassis.moveToPose(27.0, 35, 90, 1200, { .forwards = true }, false);
     intake.move(0);
 
-    chassis.moveToPose(33.0, 52, 160, 2000, { .forwards = false }, false);
+    chassis.moveToPose(24.0, 51, 170, 2000, { .forwards = false }, false);
     mogo_mech.set_value(true);
     intake.move(-127);
+    pros::delay(3000);
+    intake.move(0);
+    mogo_mech.set_value(false);
+    chassis.moveToPose(0, 52, 270, 5000, { .forwards = false }, false);
 
-
-
+    pros::delay(2000);
+    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
 
 }
 
