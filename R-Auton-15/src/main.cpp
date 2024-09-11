@@ -185,29 +185,40 @@ void autonomous()
     // chassis.moveToPoint(0, 24, 1000);
 
     // Stage 1
+    mogo_mech.set_value(false);
 
-    chassis.setPose(0, 0, 180);
-    chassis.moveToPose(2.2, 29.0, 165, 2000, { .forwards = false }, false);
+    chassis.setPose(0, -3, 180);
+    chassis.moveToPose(1, 30.5, 167, 2000, { .forwards = false }, false);
     mogo_mech.set_value(true);
     pros::delay(1000);
     intake.move(-127);
-    pros::delay(2000);
+    pros::delay(1500);
     intake.move(0);
-    mogo_mech.set_value(false);
+    // mogo_mech.set_value(false);
 
     // Stage 2
-    chassis.turnToHeading(90, 2000);
-    intake.move(-127);
-    chassis.moveToPose(27.0, 35, 90, 1200, { .forwards = true }, false);
+
+    intake.move(127);
+    pros::delay(1500);
     intake.move(0);
 
-    chassis.moveToPose(24.0, 51, 170, 2000, { .forwards = false }, false);
-    mogo_mech.set_value(true);
+
+    chassis.turnToHeading(90, 2000);
     intake.move(-127);
+    chassis.moveToPose(27.0, 34, 90, 1200, { .forwards = true }, false);
     pros::delay(3000);
     intake.move(0);
+
+    // chassis.moveToPose(28, 53, 142, 2000, { .forwards = false }, false);
+    // chassis.moveToPose(0, 52, 270, 5000, { .forwards = false }, false);
     mogo_mech.set_value(false);
-    chassis.moveToPose(0, 52, 270, 5000, { .forwards = false }, false);
+    chassis.moveToPose(-15, 30, 270, 10000, { .forwards = true }, false);
+    
+    // intake.move(-127);
+    // pros::delay(3000);
+    // intake.move(0);
+    // mogo_mech.set_value(false);
+    // chassis.moveToPose(0, 52, 270, 5000, { .forwards = false }, false);
 
     pros::delay(2000);
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");

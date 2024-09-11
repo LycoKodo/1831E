@@ -270,8 +270,6 @@ void opcontrol()
         }
         // --------------- // 
 
-
-
         // --------------- //
         //  Mogo Mech Ctl  //
         // --------------- //
@@ -304,7 +302,6 @@ void opcontrol()
         }
 
         // TODO: Check MaoMao's Toggle code
-
         
         // bool R2_toggle = master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2);
         // if (R2_toggle) {
