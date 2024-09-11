@@ -178,36 +178,46 @@ void competition_initialize() {
  */
 void autonomous() 
 {
-    // turn to face heading 90 with a very long timeout
-    // chassis.turnToHeading(180, 10000);
-    // pros::c::delay(3000);
-    // chassis.turnToHeading(0, 10000);
-    // chassis.moveToPoint(0, 24, 1000);
 
     // Stage 1
+    mogo_mech.set_value(false);
+    chassis.setPose(0, 0, 270);
 
-    chassis.setPose(0, 0, 180);
-    chassis.moveToPose(-2.2, 29.0, 195, 2000, { .forwards = false }, false);
+
+
+    chassis.moveToPose(19.5, -7.5, 0, 1500, {.forwards = false}, false);
+    intake.move(-127);
+    pros::delay(1500);
+    intake.move(0);
+
+    // TODO: Move forward didnt work
+
+    chassis.moveToPose(19.5, -3, 0, 1500, {.forwards = false}, false);
+    chassis.moveToPose(-5, 34, 165, 3000, {.forwards = false}, false);
     mogo_mech.set_value(true);
     pros::delay(1000);
-    intake.move(-127);
-    pros::delay(2000);
-    intake.move(0);
-    mogo_mech.set_value(false);
+    chassis.turnToHeading(270, 1500);
 
     // Stage 2
-    chassis.turnToHeading(270, 2000);
+    // TODO: BAD GRIP ON MOGO
+
     intake.move(-127);
-    chassis.moveToPose(27.0, 35, 270, 1200, { .forwards = true }, false);
+    chassis.moveToPose(-30, 30, 270, 3000, {.forwards = true}, false);
+    pros::delay(3000);
     intake.move(0);
 
-    // chassis.moveToPose(24.0, 51, 170, 2000, { .forwards = false }, false);
+
+
+
+
+
+
+    // chassis.moveToPose(1, 30.5, 167, 2000, { .forwards = false }, false);
     // mogo_mech.set_value(true);
+    // pros::delay(1000);
     // intake.move(-127);
-    // pros::delay(3000);
+    // pros::delay(1500);
     // intake.move(0);
-    // mogo_mech.set_value(false);
-    // chassis.moveToPose(0, 52, 270, 5000, { .forwards = false }, false);
 
     pros::delay(2000);
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
@@ -270,6 +280,8 @@ void opcontrol()
         }
         // --------------- // 
 
+
+
         // --------------- //
         //  Mogo Mech Ctl  //
         // --------------- //
@@ -302,6 +314,7 @@ void opcontrol()
         }
 
         // TODO: Check MaoMao's Toggle code
+
         
         // bool R2_toggle = master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2);
         // if (R2_toggle) {

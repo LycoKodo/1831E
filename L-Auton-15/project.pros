@@ -299,7 +299,7 @@
     },
     "upload_options": {
       "description": "Left Auton ",
-      "icon": "pros"
+      "icon": "X"
     },
     "use_early_access": false
   }
