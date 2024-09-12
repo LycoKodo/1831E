@@ -178,12 +178,6 @@ void competition_initialize() {
  */
 void autonomous() 
 {
-    // turn to face heading 90 with a very long timeout
-    // chassis.turnToHeading(180, 10000);
-    // pros::c::delay(3000);
-    // chassis.turnToHeading(0, 10000);
-    // chassis.moveToPoint(0, 24, 1000);
-
     // Stage 1
     mogo_mech.set_value(false);
 
@@ -194,7 +188,6 @@ void autonomous()
     intake.move(-127);
     pros::delay(1500);
     intake.move(0);
-    // mogo_mech.set_value(false);
 
     // Stage 2
 
@@ -202,23 +195,16 @@ void autonomous()
     pros::delay(1500);
     intake.move(0);
 
-
     chassis.turnToHeading(90, 2000);
     intake.move(-127);
     chassis.moveToPose(27.0, 34, 90, 1200, { .forwards = true }, false);
     pros::delay(3000);
     intake.move(0);
 
-    // chassis.moveToPose(28, 53, 142, 2000, { .forwards = false }, false);
-    // chassis.moveToPose(0, 52, 270, 5000, { .forwards = false }, false);
     mogo_mech.set_value(false);
     chassis.moveToPose(-15, 30, 270, 10000, { .forwards = true }, false);
-    
-    // intake.move(-127);
-    // pros::delay(3000);
-    // intake.move(0);
-    // mogo_mech.set_value(false);
-    // chassis.moveToPose(0, 52, 270, 5000, { .forwards = false }, false);
+
+    // Indicate Finish
 
     pros::delay(2000);
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
