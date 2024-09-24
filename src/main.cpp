@@ -6,6 +6,7 @@
 #include "pros/motors.h"
 #include "pros/rtos.h"
 #include "pros/rtos.hpp"
+#include <sys/wait.h>
 
 // motor groups
 pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -36,21 +37,24 @@ pros::Imu imu(1);
 // ODOM SENSORS //
 // ------------ //
 
-// TODO: init odom sensors
 
 pros::Rotation horizontal_encoder(3);
 
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
+// Command to initiate odometry tracking wheel
+    // lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
 
-// tracking center:
-    // 8.75, 7.25
 
-// total chassis
-    // 17.5, 14.5
+/* Specific to 1831E Robot V1.0
+    tracking center:
+        8.75, 7.25
 
-// horizontal wheel
-    // 7.6, 11
-    
+    total chassis
+        17.5, 14.5
+
+    horizontal wheel
+        7.6, 11
+*/    
+
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
@@ -63,7 +67,7 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 // TODO: DrivePID NEEDS TUING
 // lateral motion controller
 lemlib::ControllerSettings linearController(15, // proportional gain (kP)
-                                              0.1, // integral gain (kI)
+                                              0.3, // integral gain (kI)
                                               3, // derivative gain (kD)
                                               7, // anti windup
                                               0.5, // small error range, in inches
@@ -109,13 +113,6 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
 
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
-void auton_init()
-{
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.calibrate(); // calibrate sensors
-    // Additional auton init code
-}
-
 void controller_controls()
 {
     int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -125,14 +122,19 @@ void controller_controls()
 }
 
 /**
+ * - - - - - - - - - - - - - - - - - - - - - *
+ * PRE-MATCH INITIALIZATION - DO NOT DELETE  |
+ * - - - - - - - - - - - - - - - - - - - - - *
+
  * Runs initialization code. This occurs as soon as the program is started.
  *
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
 
+
 void initialize() {
-    pros::lcd::initialize(); // initialize brain screen
+    pros::lcd::initialize(); // initialize brain screen  d
     chassis.calibrate(); // calibrate sensors
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     pros::Task screenTask([]() {
@@ -144,12 +146,13 @@ void initialize() {
             pros::delay(50);
         }
     });
-    auton_init();
-    // set position to x:0, y:0, heading:0
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
 /**
+ * - - - - - - - - - - - - - - - - - - - - - - *
+ * FIELD DISABLED INITIALISE - DO NOT DELETE   |
+ * - - - - - - - - - - - - - - - - - - - - - - *
  * Runs while the robot is in the disabled state of Field Management System or
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
@@ -158,6 +161,10 @@ void disabled()
 {}
 
 /**
+ * - - - - - - - - - - - - - - - - - - - - - - - - *
+ * IMMEDIATE PRE-AUTON INITIALISE - DO NOT DELETE  |
+ * - - - - - - - - - - - - - - - - - - - - - - - - *
+ 
  * Runs after initialize(), and before autonomous when connected to the Field
  * Management System or the VEX Competition Switch. This is intended for
  * competition-specific initialization routines, such as an autonomous selector
@@ -166,14 +173,18 @@ void disabled()
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
+
 void competition_initialize() {
-    auton_init();
     // set position to x:0, y:0, heading:0
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(0, 0, 0);
 }
 
 /**
+ * - - - - - - - - - - - - - - - - - - - - - *
+ * FIELD CONTROLLER ELEMENT - DO NOT DELETE  |
+ * - - - - - - - - - - - - - - - - - - - - - *
+
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
  * the Field Management System or the VEX Competition Switch in the autonomous
@@ -186,18 +197,14 @@ void competition_initialize() {
  */
 void autonomous() 
 {
-    // turn to face heading 90 with a very long timeout
-    // chassis.turnToHeading(180, 10000);
-    // pros::c::delay(3000);
-    // chassis.turnToHeading(0, 10000);
-    // chassis.moveToPoint(0, 24, 1000);
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPose(0.0, 27.0, 180, 4000, { .forwards = false }, false);
-    mogo_mech.set_value(true);
 }
 
 /**
- * Runs the operator control code. This function will be started in its own task
+ * - - - - - - - - - - - - - - - - - - - - - *
+ * DRIVER CONTROL ELEMENT - DO NOT DELETE    |
+ * - - - - - - - - - - - - - - - - - - - - - *
+
+ * Runs the operator control code. This fun ction will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
  * the Field Management System or the VEX Competition Switch in the operator
  * control mode.

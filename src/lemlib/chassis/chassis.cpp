@@ -91,7 +91,7 @@ void lemlib::Chassis::calibrate(bool calibrateImu) {
     init();
     // rumble to controller to indicate success
     pros::c::controller_print(pros::E_CONTROLLER_MASTER, 1, 1, "AAA");
-    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, ".");
+    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
 }
 
 void lemlib::Chassis::setPose(float x, float y, float theta, bool radians) {

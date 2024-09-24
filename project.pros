@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Prod. SRC. V2.0",
+    "project_name": "[T4] Blue-Right",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -298,8 +298,9 @@
       }
     },
     "upload_options": {
-      "description": "Production PROS V1.0 (LemLib)",
-      "icon": "pros"
+      "description": "Right Auton ",
+      "icon": "X",
+      "slot": 2
     },
     "use_early_access": false
   }
