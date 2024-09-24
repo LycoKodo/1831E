@@ -37,11 +37,9 @@ pros::Imu imu(1);
 // ODOM SENSORS //
 // ------------ //
 
-
-pros::Rotation horizontal_encoder(3);
-
 // Command to initiate odometry tracking wheel
-    // lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
+    pros::Rotation horizontal_encoder(3);
+    lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
 
 
 /* Specific to 1831E Robot V1.0
