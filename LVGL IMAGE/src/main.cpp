@@ -1,7 +1,7 @@
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
-#include "lemlib/selector.h"
+#include "lemlib/selector.hpp"
 #include "liblvgl/core/lv_disp.h"
 #include "liblvgl/core/lv_obj_pos.h"
 #include "liblvgl/core/lv_obj_tree.h"
@@ -148,15 +148,15 @@ void initialize() {
     // pros::lcd::initialize(); // initialize brain screen | REMOVED FOR SAFETY
     lv_obj_t *img = lv_img_create(lv_scr_act()); // Add to screen
     lv_img_set_src(img, &image); // Link to source image
-    lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_align(img, LV_ALIGN_CENTER, 0, -20);
 
-    pros::delay(3000);
+    pros::delay(1000);
 
     lv_obj_del(img);
     
-    chassis.calibrate(); // calibrate sensors
-    intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    // chassis.calibrate(); // calibrate sensors
+    // intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 
     const char* b[] = {AUTONS, ""}; // Names of autons, up to 10
     lemlib::selector::init(0, 1, b);
