@@ -40,7 +40,7 @@ void redBtnmAction(lv_event_t* e);
 void blueBtnmAction(lv_event_t* e);
 void skillsBtnAction(lv_event_t* e);
 int tabWatcher(void* param);
-void init(int hue, int default_auton, const char** autons);
+void init(int default_auton, const char** autons);
 void destroy();
 
 } // namespace lemlib::selector

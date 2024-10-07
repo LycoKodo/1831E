@@ -35,6 +35,10 @@ void log_error(const std::string& func_name, const std::string& msg) {
     std::cerr << "[ERROR] in function " << func_name << ": " << msg << std::endl;
 }
 
+/*
+    SECTION 2 - BUTTON ACTION HANDLERS
+*/
+
 
 void redBtnmAction(lv_event_t* e) {
     try {
@@ -90,6 +94,10 @@ void skillsBtnAction(lv_event_t* e) {
     }
 }
 
+/*
+    SECTION 3 - [RAN IN THREAD] TABWATCHER REFRESH FUNCTION
+*/
+
 void tabWatcher(void* param) {
     try {
         int activeTab = lv_tabview_get_tab_act(tabview);
@@ -127,7 +135,11 @@ void tabWatcher(void* param) {
 
 int btn_height = 100;
 
-void init(int hue, int default_auton, const char** autons) {
+/*
+    SECTION 4 - INITIALISING BUTTON MATRIX
+*/
+
+void init(int default_auton, const char** autons) {
     try {
         int i = 0;
         do {
@@ -139,36 +151,48 @@ void init(int hue, int default_auton, const char** autons) {
         auton = default_auton;
 
         lv_theme_t* th = lv_theme_default_init(
-            NULL, lv_color_hsv_to_rgb(hue, 100, 100), lv_color_black(), true, NULL);
+            NULL,                        // Pointer to display or NULL for the default display
+            lv_color_hsv_to_rgb(255, 255, 255), // Primary color
+            lv_color_hsv_to_rgb(255, 0, 255), // Secondary color
+            false,                        // Dark mode
+            NULL                         // Font, set to NULL for the default font
+        );
+
 
         lv_disp_set_theme(NULL, th);
 
+        // create a tab view object
         tabview = lv_tabview_create(lv_scr_act(), LV_DIR_TOP, 50);
 
+        // add 3 tabs (the tabs are page (lv_page) and can be scrolled
         lv_obj_t* redTab = lv_tabview_add_tab(tabview, "Red");
         lv_obj_t* blueTab = lv_tabview_add_tab(tabview, "Blue");
         lv_obj_t* skillsTab = lv_tabview_add_tab(tabview, "Skills");
 
         if (auton < 0) {
-            lv_tabview_set_act(tabview, 1, LV_ANIM_OFF);
+            lv_tabview_set_act(tabview, 1, LV_ANIM_OFF); // RED
         } else if (auton == 0) {
             lv_tabview_set_act(tabview, 2, LV_ANIM_OFF);
         }
 
         redBtnm = lv_btnmatrix_create(redTab);
         lv_btnmatrix_set_map(redBtnm, btnmMap);
-        lv_obj_add_event_cb(redBtnm, redBtnmAction, LV_EVENT_SHORT_CLICKED, NULL);
-        lv_btnmatrix_set_btn_ctrl(redBtnm, abs(auton) - 1, LV_BTNMATRIX_CTRL_CHECKABLE);
-
         lv_obj_set_size(redBtnm, 450, btn_height);
         lv_obj_set_pos(redBtnm, 0, 100);
+
+        lv_btnmatrix_set_btn_ctrl(redBtnm, 1, LV_BTNMATRIX_CTRL_CHECKABLE);
+        lv_btnmatrix_set_btn_ctrl(redBtnm, 2, LV_BTNMATRIX_CTRL_CHECKABLE);
         lv_obj_align(redBtnm, LV_ALIGN_CENTER, 0, 0);
+
+        lv_obj_add_event_cb(redBtnm, redBtnmAction, LV_EVENT_SHORT_CLICKED, NULL);
+
 
         blueBtnm = lv_btnmatrix_create(blueTab);
         lv_btnmatrix_set_map(blueBtnm, btnmMap);
         lv_obj_add_event_cb(blueBtnm, blueBtnmAction, LV_EVENT_SHORT_CLICKED, NULL);
-        lv_btnmatrix_set_btn_ctrl(blueBtnm, abs(auton) - 1, LV_BTNMATRIX_CTRL_CHECKABLE);
 
+        lv_btnmatrix_set_btn_ctrl(blueBtnm, -2, LV_BTNMATRIX_CTRL_CHECKABLE);
+        lv_btnmatrix_set_btn_ctrl(blueBtnm, -1, LV_BTNMATRIX_CTRL_CHECKABLE);
         lv_obj_set_size(blueBtnm, 450, btn_height);
         lv_obj_set_pos(blueBtnm, 0, 100);
         lv_obj_align(blueBtnm, LV_ALIGN_CENTER, 0, 0);

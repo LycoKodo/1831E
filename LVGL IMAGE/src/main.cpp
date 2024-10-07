@@ -159,7 +159,7 @@ void initialize() {
     // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 
     const char* b[] = {AUTONS, ""}; // Names of autons, up to 10
-    lemlib::selector::init(0, 1, b);
+    lemlib::selector::init(1, b);
 
     // pros::Task screenTask([]() {
     //     while (true) {
