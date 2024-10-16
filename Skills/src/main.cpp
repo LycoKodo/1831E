@@ -1,3 +1,4 @@
+
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
@@ -11,14 +12,14 @@
 // motor groups
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-pros::MotorGroup leftMotors({-11, -13, -15}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
-pros::MotorGroup rightMotors({12, 14, 16}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+pros::MotorGroup leftMotors({-14, -13, -11}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
+pros::MotorGroup rightMotors({10, 2, 15}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // ------------ //
 // Other Motors //
 // ------------ //
 
-pros::MotorGroup intake({2, -8}, pros::MotorGearset::blue);
+pros::MotorGroup intake({-1, 7}, pros::MotorGearset::blue);
 
 // pros:: Motor smthing else(+-PORT, MotorGearset);
 
@@ -28,10 +29,11 @@ pros::MotorGroup intake({2, -8}, pros::MotorGearset::blue);
 
 pros::adi::DigitalOut mogo_mech (8);
 
-pros::adi::DigitalOut endgame (7);
+// pros::adi::DigitalOut endgame (7);
 
 // Inertial Sensor on port 10
-pros::Imu imu(1);
+
+pros::Imu imu(9);
 
 // ------------ //
 // ODOM SENSORS //
@@ -39,9 +41,9 @@ pros::Imu imu(1);
 
 // TODO: init odom sensors
 
-pros::Rotation horizontal_encoder(3);
+// pros::Rotation horizontal_encoder(3);
 
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
+// lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
 
 // tracking center:
     // 8.75, 7.25
@@ -51,8 +53,16 @@ lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omn
 
 // horizontal wheel
     // 7.6, 11
+
+// sensors for odometry
+lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
+                            nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
+                            nullptr, // &horizontal_tracking_wheel
+                            nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
+                            &imu     // inertial sensor &imu
+);
     
-// drivetrain settings
+// PID settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
                               15.2, // 11.6 inch track width
@@ -63,60 +73,51 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 // TODO: DrivePID NEEDS TUING
 // lateral motion controller
-lemlib::ControllerSettings linearController(15, // proportional gain (kP)
-                                              0.3, // integral gain (kI)
-                                              3.2, // derivative gain (kD)
-                                              7, // anti windup
+lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
+                                              0.10, // integral gain (kI) 0.42
+                                              0.3, // derivative gain (kD) 1.5
+                                              0.4, // anti windup
                                               0.5, // small error range, in inches
-                                              1000, // small error range timeout, in milliseconds
+                                              200, // small error range timeout, in milliseconds
                                               2, // large error range, in inches
-                                              1000, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
+                                              500, // large error range timeout, in milliseconds
+                                              127 // maximum acceleration (slew)
 );
-// angular motion controller
+// MOST ACCURATE
+// 8, // proportional gain (kP)
+// 0.35, // integral gain (kI) 0.012
+// 0, // derivative gain (kD) 1.5
 
-// TODO: TUNE KI, Others should be fine, KI might be too big now but the previous value of 0.01 was too small
+// QUICK KP
+// 8, // proportional gain (kP)
+// 0.35, // integral gain (kI) 0.012
+// 0, // derivative gain (kD) 1.5
 
-lemlib::ControllerSettings angularController(4.0, // proportional gain (kP)
-                                             0.30, // integral gain (kI)
-                                             21.3, // derivative gain (kD)
-                                             7, // anti windup
+
+lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
+                                             0.00052, // integral gain (kI)
+                                             7.6, // derivative gain (kD)
+                                             0, // anti windup
                                              0.5, // small error range, in degrees
                                              1000, // small error range timeout, in milliseconds
                                              2, // large error range, in degrees
-                                             1000, // large error range timeout, in milliseconds
-                                             0 // maximum acceleration (slew)
+                                             5000, // large error range timeout, in milliseconds
+                                             127 // maximum acceleration (slew)
 ); 
 
 // input curve for throttle input during driver control
-lemlib::ExpoDriveCurve throttleCurve(3, // joystick deadband out of 127
+lemlib::ExpoDriveCurve throttleCurve(0, // joystick deadband out of 127
                                      10, // minimum output where drivetrain will move out of 127
-                                     1.019 // expo curve gain
+                                     1 // expo curve gain 1.019 (LOG 0.9991)
 );
 
 // input curve for steer input during driver control
-lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
+lemlib::ExpoDriveCurve steerCurve(0, // joystick deadband out of 127
                                   10, // minimum output where drivetrain will move out of 127
-                                  1.019 // expo curve gain
-);
-
-// sensors for odometry
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
-                            nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr, // &horizontal_tracking_wheel
-                            nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
-                            &imu // inertial sensor &imu
+                                  1.010 // expo curve gain org 1.019
 );
 
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
-
-void controller_controls()
-{
-    int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-    // move the chassis with curvature drive
-    chassis.curvature(leftY, rightX);
-}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -130,6 +131,7 @@ void initialize() {
     pros::lcd::initialize(); // initialize brain screen  d
     chassis.calibrate(); // calibrate sensors
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    mogo_mech.set_value(true);
     pros::Task screenTask([]() {
         while (true) {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
@@ -139,7 +141,7 @@ void initialize() {
             pros::delay(50);
         }
     });
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.setPose(0,0,0, false);
 }
 
 /**
@@ -148,7 +150,9 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() 
-{}
+{
+    chassis.setPose(0,0,0, false);
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -161,8 +165,7 @@ void disabled()
  */
 void competition_initialize() {
     // set position to x:0, y:0, heading:0
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.setPose(0, 0, 0);
+    chassis.setPose(0,0,0, false);
 }
 
 /**
@@ -176,84 +179,106 @@ void competition_initialize() {
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off. 
  */
+
+//OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    // turn to face heading 90 with a very long timeout
-    // chassis.turnToHeading(180, 10000);
-    // pros::c::delay(3000);
-    // chassis.turnToHeading(0, 10000);
-    // chassis.moveToPoint(0, 24, 1000);
+    // Scoring Wall (Depre)
+        // chassis.setPose(8, -13, 0);
+        // mogo_mech.set_value(false);
 
-    // Stage 1
+        // intake.move(-127);
+
+        // pros::delay(1200);
+
+        // chassis.turnToHeading(270, 1500);
+        
+
+    chassis.setPose(30, -5, 180);
+    mogo_mech.set_value(true);
+
+    // // -- Scoring Preload -- //
+
+    chassis.moveToPose(30, 10, 180, 1500, { .forwards = false, .lead = 0 }, false);
+
+    pros::delay(400); // Tune so grab on the move
+
     mogo_mech.set_value(false);
 
-    // Preload & Mogo
-    chassis.setPose(0, 0, 270);
-    chassis.moveToPose(30, 7.5, 270, 2500, { .forwards = false, .lead = 0.7 }, true);
-    pros::delay(1700);
-    mogo_mech.set_value(true);
-    pros::delay(1000);
-    intake.move(-127);
-    pros::delay(1500);
-    intake.move(127);
-    pros::delay(1000);
+    pros::delay(300);
 
-    // Second Ring
-    chassis.turnToHeading(0, 2500);
-    intake.move(-127);
-    chassis.moveToPose(30, 32, 0, 2000, { .forwards = true, .lead = 0.1 }, false);
-    pros::delay(2200);
-    intake.move(127);
-    pros::delay(1000);
+    intake.move(-123);
+    pros::delay(800);
 
-    // Third Ring
-    chassis.turnToHeading(90, 2000);
-    intake.move(-127);
-    chassis.moveToPose(54, 35, 90, 2000, { .forwards = true, .lead = 0.1 }, false);
-    pros::delay(1500);
-    intake.move(127);
-    chassis.turnToHeading(180, 2000);
-    pros::delay(1000);
 
-    intake.move(-127);
-    chassis.moveToPose(58, 6, 180, 2000, { .forwards = true, .lead = 0.1 }, false);
-    pros::delay(1500);
+    // -- Scoring 2nd Ring -- //
 
-    chassis.moveToPose(58, 0, 180, 2000, { .forwards = true, .lead = 0, .maxSpeed=40 }, false);
-    pros::delay(1000);
+    chassis.turnToHeading(0, 1200);
+
+    intake.move(-123);
+    chassis.moveToPose(30, 36.5, 0, 2000, { .forwards = true, .lead = 0 }, false);
+    pros::delay(800);
+
+
+    // -- Scoring 3rd Ring -- //
+
+    chassis.turnToHeading(90, 1500);
+    intake.move(-123);
+
+    chassis.moveToPose(52, 36.5, 90, 2000, { .forwards = true, .lead = 0 }, false);
+    pros::delay(800);
+
+    // -- Scoring 4th & 5th Ring -- //
+    chassis.turnToHeading(180, 1500);
+
+    intake.move(-123);
+    chassis.moveToPose(54, 8, 180, 2000, { .forwards = true, .lead = 0 }, false);
+    pros::delay(800);
+
+    chassis.moveToPose(54, 0, 180, 1600, { .forwards = true, .lead = 0, .maxSpeed=60 }, false);
+    pros::delay(800);
+
+    // -- EXPERIMENTAL: Scoring 6th Ring -- // 
+
+    chassis.moveToPose(54, 12, 180, 1600, { .forwards = false, .lead = 0.1 }, false);
+    
+    chassis.turnToHeading(90, 1800);
+
+    chassis.moveToPose(68, 12, 90, 1600, { .forwards = true, .lead = 0 }, false);
+
+    pros::delay(800);
+
+        // return to starting place (Optimisable)
+    chassis.moveToPose(58, 6, 90, 2000, { .forwards = false, .lead = 0.1 }, false);
+    
+
+    // -- Dropping Goal -- //
 
     chassis.turnToHeading(310, 2000);
+
     chassis.moveToPoint(67 , -3.5, 2000, {.forwards = false, .maxSpeed=100});
-    // chassis.moveToPose(70, 0, 310, 2000, { .forwards = false, .lead = 0.01 }, false);
-
-    // Drop GOAL
-
-
-    intake.move(127);
-
-    mogo_mech.set_value(false);
+    mogo_mech.set_value(true);
 
     chassis.moveToPoint(58 , 3, 2000, {.forwards = true, .maxSpeed=100});
 
-    intake.move(0);
+    // -- EXP: Getting Goal 2 -- //
 
-    // chassis.moveToPose(58, 3, 310, 2000, { .forwards = false, .lead = 0, .maxSpeed=100 }, false);
+    chassis.moveToPose(-16, 4, 60, 3000, { .forwards = false, .lead = 0.2 }, false);
 
-    chassis.moveToPose(-16,0, 90, 3000, { .forwards = false, .lead = 0.2 }, false);
-
-    mogo_mech.set_value(true);
-
-    chassis.moveToPose(-55, -17, 80, 3000, { .forwards = false, .lead = 0.7 }, false);
     mogo_mech.set_value(false);
 
-    chassis.moveToPose(-35, 7, 80, 3000, { .forwards = true, .lead = 0.1 }, false);
-    // mogo_mech.set_value(false);
+    // THIS IS WHERE WE CAN SCORE MORE RINGS
 
-    // Stage 2
+        // Old Strat, dropping goal 2 and get 17
+            chassis.moveToPose(-55, 0, 60, 3000, { .forwards = false, .lead = 0.7 }, false);
+            
+            mogo_mech.set_value(true);
 
+            chassis.moveToPose(-35, 7, 80, 3000, { .forwards = true, .lead = 0.1 }, false);
+
+    // TODO: Now score 6 (including ring on line) and get 26 [dont worry about sky, thats their business]
     pros::delay(2000);
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
-
 }
 
 /**
@@ -281,6 +306,10 @@ void opcontrol()
 
     // pros::Controller master(pros::E_CONTROLLER_MASTER);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+
+    // leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    // rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     bool intake_spinning = true;
     bool mogo_pis = false;
@@ -290,6 +319,8 @@ void opcontrol()
     bool latch_end = false;
     
     while (true) {
+
+        chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
         // --------------- //
         // intake controls //
@@ -345,74 +376,54 @@ void opcontrol()
             latch = false; //once button is released then release the latch too
         }
 
-        // TODO: Check MaoMao's Toggle code
+          // ------------------------------- //
+         //  EXPERIMENTAL - INSTA BREAK    //
+        // ----------------------------- //
 
-        
-        // bool R2_toggle = master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2);
-        // if (R2_toggle) {
-        //     toggle = !toggle;
-        //     mogo_mech.set_value(toggle);
-        // }
-
-        // while (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) // Mogo Mech
-        // {
-        //     if (mogo_pis)
-        //     {
-        //         mogo_mech.set_value(true); // Retract piston
-        //         mogo_pis = !mogo_pis;
-        //         pros::delay(400);
-        //     }
-        //     else
-        //     {
-        //         mogo_mech.set_value(false); // Extend piston
-        //         mogo_pis = !mogo_pis;
-        //         pros::delay(400);
-        //     }            
-        // }
-        
-        // --------------- // 
-
-
-        // --------------- //
-        //   Endgame Ctl   //
-        // --------------- //
-
-        
-        // When button pressed
-            // If button released, run following
-
-        bool c_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_A);
-
-        if (toogle_end)
-        {
-            endgame.set_value(true); // turns clamp solenoid on
-        }
-        else 
-        {
-            endgame.set_value(false); // turns clamp solenoid off
-        }
-
-        if (c_button) 
-        {
-            if(!latch_end)
-            { // if latch is false, flip toggle one time and set latch to true
-                toogle_end = !toogle_end;
-                latch_end = true;
-            }
-        }
-        else 
-        {
-            latch_end = false; //once button is released then release the latch too
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+            rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
         }
 
         // ---------------- //
         //  Controller Ctl  //
         // ---------------- //
 
-        controller_controls();
+        int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        // move the chassis with curvature drive
+        chassis.curvature(leftY, rightX);
+
+
+        // --------------- //
+        //   Endgame Ctl   //
+        // --------------- //
+
+        // bool c_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+
+        // if (toogle_end)
+        // {
+        //     endgame.set_value(true); // turns clamp solenoid on
+        // }
+        // else 
+        // {
+        //     endgame.set_value(false); // turns clamp solenoid off
+        // }
+
+        // if (c_button) 
+        // {
+        //     if(!latch_end)
+        //     { // if latch is false, flip toggle one time and set latch to true
+        //         toogle_end = !toogle_end;
+        //         latch_end = true;
+        //     }
+        // }
+        // else 
+        // {
+        //     latch_end = false; //once button is released then release the latch too
+        // }
 
         // --------------- // 
         pros::delay(10);
     }
 }
-
