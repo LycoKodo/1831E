@@ -71,22 +71,22 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 // TODO: Tune PID
 
 // lateral motion controller (DrivePID)
-lemlib::ControllerSettings linearController(  8, // proportional gain (kP)
-                                              0, // integral gain (kI) 0.42
-                                              0, // derivative gain (kD) 1.5
-                                              0.1, // anti windup
+lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
+                                              0.15, // integral gain (kI) 0.42
+                                              0.3, // derivative gain (kD) 1.5
+                                              0.4, // anti windup
                                               0.5, // small error range, in inches
-                                              2000, // small error range timeout, in milliseconds
+                                              200, // small error range timeout, in milliseconds
                                               2, // large error range, in inches
-                                              1500, // large error range timeout, in milliseconds
+                                              500, // large error range timeout, in milliseconds
                                               127 // maximum acceleration (slew)
 );
 
 // Now same thing for turning
 // lateral motion controller (TurnPID)
-lemlib::ControllerSettings angularController(4, // proportional gain (kP)
-                                             0, // integral gain (kI)
-                                             0, // derivative gain (kD)
+lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
+                                             0.00050, // integral gain (kI)
+                                             7.6, // derivative gain (kD)
                                              0, // anti windup
                                              0.5, // small error range, in degrees
                                              1000, // small error range timeout, in milliseconds
@@ -132,7 +132,6 @@ void initialize() {
             pros::delay(50);
         }
     });
-    chassis.setPose(0,0,0, false);
     mogo_mech.set_value(true);
 }
 
@@ -143,8 +142,6 @@ void initialize() {
  */
 void disabled() 
 {
-    chassis.setPose(0,0,0, false);
-    mogo_mech.set_value(true);
 }
 
 /**
@@ -157,9 +154,6 @@ void disabled()
  * starts.
  */
 void competition_initialize() {
-    // set position to x:0, y:0, heading:0
-    chassis.setPose(0,0,0, false);
-    mogo_mech.set_value(true);
 }
 
 /**
@@ -178,27 +172,76 @@ void competition_initialize() {
 void autonomous() 
 {
     chassis.setPose(0,0,180);
+
+    mogo_mech.set_value(true);
+
+    // //-- Scoring Preload --//
+
+    // chassis.moveToPose(5, 30, 120, 3000, {.forwards = false}, false);
+
+    // pros::delay(500);
+
+    
+    // mogo_mech.set_value(false);
+
+    // pros::delay(500);
+
+    // intake.move(-127);
+
+    // pros::delay(2000);
+
+    // //-- Getting 2nd Ring --//
+
+    // chassis.turnToHeading(270, 2000);
+
+    // chassis.moveToPose(30, 30, 270, 2200, {.forwards = true, .lead=0}, false);
+
+    // pros::delay(4000);
+
+    // intake.move(0);
+
+
+    //-- Option 2 --//
+
+    // // Getting Goal // 
+
+    mogo_mech.set_value(true);
+
+    chassis.turnToHeading(240, 1400);
+
+    chassis.moveToPose(13, 7.2, 240, 1800, {.forwards = false, .lead=0}, false);
+
+    chassis.turnToHeading(148, 2000);
+
+    chassis.moveToPose(2, 27, 148, 1800, {.forwards = false, .lead=0}, false);
+
     mogo_mech.set_value(false);
 
-    //-- Scoring Preload --//
-    chassis.moveToPose(0, 30, 180, 2200, {.forwards = false, });
-    mogo_mech.set_value(true);
+    pros::delay(1000);
+
+    chassis.turnToHeading(270, 1500);
+
+    pros::delay(500);
 
     intake.move(-127);
 
-    //-- Getting 2nd Ring --//
+    pros::delay(1200);
 
-    chassis.turnToHeading(90, 2000);
+    // Getting 2nd Ring // 
+
+    chassis.moveToPose(-24, 27, 270, 1200, {.forwards = true, .lead=0});
+    pros::delay(2000);
 
 
+    intake.move(0);
 
-
-
-
+    chassis.turnToHeading(180, 1200);
 
     pros::delay(2000);
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
 }
+
+
 
 /**
  * Runs the operator control code. This fun ction will be started in its own task

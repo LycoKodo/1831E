@@ -71,22 +71,22 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 // TODO: Tune PID
 
 // lateral motion controller (DrivePID)
-lemlib::ControllerSettings linearController(  8, // proportional gain (kP)
-                                              0, // integral gain (kI) 0.42
-                                              0, // derivative gain (kD) 1.5
-                                              0.1, // anti windup
+lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
+                                              0.1, // integral gain (kI) 0.42
+                                              0.3, // derivative gain (kD) 1.5
+                                              0.4, // anti windup
                                               0.5, // small error range, in inches
-                                              2000, // small error range timeout, in milliseconds
+                                              200, // small error range timeout, in milliseconds
                                               2, // large error range, in inches
-                                              1500, // large error range timeout, in milliseconds
+                                              500, // large error range timeout, in milliseconds
                                               127 // maximum acceleration (slew)
 );
 
 // Now same thing for turning
 // lateral motion controller (TurnPID)
-lemlib::ControllerSettings angularController(4, // proportional gain (kP)
-                                             0, // integral gain (kI)
-                                             0, // derivative gain (kD)
+lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
+                                             0.00050, // integral gain (kI)
+                                             7.6, // derivative gain (kD)
                                              0, // anti windup
                                              0.5, // small error range, in degrees
                                              1000, // small error range timeout, in milliseconds
@@ -177,28 +177,47 @@ void competition_initialize() {
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    // ------------------ //
-    // FOR LINEAR TUNING
+    chassis.setPose(0,0,0);
+    mogo_mech.set_value(true);
 
-    chassis.moveToPoint(0, 48, 3000);
-    chassis.moveToPoint(0, 24, 2000, {.forwards=false});
-    chassis.moveToPoint(0, 0, 2000, {.forwards=false});
+    //-- Scoring Preload --//
 
-    // ------------------ // 
+    // chassis.turnToHeading(180, 3000);
+    // chassis.turnToHeading(0, 3000);
+
+    chassis.moveToPoint(0, 48, 2500);
+    chassis.moveToPoint(0, 24, 2500, {.forwards = false});
+    chassis.moveToPoint(0, 0, 2500, {.forwards = false});
 
 
-    // // ------------------ //
-    // // FOR ANGULAR TUNING
 
-    // chassis.turnToHeading(180, 2500);
-    // chassis.turnToHeading(0, 2500);
+    //-- Option 2 --//
 
-    // // ------------------ // 
+    // // Getting Goal // 
+
+    // chassis.turnToHeading(240, 2000);
+
+    // chassis.moveToPose(10.39, 6, 240, 2200, {.forwards = false, .lead=0});
+
+    // chassis.turnToHeading(150, 2000);
+
+    // chassis.moveToPose(0, 24, 150, 2200, {.forwards = false, .lead=0});
+
+    // mogo_mech.set_value(true);
+    // intake.move(-127);
+
+    // // Getting 2nd Ring // 
+
+    // chassis.turnToHeading(270, 2000);
+
+    // chassis.moveToPose(-24, 24, 270, 2200, {.forwards = true, .lead=0});
 
 
     pros::delay(2000);
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
 }
+
+
 
 /**
  * Runs the operator control code. This fun ction will be started in its own task
@@ -238,6 +257,10 @@ void opcontrol()
     bool latch_end = false;
     
     while (true) {
+
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+            autonomous();
+        }
 
         chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
