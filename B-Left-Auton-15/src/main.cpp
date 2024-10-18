@@ -29,9 +29,9 @@ pros::MotorGroup intake({-16, 7}, pros::MotorGearset::blue);
 
 pros::adi::DigitalOut mogo_mech (8);
 
-// pros::adi::DigitalOut endgame (7);
+// DEPRECATED - pros::adi::DigitalOut endgame (7);
 
-// Inertial Sensor on port 10
+// Inertial Sensor on port 9
 
 pros::Imu imu(9);
 
@@ -39,22 +39,17 @@ pros::Imu imu(9);
 // ODOM SENSORS //
 // ------------ //
 
-// TODO: init odom sensors
+//TODO: ------ Initialise odometry sensors and configure odometry ------------------------------------ //
 
-// pros::Rotation horizontal_encoder(3);
+// pros::Rotation horizontal_encoder(3); // Change to the "A" tagged encoder
 
-// lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_325, +3.75);
+// lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, +3.75);
 
-// tracking center:
-    // 8.75, 7.25
 
-// total chassis
-    // 17.5, 14.5
+// ------------------------------------------------------------------------------------------------ //
 
-// horizontal wheel
-    // 7.6, 11
 
-// sensors for odometry
+// sensors for odometry (No need for change timmy :D)
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
                             nullptr, // &horizontal_tracking_wheel
@@ -66,39 +61,32 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
                               15.2, // 11.6 inch track width
-                              lemlib::Omniwheel::NEW_325, // using new 4" omnis
+                              lemlib::Omniwheel::NEW_325, // using new 3"25' omnis
                               360, // drivetrain rpm is 200 (green direct)
                               5 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
-// TODO: DrivePID NEEDS TUING
-// lateral motion controller
+// ------------------------------------------------------------------------------------------------- // 
 
-lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
-                                              0.10, // integral gain (kI) 0.42
-                                              0.3, // derivative gain (kD) 1.5
-                                              0.4, // anti windup
+// TODO: Tune PID
+
+// lateral motion controller (DrivePID)
+lemlib::ControllerSettings linearController(  8, // proportional gain (kP)
+                                              0, // integral gain (kI) 0.42
+                                              0, // derivative gain (kD) 1.5
+                                              0.1, // anti windup
                                               0.5, // small error range, in inches
-                                              200, // small error range timeout, in milliseconds
+                                              2000, // small error range timeout, in milliseconds
                                               2, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
+                                              1500, // large error range timeout, in milliseconds
                                               127 // maximum acceleration (slew)
 );
 
-// MOST ACCURATE
-// 8, // proportional gain (kP)
-// 0.35, // integral gain (kI) 0.012
-// 0, // derivative gain (kD) 1.5
-
-// QUICK KP
-// 8, // proportional gain (kP)
-// 0.35, // integral gain (kI) 0.012
-// 0, // derivative gain (kD) 1.5
-
-
-lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
-                                             0.00052, // integral gain (kI)
-                                             7.6, // derivative gain (kD)
+// Now same thing for turning
+// lateral motion controller (TurnPID)
+lemlib::ControllerSettings angularController(4, // proportional gain (kP)
+                                             0, // integral gain (kI)
+                                             0, // derivative gain (kD)
                                              0, // anti windup
                                              0.5, // small error range, in degrees
                                              1000, // small error range timeout, in milliseconds
@@ -106,6 +94,8 @@ lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
                                              5000, // large error range timeout, in milliseconds
                                              127 // maximum acceleration (slew)
 ); 
+
+// ------------------------------------------------------------------------------------------------- // 
 
 // input curve for throttle input during driver control
 lemlib::ExpoDriveCurve throttleCurve(0, // joystick deadband out of 127
@@ -187,58 +177,24 @@ void competition_initialize() {
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    mogo_mech.set_value(false);
-    chassis.setPose(0, 0, 180);
-
-    // -- SCORING PELOAD -- //
-
-    chassis.moveToPose(0, 30, 180, 1300, { .forwards = false, .lead = 0.0, .maxSpeed=65 }, false);
-
+    chassis.setPose(0,0,180);
     mogo_mech.set_value(false);
 
-    intake.move(-127);
-    pros::delay(1500);
-
+    //-- Scoring Preload --//
+    chassis.moveToPose(0, 30, 180, 2200, {.forwards = false, });
     mogo_mech.set_value(true);
-
-    // -- SCORING 2ND Ring -- //
-
-    chassis.turnToHeading(270, 2000);
-    intake.move(-50);
-
-    chassis.moveToPose(-23.0, 30, 270, 1400, { .forwards = true, .lead=0.3 }, false);
-    pros::delay(100);
-
-    chassis.moveToPose(-28.0, 30, 270, 600, { .forwards = true, .lead=0, .minSpeed=100 }, false);
-
-    intake.move(0);
-
-    // -- Experimental, getting AWP -- //
-
-    chassis.moveToPose(-23.0, 30, 270, 1400, { .forwards = false, .lead=0.3, .minSpeed=100 }, false);
-
-    chassis.turnToHeading(180, 1500);
-
-    // changed from 46
-    chassis.moveToPose(-23.0, 47, 180, 1400, { .forwards = false, .lead=0.1 }, false);
-    mogo_mech.set_value(false);
-    
-    pros::delay(500); // Change So gabs while in motion
 
     intake.move(-127);
 
-    pros::delay(1200); // Change So gabs while in motion
+    //-- Getting 2nd Ring --//
 
-    // -- Hugging Pole -- //
+    chassis.turnToHeading(90, 2000);
 
-    mogo_mech.set_value(true);
 
-    chassis.moveToPose(-23.0, 30, 180, 1400, { .forwards = true, .lead=0.1 }, false);
 
-    intake.move(0);
-    
-    chassis.moveToPose(20, 30.5, 270, 10000, { .forwards = false }, false);
-    
+
+
+
 
     pros::delay(2000);
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
