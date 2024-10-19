@@ -71,8 +71,8 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 // TODO: Tune PID
 
 // lateral motion controller (DrivePID)
-lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
-                                              0.1, // integral gain (kI) 0.42
+lemlib::ControllerSettings linearController(  7.3, // proportional gain (kP)
+                                              0.3, // integral gain (kI) 0.42
                                               0.3, // derivative gain (kD) 1.5
                                               0.4, // anti windup
                                               0.5, // small error range, in inches
@@ -84,7 +84,7 @@ lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
 
 // Now same thing for turning
 // lateral motion controller (TurnPID)
-lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
+lemlib::ControllerSettings angularController(1.7, // proportional gain (kP)
                                              0.00050, // integral gain (kI)
                                              7.6, // derivative gain (kD)
                                              0, // anti windup
