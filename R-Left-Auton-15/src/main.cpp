@@ -185,7 +185,7 @@ void autonomous()
 
     pros::delay(500);
 
-    intake.move(-127);
+    intake.move(-100);
 
     pros::delay(1000);
 
