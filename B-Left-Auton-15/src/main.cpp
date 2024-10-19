@@ -173,8 +173,6 @@ void autonomous()
 {
     chassis.setPose(0,0,180);
 
-    mogo_mech.set_value(true);
-
     // //-- Scoring Preload --//
 
     // chassis.moveToPose(5, 30, 120, 3000, {.forwards = false}, false);
@@ -223,13 +221,13 @@ void autonomous()
 
     pros::delay(500);
 
-    intake.move(-127);
+    intake.move(-100);
 
     pros::delay(1200);
 
     // Getting 2nd Ring // 
 
-    chassis.moveToPose(-24, 27, 270, 1200, {.forwards = true, .lead=0});
+    chassis.moveToPose(-20, 27, 270, 1200, {.forwards = true, .lead=0});
     pros::delay(2000);
 
 
