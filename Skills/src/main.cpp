@@ -19,7 +19,7 @@ pros::MotorGroup rightMotors({10, 2, 15}, pros::MotorGearset::blue); // right mo
 // Other Motors //
 // ------------ //
 
-pros::MotorGroup intake({-1, 7}, pros::MotorGearset::blue);
+pros::MotorGroup intake({-16, 7}, pros::MotorGearset::blue);
 
 // pros:: Motor smthing else(+-PORT, MotorGearset);
 
@@ -195,15 +195,82 @@ void autonomous()
         
 
     chassis.setPose(30, -5, 180);
-    mogo_mech.set_value(true);
+    mogo_mech.set_value(false);
 
     //Tim Code
+
+    mogo_mech.set_value(true);
 
     intake.move(-127);
 
     pros::delay(300);
 
     intake.move(0);
+
+    chassis.moveToPose(30, -18, 180, 500, { .forwards = true, .lead = 0 }, false);
+
+    pros::delay(500);
+    
+    chassis.turnToHeading(90, 1200);
+
+    pros::delay(500);
+
+    chassis.moveToPose(7, -18, 90, 500, { .forwards = false, .lead = 0 }, false);
+
+    mogo_mech.set_value(false);
+
+    pros::delay(1000);
+    
+    intake.move(-127);
+
+    chassis.turnToHeading(180, 800);
+
+    chassis.moveToPose(9, -30, 180, 1000, { .forwards = true, .lead = 0 }, false);
+
+    chassis.turnToHeading(225, 1200);
+
+    pros::delay(1000);
+
+    intake.move(127);
+
+    pros::delay(200);
+
+    intake.move(-127);
+
+    chassis.moveToPose(-14, -47, 240, 1000, { .forwards = true, .lead = 0 }, false);
+
+    pros::delay(800);
+
+    intake.move(127);
+
+    pros::delay(200);
+
+    intake.move(-127);
+
+    chassis.turnToHeading(0, 800);
+
+    chassis.moveToPose(-14, -13, 240, 1000, { .forwards = true, .lead = 0 }, false);
+
+    pros::delay(800);
+
+    chassis.moveToPose(-13, -16, 240, 1000, { .forwards = false, .lead = 0 }, false);
+
+    chassis.moveToPose(-24, -23, 240, 500, { .forwards = true, .lead = 0 }, false);
+
+    chassis.turnToHeading(150, 800);
+
+    pros::delay(800);
+
+    mogo_mech.set_value(true);
+
+    pros::delay(800);
+    
+    intake.move(0);
+
+    chassis.moveToPose(-35, 0, 150, 500, { .forwards = false, .lead = 0 }, false);
+
+    chassis.moveToPose(-25, 15, 150, 500, { .forwards = true, .lead = 0 }, false);
+
 
     // // -- Scoring Preload -- //
 
