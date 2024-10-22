@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "SKILLS-MAIN",
+    "project_name": "SKILLS-TEMP",
     "target": "v5",
     "templates": {
       "LemLib": {
