@@ -197,9 +197,17 @@ void autonomous()
     chassis.setPose(30, -5, 180);
     mogo_mech.set_value(true);
 
+    //Tim Code
+
+    intake.move(-127);
+
+    pros::delay(300);
+
+    intake.move(0);
+
     // // -- Scoring Preload -- //
 
-    chassis.moveToPose(30, 10, 180, 1500, { .forwards = false, .lead = 0 }, false);
+    /*chassis.moveToPose(30, 10, 180, 1500, { .forwards = false, .lead = 0 }, false);
 
     pros::delay(400); // Tune so grab on the move
 
@@ -278,7 +286,7 @@ void autonomous()
 
     // TODO: Now score 6 (including ring on line) and get 26 [dont worry about sky, thats their business]
     pros::delay(2000);
-    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
+    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");*/
 }
 
 /**
