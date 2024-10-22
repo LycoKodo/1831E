@@ -207,13 +207,13 @@ void autonomous()
 
     mogo_mech.set_value(true);
 
-    chassis.turnToHeading(150, 1400);
+    chassis.turnToHeading(130, 1400);
 
-    chassis.moveToPose(-13, 7.2, 150, 1800, {.forwards = false, .lead=0}, false);
+    chassis.moveToPose(-14, 10, 150, 1800, {.forwards = false, .lead=0}, false);
 
-    chassis.turnToHeading(238, 2000);
+    chassis.turnToHeading(215, 2000);
 
-    chassis.moveToPose(-2, 27, 238, 1800, {.forwards = false, .lead=0}, false);
+    chassis.moveToPose(-1, 26, 238, 1800, {.forwards = false, .lead=0, .maxSpeed=85}, false);
 
     mogo_mech.set_value(false);
 
@@ -223,14 +223,14 @@ void autonomous()
 
     pros::delay(500);
 
-    intake.move(-127);
+    intake.move(-100);
 
     pros::delay(1200);
 
     // Getting 2nd Ring // 
 
     chassis.moveToPose(24, 27, 90, 1200, {.forwards = true, .lead=0});
-    pros::delay(2000);
+    pros::delay(2500);
 
 
     intake.move(0);

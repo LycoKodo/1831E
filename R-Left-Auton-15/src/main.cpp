@@ -175,7 +175,7 @@ void autonomous()
 
     mogo_mech.set_value(true);
 
-    chassis.moveToPose(20.3, 11.5, 240, 1800, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(20.3, 11.5, 240, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
     mogo_mech.set_value(false);
 
@@ -183,9 +183,7 @@ void autonomous()
     
     chassis.turnToHeading(270, 1200);
 
-    pros::delay(500);
-
-    intake.move(-127);
+    intake.move(-100);
 
     pros::delay(1000);
 
@@ -195,11 +193,11 @@ void autonomous()
 
     intake.move(-127);
 
-    chassis.moveToPose(-6, 30, 270, 800, {.forwards = true, .lead=0.2, .maxSpeed=110}, false);
+    chassis.moveToPose(-6, 30, 270, 1500, {.forwards = true, .lead=0.2, .maxSpeed=110}, false);
 
     pros::delay(0);
 
-    chassis.moveToPose(10, 25, 270, 2500, {.forwards = false, .lead=0, .maxSpeed=60}, false);
+    chassis.moveToPose(10, 25, 270, 2000, {.forwards = false, .lead=0, .maxSpeed=60}, false);
 
     intake.move(127);
     chassis.turnToHeading(20, 1200);
@@ -208,6 +206,12 @@ void autonomous()
 
     intake.move(-127);
     chassis.moveToPose(10, 30, 20, 2000, {.forwards = true, .lead=0, .maxSpeed=80}, false);
+
+    pros::delay(2000);
+
+    // mogo_mech.set_value(true);
+
+    // chassis.moveToPose(24, 30, 270, 3000, {.forwards = false, .lead=0., .maxSpeed=80}, false);
 
 
     // //-- Scoring Preload --//
