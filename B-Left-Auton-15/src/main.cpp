@@ -203,9 +203,17 @@ void autonomous()
 
     // // Getting Goal // 
 
+    chassis.moveToPose(0, 33, 190, 1800, {.forwards = false, .lead=0}, false);
+
+    chassis.moveToPose(10, 40, 180, 1800, {.forwards = false, .lead=0}, false);
+
+    pros::delay(400);
+
     mogo_mech.set_value(true);
 
-    chassis.turnToHeading(240, 1400);
+    chassis.moveToPose(0, 34, 180, 1800, {.forwards = true, .lead=0}, false);
+
+    /*chassis.turnToHeading(240, 1400);
 
     chassis.moveToPose(13, 7.2, 240, 1800, {.forwards = false, .lead=0}, false);
 
@@ -233,7 +241,7 @@ void autonomous()
 
     intake.move(0);
 
-    chassis.turnToHeading(180, 1200);
+    chassis.turnToHeading(180, 1200);*/
 
     pros::delay(2000);
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");

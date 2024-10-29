@@ -187,9 +187,11 @@ void autonomous()
 
     intake.move(-135);
 
+    pros::delay(500);
+
     intake.move(127);
 
-    pros::delay(800);
+    pros::delay(400);
 
     intake.move(-127);
 
@@ -206,6 +208,12 @@ void autonomous()
 
     intake.move(-127);
     chassis.moveToPose(7, 38, 0, 2000, {.forwards = true, .lead=0, .maxSpeed=80}, false);
+
+    pros::delay(500);
+
+    chassis.moveToPose(7, 25, 0, 1000, {.forwards = false, .lead=0, .maxSpeed=100}, false);
+    chassis.turnToHeading(270, 1200);
+    chassis.moveToPose(-30, 25, 270, 1000, {.forwards = true, .lead=0, .maxSpeed=100}, false);
 
 
     // //-- Scoring Preload --//
