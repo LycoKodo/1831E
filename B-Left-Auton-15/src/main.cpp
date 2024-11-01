@@ -35,16 +35,23 @@ pros::adi::DigitalOut mogo_mech (8);
 
 pros::Imu imu(9);
 
+
+
 // ------------ //
 // ODOM SENSORS //
 // ------------ //
 
-//TODO: ------ Initialise odometry sensors and configure odometry ------------------------------------ //
+// Full chassis:
+    // Across: 17.5
+    // Vertical: 14.5
 
-// pros::Rotation horizontal_encoder(3); // Change to the "A" tagged encoder
+// Tracking Center:
+    // X = 8.75
+    // y = 7.25
 
-// lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, +3.75);
-
+// horizontal odom wheel
+    // x = 4.5
+    // y = 6
 
 // ------------------------------------------------------------------------------------------------ //
 
