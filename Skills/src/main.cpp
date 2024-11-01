@@ -42,8 +42,11 @@ pros::Imu imu(9);
 //TODO: ------ Initialise odometry sensors and configure odometry ------------------------------------ //
 
 pros::Rotation horizontal_encoder(1); // Change to the "A" tagged encoder
+pros::Rotation vertical_encoder(200); // Change to the "A" tagged encoder
 
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -1.25);
+
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -1.25);
 
 // Full chassis:
     // Across: 17.5
