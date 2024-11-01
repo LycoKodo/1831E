@@ -41,15 +41,13 @@ pros::Imu imu(9);
 
 //TODO: ------ Initialise odometry sensors and configure odometry ------------------------------------ //
 
-pros::Rotation horizontal_encoder(1); // Change to the "A" tagged encoder
+pros::Rotation horizontal_encoder(-1); // Change to the "A" tagged encoder
 
-pros::Rotation vertical_encoder(17);
+pros::Rotation vertical_encoder(-17);
 
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -1.25);
 
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -3.05);
-
-
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, +1.25);
 // Full chassis:
     // Across: 17.5
     // Vertical: 14.5
@@ -59,7 +57,7 @@ lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwhe
     // y = 7.25
 
 // horizontal odom wheel
-    // x = 4.5
+    // x = 10
     // y = 6
 
 // vertical odom wheel
@@ -69,7 +67,7 @@ lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwhe
 
 
 // sensors for odometry (No need for change timmy :D)
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
+lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
                             &horizontal_tracking_wheel, // &horizontal_tracking_wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
@@ -90,13 +88,13 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 // TODO: Tune PID
 
 // lateral motion controller (DrivePID)
-lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
-                                              0.3, // integral gain (kI) 0.42
-                                              0, // derivative gain (kD) 0.3
-                                              0.4, // anti windup
-                                              0.5, // small error range, in inches
-                                              1000, // small error range timeout, in milliseconds
-                                              2, // large error range, in inches
+lemlib::ControllerSettings linearController(  8.5, // proportional gain (kP)
+                                              0.00085, // integral gain (kI) 0.42
+                                              0.6, // derivative gain (kD) 0.3
+                                              0, // anti windup
+                                              1, // small error range, in inches
+                                              1200, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
                                               2000, // large error range timeout, in milliseconds
                                               127 // maximum acceleration (slew)
 );
@@ -104,7 +102,7 @@ lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
 // Now same thing for turning
 // lateral motion controller (TurnPID)
 lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
-                                             0.00010, // integral gain (kI)
+                                             0.000015, // integral gain (kI)
                                              7.6, // derivative gain (kD)
                                              0, // anti windup
                                              0.5, // small error range, in degrees
@@ -191,9 +189,19 @@ void competition_initialize() {
 void autonomous() 
 {
     chassis.setPose(0,0,0);
-    chassis.moveToPoint(0, 48, 3000);
-    chassis.moveToPoint(0, 24, 3000, {.forwards = false});
-    chassis.moveToPoint(0, 0, 3000, {.forwards = false});
+
+    chassis.turnToHeading(180, 2500);
+    chassis.turnToHeading(0, 2500);
+
+    // chassis.moveToPose(0, 50, 0, 3000);
+    // chassis.moveToPose(0, 25, 0, 3000, {.forwards=false});
+    // chassis.moveToPose(0, 0, 0, 5000, {.forwards=false});
+
+    // chassis.moveToPoint(0, 50, 3000);
+    // chassis.moveToPoint(0, 25, 3000, {.forwards=false});
+    // chassis.moveToPoint(0, 0, 3000, {.forwards=false});
+
+
 
 
     // float goal_location = 12;
