@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "SKILLS-TEMP",
+    "project_name": "DEMO - Variable Drive",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -300,7 +300,7 @@
     "upload_options": {
       "description": "Skills AUTON",
       "icon": "X",
-      "slot": 5
+      "slot": 8
     },
     "use_early_access": false
   }

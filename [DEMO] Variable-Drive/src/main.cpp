@@ -419,7 +419,7 @@ void opcontrol()
         if (chassis_mode_hold) {
             leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
             rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-            chassis.variableCurvature(leftY, rightX, 0.65, false); // Reduced velocity curvature
+            chassis.variableCurvature(leftY, rightX, 0.52, false); // Reduced velocity curvature
         } else {
             leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
             rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);

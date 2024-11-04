@@ -102,7 +102,7 @@ lemlib::ControllerSettings linearController(  8.5, // proportional gain (kP)
 // Now same thing for turning
 // lateral motion controller (TurnPID)
 lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
-                                             0.000015, // integral gain (kI)
+                                             0.000020, // integral gain (kI)
                                              7.6, // derivative gain (kD)
                                              0, // anti windup
                                              0.5, // small error range, in degrees
@@ -186,22 +186,19 @@ void competition_initialize() {
  */
 
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
+
+ASSET(switch_txt);
+
 void autonomous() 
 {
-    chassis.setPose(0,0,0);
+    // chassis.setPose(0,0,0);
 
-    chassis.turnToHeading(180, 2500);
-    chassis.turnToHeading(0, 2500);
+    // chassis.turnToHeading(180, 2000);
 
-    // chassis.moveToPose(0, 50, 0, 3000);
-    // chassis.moveToPose(0, 25, 0, 3000, {.forwards=false});
-    // chassis.moveToPose(0, 0, 0, 5000, {.forwards=false});
+    chassis.turnToHeading(0, 2000);
+    chassis.setPose(0,0,180);
 
-    // chassis.moveToPoint(0, 50, 3000);
-    // chassis.moveToPoint(0, 25, 3000, {.forwards=false});
-    // chassis.moveToPoint(0, 0, 3000, {.forwards=false});
-
-    float goal_location = 12;
+    float goal_location = 14;
 
     ///////////////////////
 
@@ -211,13 +208,13 @@ void autonomous()
 
     intake.move(-127);
 
-    pros::delay(1500);
+    pros::delay(1200);
 
     intake.move(0);
 
     // Getting Line
 
-    chassis.moveToPoint(0, goal_location+1, 1500, {.forwards = true}, false);
+    chassis.moveToPose(0, goal_location, 0, 1500, {.forwards = true}, false);
 
     chassis.turnToHeading(270, 1500);
 
@@ -235,7 +232,7 @@ void autonomous()
 
     intake.move(-127);
 
-    chassis.moveToPose(45, goal_location+1, 90, 2700, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(47, goal_location, 90, 3000, {.forwards = true, .lead=0, .maxSpeed=90}, false);
 
     intake.move(127);
     pros::delay(1200);
@@ -243,12 +240,12 @@ void autonomous()
     intake.move(-127);
     pros::delay(300);
 
-    chassis.moveToPose(62, goal_location+1, 90, 2000, {.forwards = true, .lead=0, .maxSpeed=50}, false);
+    chassis.moveToPose(62, goal_location, 90, 2000, {.forwards = true, .lead=0, .maxSpeed=50}, false);
     // Putt ing in corner
 
     chassis.turnToHeading(345, 1500);
 
-    chassis.moveToPose(67, -10, 345, 1800, {.forwards = false}, false);
+    chassis.moveToPose(68, -10, 345, 1800, {.forwards = false}, false);
 
     mogo_mech.set_value(true); // release mogo
 
@@ -256,14 +253,15 @@ void autonomous()
     
     intake.move(50);
 
-    chassis.moveToPose(60, goal_location + 1, 0, 2500, {.forwards = true}, false); // move out
+    chassis.moveToPose(60, goal_location, 0, 2500, {.forwards = true}, false); // move out
 
 
     // // Getting Goal 2
 
-    chassis.turnToHeading(90, 1500);
 
-    chassis.moveToPose(-25, goal_location - 1, 90, 3000, {.forwards = false, .maxSpeed=100}, false);
+    chassis.turnToPoint(-25, goal_location - 5, 1700, {.forwards=false});
+
+    chassis.moveToPose(-25, goal_location - 3, 90, 3000, {.forwards = false, .maxSpeed=100}, false);
 
     mogo_mech.set_value(false); // clamp mogo
     pros::delay(600);
@@ -272,7 +270,7 @@ void autonomous()
 
     intake.move(-127);
 
-    chassis.moveToPose(-53, goal_location - 1, 270, 2800, {.forwards = true}, false);
+    chassis.moveToPose(-53, goal_location, 270, 2800, {.forwards = true}, false);
 
     intake.move(127);
     pros::delay(1200);
@@ -280,14 +278,20 @@ void autonomous()
     intake.move(-127);
     pros::delay(300);
 
-    chassis.moveToPose(-58, goal_location - 1, 270, 2800, {.forwards = true}, false);
+    chassis.moveToPose(-58, goal_location, 270, 2800, {.forwards = true}, false);
 
     chassis.turnToHeading(15, 1500);
 
     chassis.moveToPose(-65, -10, 15, 2500, {.forwards = false}, false);
 
     mogo_mech.set_value(true);
-    pros::delay(600);
+    pros::delay(600); 
+
+    chassis.setPose(-64, 66, chassis.getPose().theta);
+
+    chassis.follow(switch_txt, 10, 5000);
+
+    chassis.turnToHeading(270, 1500);
 
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, ".........");
 }
