@@ -201,99 +201,95 @@ void autonomous()
     // chassis.moveToPoint(0, 25, 3000, {.forwards=false});
     // chassis.moveToPoint(0, 0, 3000, {.forwards=false});
 
+    float goal_location = 12;
 
+    ///////////////////////
 
+    chassis.setPose(0,0,0);
 
-    // float goal_location = 12;
+    mogo_mech.set_value(true);
 
-    // ///////////////////////
+    intake.move(-127);
 
-    // chassis.setPose(0,0,0);
+    pros::delay(1500);
 
-    // mogo_mech.set_value(true);
+    intake.move(0);
 
-    // intake.move(-127);
+    // Getting Line
 
-    // pros::delay(1500);
+    chassis.moveToPoint(0, goal_location+1, 1500, {.forwards = true}, false);
 
-    // intake.move(0);
+    chassis.turnToHeading(270, 1500);
 
-    // // Getting Line
+    // Getting Mogo
 
-    // chassis.moveToPoint(0, goal_location+1, 1500, {.forwards = true}, false);
+    chassis.moveToPose(24, goal_location, 270, 1500, {.forwards = false, .lead=0}, false);
 
-    // chassis.turnToHeading(270, 1500);
+    mogo_mech.set_value(false); // get mogo
 
-    // // Getting Mogo
+    pros::delay(600);
 
-    // chassis.moveToPose(24, goal_location, 270, 1500, {.forwards = false, .lead=0}, false);
+    ////////////////
 
-    // mogo_mech.set_value(false); // get mogo
+    chassis.turnToHeading(90, 1500);
 
-    // pros::delay(600);
+    intake.move(-127);
 
-    // ////////////////
+    chassis.moveToPose(45, goal_location+1, 90, 2700, {.forwards = true, .lead=0, .maxSpeed=90}, false);
 
-    // chassis.turnToHeading(90, 1500);
+    intake.move(127);
+    pros::delay(1200);
 
-    // intake.move(-127);
+    intake.move(-127);
+    pros::delay(300);
 
-    // chassis.moveToPose(45, goal_location+1, 90, 2700, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(62, goal_location+1, 90, 2000, {.forwards = true, .lead=0, .maxSpeed=50}, false);
+    // Putt ing in corner
 
-    // intake.move(127);
-    // pros::delay(1200);
+    chassis.turnToHeading(345, 1500);
 
-    // intake.move(-127);
-    // pros::delay(300);
+    chassis.moveToPose(67, -10, 345, 1800, {.forwards = false}, false);
 
-    // chassis.moveToPose(62, goal_location+1, 90, 2000, {.forwards = true, .lead=0, .maxSpeed=50}, false);
-    // // Putt ing in corner
+    mogo_mech.set_value(true); // release mogo
 
-    // chassis.turnToHeading(345, 1500);
-
-    // chassis.moveToPose(67, -10, 345, 1800, {.forwards = false}, false);
-
-    // mogo_mech.set_value(true); // release mogo
-
-    // pros::delay(700);
+    pros::delay(700);
     
-    // intake.move(50);
+    intake.move(50);
 
-    // chassis.moveToPose(60, goal_location + 1, 0, 2500, {.forwards = true}, false); // move out
+    chassis.moveToPose(60, goal_location + 1, 0, 2500, {.forwards = true}, false); // move out
 
 
-    // // // Getting Goal 2
+    // // Getting Goal 2
 
-    // chassis.turnToHeading(90, 1500);
+    chassis.turnToHeading(90, 1500);
 
-    // chassis.moveToPose(-25, goal_location - 1, 90, 3000, {.forwards = false, .maxSpeed=100}, false);
+    chassis.moveToPose(-25, goal_location - 1, 90, 3000, {.forwards = false, .maxSpeed=100}, false);
 
-    // mogo_mech.set_value(false); // clamp mogo
-    // pros::delay(600);
+    mogo_mech.set_value(false); // clamp mogo
+    pros::delay(600);
 
-    // chassis.turnToHeading(270, 1500);
+    chassis.turnToHeading(270, 1500);
 
-    // intake.move(-127);
+    intake.move(-127);
 
-    // chassis.moveToPose(-53, goal_location - 1, 270, 2800, {.forwards = true}, false);
+    chassis.moveToPose(-53, goal_location - 1, 270, 2800, {.forwards = true}, false);
 
-    // intake.move(127);
-    // pros::delay(1200);
+    intake.move(127);
+    pros::delay(1200);
 
-    // intake.move(-127);
-    // pros::delay(300);
+    intake.move(-127);
+    pros::delay(300);
 
-    // chassis.moveToPose(-58, goal_location - 1, 270, 2800, {.forwards = true}, false);
+    chassis.moveToPose(-58, goal_location - 1, 270, 2800, {.forwards = true}, false);
 
-    // chassis.turnToHeading(15, 1500);
-    
+    chassis.turnToHeading(15, 1500);
 
-    // chassis.moveToPose(-65, -10, 15, 2500, {.forwards = false}, false);
+    chassis.moveToPose(-65, -10, 15, 2500, {.forwards = false}, false);
 
-    // mogo_mech.set_value(true);
-    // pros::delay(600);
+    mogo_mech.set_value(true);
+    pros::delay(600);
 
-    // pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, ".........");
+    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, ".........");
 }
 
 

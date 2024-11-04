@@ -836,6 +836,11 @@ class Chassis {
          * chassis.moveToPoint(10, 10, 4000);
          * @endcode
          */
+        void Chassis::slowDrive(int throttle, int turn, int multiplier, bool disableDriveCurve);
+        /**
+         * @brief Enables a slower profile of Curvature when called.
+         */
+
         void cancelMotion();
         /**
          * @brief Cancels all motions, even those that are queued.
