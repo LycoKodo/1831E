@@ -287,7 +287,7 @@ void autonomous()
     mogo_mech.set_value(true);
     pros::delay(600); 
 
-    chassis.setPose(-64, 66, chassis.getPose().theta);
+    chassis.setPose(-64, 66, chassis.getPose().theta - 90); // no plus 90 works?
 
     chassis.follow(switch_txt, 10, 5000);
 
