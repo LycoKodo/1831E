@@ -214,13 +214,13 @@ void autonomous()
 
     // Getting Line
 
-    chassis.moveToPose(0, goal_location, 0, 1500, {.forwards = true}, false);
+    chassis.moveToPose(0, goal_location, 0, 1300, {.forwards = true}, false);
 
     chassis.turnToHeading(270, 1500);
 
     // Getting Mogo
 
-    chassis.moveToPose(24, goal_location, 270, 1500, {.forwards = false, .lead=0}, false);
+    chassis.moveToPose(24, goal_location, 270, 1300, {.forwards = false, .lead=0}, false);
 
     mogo_mech.set_value(false); // get mogo
 
@@ -232,7 +232,7 @@ void autonomous()
 
     intake.move(-127);
 
-    chassis.moveToPose(47, goal_location, 90, 3000, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(47, goal_location - 1, 90, 2500, {.forwards = true, .lead=0, .maxSpeed=90}, false);
 
     intake.move(127);
     pros::delay(1200);
@@ -240,7 +240,7 @@ void autonomous()
     intake.move(-127);
     pros::delay(300);
 
-    chassis.moveToPose(62, goal_location, 90, 2000, {.forwards = true, .lead=0, .maxSpeed=50}, false);
+    chassis.moveToPose(62, goal_location - 1, 90, 1500, {.forwards = true, .lead=0, .maxSpeed=50}, false);
     // Putt ing in corner
 
     chassis.turnToHeading(345, 1500);
@@ -253,15 +253,15 @@ void autonomous()
     
     intake.move(50);
 
-    chassis.moveToPose(60, goal_location, 0, 2500, {.forwards = true}, false); // move out
+    chassis.moveToPose(60, goal_location, 0, 1800, {.forwards = true}, false); // move out
 
 
     // // Getting Goal 2
 
 
-    chassis.turnToPoint(-25, goal_location - 5, 1700, {.forwards=false});
+    chassis.turnToPoint(-25, goal_location - 8, 1700, {.forwards=false});
 
-    chassis.moveToPose(-25, goal_location - 3, 90, 3000, {.forwards = false, .maxSpeed=100}, false);
+    chassis.moveToPose(-28, goal_location - 6, 90, 3000, {.forwards = false, .maxSpeed=100}, false);
 
     mogo_mech.set_value(false); // clamp mogo
     pros::delay(600);
@@ -270,7 +270,7 @@ void autonomous()
 
     intake.move(-127);
 
-    chassis.moveToPose(-53, goal_location, 270, 2800, {.forwards = true}, false);
+    chassis.moveToPose(-53, goal_location - 3, 270, 2800, {.forwards = true}, false);
 
     intake.move(127);
     pros::delay(1200);
@@ -278,7 +278,7 @@ void autonomous()
     intake.move(-127);
     pros::delay(300);
 
-    chassis.moveToPose(-58, goal_location, 270, 2800, {.forwards = true}, false);
+    chassis.moveToPose(-58, goal_location - 4, 270, 2800, {.forwards = true}, false);
 
     chassis.turnToHeading(15, 1500);
 
@@ -287,11 +287,39 @@ void autonomous()
     mogo_mech.set_value(true);
     pros::delay(600); 
 
-    chassis.setPose(-64, 66, chassis.getPose().theta - 90); // no plus 90 works?
+    intake.move(-127);
+
+    chassis.setPose(-66, 65, chassis.getPose().theta + 90); // no plus 90 works?
 
     chassis.follow(switch_txt, 10, 5000);
 
-    chassis.turnToHeading(270, 1500);
+    chassis.turnToHeading(0, 1500);
+
+    chassis.moveToPose(42, 6, 8, 2500, {.forwards = false}, false);
+
+    pros::delay(600);
+
+    mogo_mech.set_value(false);
+
+    pros::delay(600);
+
+    intake.move(-127);
+
+    chassis.moveToPose(42, 50, 0, 1300, {.forwards = true}, false);
+
+    pros::delay(600);
+
+    intake.move(0);
+
+    chassis.turnToHeading(245, 500);
+
+    chassis.moveToPose(55, 70, 245, 1300, {.forwards = false}, false);
+
+    mogo_mech.set_value(true);
+
+    chassis.moveToPose(60, 75, 245, 1300, {.forwards = false}, false);
+
+    chassis.moveToPose(50, 60, 245, 1300, {.forwards = true}, false);
 
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, ".........");
 }
