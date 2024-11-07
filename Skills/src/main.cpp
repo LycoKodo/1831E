@@ -259,9 +259,9 @@ void autonomous()
     // // Getting Goal 2
 
 
-    chassis.turnToPoint(-25, goal_location - 8, 1700, {.forwards=false});
+    chassis.turnToPoint(-26, goal_location - 8, 1700, {.forwards=false});
 
-    chassis.moveToPose(-28, goal_location - 6, 90, 3000, {.forwards = false, .maxSpeed=100}, false);
+    chassis.moveToPose(-29, goal_location - 6, 90, 3000, {.forwards = false, .maxSpeed=100}, false);
 
     mogo_mech.set_value(false); // clamp mogo
     pros::delay(600);
