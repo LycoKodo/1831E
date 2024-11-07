@@ -70,29 +70,4 @@ void Chassis::curvature(int throttle, int turn, bool disableDriveCurve) {
     drivetrain.rightMotors->move(rightPower);
 }
 
-void Chassis::slowDrive(int throttle, int turn, int multiplier, bool disableDriveCurve) {
-    // If we're not moving forwards change to arcade drive
-    if (throttle == 0) {
-        arcade(throttle, turn, disableDriveCurve);
-        return;
-    }
-
-    // use drive curves if they have not been disabled
-    if (!disableDriveCurve) {
-        throttle = throttleCurve->curve(throttle);
-        turn = steerCurve->curve(turn);
-    }
-
-    float leftPower = throttle + (std::fabs(throttle) * turn / 127.0);
-    float rightPower = throttle - (std::fabs(throttle) * turn / 127.0);
-
-    // desaturate output
-    float max = std::max(std::fabs(leftPower), std::fabs(rightPower)) / 127;
-    if (max > 1) {
-        leftPower /= max;
-        rightPower /= max;
-    }
-    drivetrain.leftMotors->move(leftPower/multiplier);
-    drivetrain.rightMotors->move(rightPower/multiplier);
-}
 } // namespace lemlib
