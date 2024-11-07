@@ -194,21 +194,56 @@ void autonomous()
 
     mogo_mech.set_value(true);
 
-    chassis.moveToPose(25, 0, 270, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(15, 0, 270, 800, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
-    pros::delay(500);
-
-    chassis.moveToPose(10, 0, 270, 1200, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(15, 0, 270, 800, {.forwards = true, .lead=0, .maxSpeed=90}, false);
     
-    chassis.turnToHeading(0, 1200);
+    chassis.turnToHeading(0, 800);
 
-    pros::delay(500);
-
-    chassis.moveToPose(10, -5, 0, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(15, -5, 0, 800, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
     pros::delay(500);
 
     intake.move(-127);
+
+    pros::delay(800);
+
+    intake.move(0);
+
+    chassis.moveToPose(15, 8, 0, 800, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    chassis.turnToHeading(135, 800);
+
+    chassis.moveToPose(-18, 38, 135, 800, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+
+    mogo_mech.set_value(false);
+
+    pros::delay(500);
+
+    chassis.turnToHeading(270, 800);
+
+    intake.move(-127);
+
+    chassis.moveToPose(-32, 34, 270, 800, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    pros::delay(500);
+
+    chassis.moveToPose(-31, 34, 270, 500, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    chassis.turnToHeading(0, 800);
+
+    chassis.moveToPose(-31, 50, 0, 500, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    pros::delay(500);
+
+    chassis.moveToPose(-31, 35, 0, 500, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+
+    chassis.turnToHeading(95, 800);
+
+    chassis.moveToPose(5, 35, 95, 1000, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    intake.move(-127);
+
 
     /*pros::delay(800);
 

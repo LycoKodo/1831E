@@ -199,13 +199,13 @@ void autonomous()
 
     pros::delay(500);
 
-    chassis.moveToPose(-8, 0, 90, 1200, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(-10, 0, 90, 1200, {.forwards = true, .lead=0, .maxSpeed=90}, false);
     
     chassis.turnToHeading(0, 1200);
 
     pros::delay(500);
 
-    chassis.moveToPose(-8, -5, 0, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(-10, -5, 0, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
     pros::delay(500);
 
@@ -241,7 +241,7 @@ void autonomous()
 
     // // Getting Goal // 
 
-    chassis.moveToPose(0, 33, 190, 1800, {.forwards = false, .lead=0}, false);
+    /*chassis.moveToPose(0, 33, 190, 1800, {.forwards = false, .lead=0}, false);
 
     chassis.moveToPose(10, 40, 180, 1800, {.forwards = false, .lead=0}, false);
 
@@ -249,7 +249,7 @@ void autonomous()
 
     mogo_mech.set_value(true);
 
-    chassis.moveToPose(0, 34, 180, 1800, {.forwards = true, .lead=0}, false);
+    chassis.moveToPose(0, 34, 180, 1800, {.forwards = true, .lead=0}, false);*/
 
     /*chassis.turnToHeading(240, 1400);
 
