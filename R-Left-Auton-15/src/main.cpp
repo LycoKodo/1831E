@@ -190,25 +190,27 @@ ASSET(switch_txt);
 
 void autonomous() 
 {
-    chassis.setPose(0,0,240);
+    chassis.setPose(0,0,270);
 
     mogo_mech.set_value(true);
 
-    chassis.moveToPose(20.3, 11.5, 240, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
-
-    mogo_mech.set_value(false);
+    chassis.moveToPose(25, 0, 270, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
     pros::delay(500);
+
+    chassis.moveToPose(10, 0, 270, 1200, {.forwards = true, .lead=0, .maxSpeed=90}, false);
     
-    chassis.turnToHeading(270, 1200);
+    chassis.turnToHeading(0, 1200);
 
-    intake.move(-100);
+    pros::delay(500);
 
-    pros::delay(1000);
+    chassis.moveToPose(10, -5, 0, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
-    intake.move(127);
+    pros::delay(500);
 
-    pros::delay(800);
+    intake.move(-127);
+
+    /*pros::delay(800);
 
     intake.move(-127);
 
@@ -226,7 +228,7 @@ void autonomous()
     intake.move(-127);
     chassis.moveToPose(10, 30, 20, 2000, {.forwards = true, .lead=0, .maxSpeed=80}, false);
 
-    pros::delay(2000);
+    pros::delay(2000);*/
 
     // mogo_mech.set_value(true);
 

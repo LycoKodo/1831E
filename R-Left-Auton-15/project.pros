@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "[Lim] Red-Left",
+    "project_name": "AWP-LeftR",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -300,7 +300,7 @@
     "upload_options": {
       "description": "Right Auton ",
       "icon": "X",
-      "slot": 3
+      "slot": 6
     },
     "use_early_access": false
   }
