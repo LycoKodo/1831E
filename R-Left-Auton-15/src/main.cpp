@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
@@ -41,18 +40,35 @@ pros::Imu imu(9);
 
 //TODO: ------ Initialise odometry sensors and configure odometry ------------------------------------ //
 
-// pros::Rotation horizontal_encoder(3); // Change to the "A" tagged encoder
+pros::Rotation horizontal_encoder(-1); // Change to the "A" tagged encoder
 
-// lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, +3.75);
+pros::Rotation vertical_encoder(-17);
 
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -1.25);
+
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, +1.25);
+// Full chassis:
+    // Across: 17.5
+    // Vertical: 14.5
+
+// Tracking Center:
+    // X = 8.75
+    // y = 7.25
+
+// horizontal odom wheel
+    // x = 10
+    // y = 6
+
+// vertical odom wheel
+    // x = 5.7
 
 // ------------------------------------------------------------------------------------------------ //
 
 
 // sensors for odometry (No need for change timmy :D)
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
+lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr, // &horizontal_tracking_wheel
+                            &horizontal_tracking_wheel, // &horizontal_tracking_wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu     // inertial sensor &imu
 );
@@ -71,21 +87,21 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 // TODO: Tune PID
 
 // lateral motion controller (DrivePID)
-lemlib::ControllerSettings linearController(  8.0, // proportional gain (kP)
-                                              0.15, // integral gain (kI) 0.42
-                                              0.3, // derivative gain (kD) 1.5
-                                              0.4, // anti windup
-                                              0.5, // small error range, in inches
-                                              200, // small error range timeout, in milliseconds
-                                              2, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
+lemlib::ControllerSettings linearController(  8.5, // proportional gain (kP)
+                                              0.00085, // integral gain (kI) 0.42
+                                              0.6, // derivative gain (kD) 0.3
+                                              0, // anti windup
+                                              1, // small error range, in inches
+                                              1200, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
+                                              2000, // large error range timeout, in milliseconds
                                               127 // maximum acceleration (slew)
 );
 
 // Now same thing for turning
 // lateral motion controller (TurnPID)
 lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)
-                                             0.00050, // integral gain (kI)
+                                             0.000020, // integral gain (kI)
                                              7.6, // derivative gain (kD)
                                              0, // anti windup
                                              0.5, // small error range, in degrees
@@ -169,6 +185,9 @@ void competition_initialize() {
  */
 
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
+
+ASSET(switch_txt);
+
 void autonomous() 
 {
     chassis.setPose(0,0,240);
