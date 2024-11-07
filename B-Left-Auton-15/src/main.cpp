@@ -191,7 +191,25 @@ ASSET(switch_txt);
 
 void autonomous() 
 {
-    chassis.setPose(0,0,180);
+    chassis.setPose(0,0,90);
+
+    mogo_mech.set_value(true);
+
+    chassis.moveToPose(-10, 0, 90, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+
+    pros::delay(500);
+
+    chassis.moveToPose(-8, 0, 90, 1200, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+    
+    chassis.turnToHeading(0, 1200);
+
+    pros::delay(500);
+
+    chassis.moveToPose(-8, -5, 0, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+
+    pros::delay(500);
+
+    intake.move(-127);
 
     // //-- Scoring Preload --//
 

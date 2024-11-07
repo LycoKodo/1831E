@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "[Lim] Blue Left",
+    "project_name": "Blue LeftAWP",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -299,7 +299,8 @@
     },
     "upload_options": {
       "description": "Left Auton ",
-      "icon": "X"
+      "icon": "X",
+      "slot": 7
     },
     "use_early_access": false
   }
