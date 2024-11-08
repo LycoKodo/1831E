@@ -88,7 +88,7 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 // lateral motion controller (DrivePID)
 lemlib::ControllerSettings linearController(  8.5, // proportional gain (kP)
-                                              0.00085, // integral gain (kI) 0.42
+                                              0.00075, // integral gain (kI) 0.42
                                               0.6, // derivative gain (kD) 0.3
                                               0, // anti windup
                                               1, // small error range, in inches
@@ -195,21 +195,57 @@ void autonomous()
 
     mogo_mech.set_value(true);
 
-    chassis.moveToPose(-10, 0, 90, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
-
-    pros::delay(500);
-
-    chassis.moveToPose(-10, 0, 90, 1200, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(-15, 0, 90, 1000, {.forwards = false, .lead=0, .maxSpeed=90}, false);
     
-    chassis.turnToHeading(0, 1200);
+    chassis.turnToHeading(0, 800);
+
+    chassis.moveToPose(-15, -7, 0, 500, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
     pros::delay(500);
 
-    chassis.moveToPose(-10, -5, 0, 1200, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(-15, -1, 0, 500, {.forwards = true, .lead=0, .maxSpeed=60}, false);
 
     pros::delay(500);
 
     intake.move(-127);
+
+    pros::delay(800);
+
+    intake.move(0);
+
+    chassis.moveToPose(-15, 8, 0, 800, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    chassis.turnToHeading(225, 800);
+
+    chassis.moveToPose(18, 40, 225, 1000, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+
+    mogo_mech.set_value(false);
+
+    pros::delay(500);
+
+    chassis.turnToHeading(90, 800);
+
+    intake.move(-127);
+
+    chassis.moveToPose(30, 32, 90, 800, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    pros::delay(500);
+
+    chassis.moveToPose(31, 34, 90, 500, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    chassis.turnToHeading(0, 800);
+
+    chassis.moveToPose(31, 52, 0, 500, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    pros::delay(500);
+
+    chassis.moveToPose(31, 35, 0, 800, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+
+    chassis.turnToHeading(275, 800);
+
+    chassis.moveToPose(-5, 35, 275, 1000, {.forwards = true, .lead=0, .maxSpeed=90}, false);
+
+    intake.move(0);
 
     // //-- Scoring Preload --//
 
