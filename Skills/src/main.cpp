@@ -293,9 +293,9 @@ void autonomous()
 
     chassis.follow(switch_txt, 10, 5000);
 
-    chassis.turnToHeading(0, 1500);
+    chassis.turnToHeading(270, 1500);
 
-    chassis.moveToPose(42, 6, 8, 2500, {.forwards = false}, false);
+    chassis.moveToPose(47, 3, 270, 2500, {.forwards = false}, false);
 
     pros::delay(600);
 
