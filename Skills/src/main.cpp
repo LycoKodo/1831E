@@ -293,33 +293,17 @@ void autonomous()
 
     chassis.follow(switch_txt, 10, 5000);
 
-    chassis.turnToHeading(270, 1500);
+    chassis.turnToHeading(270, 1000);
 
-    chassis.moveToPose(47, 3, 270, 2500, {.forwards = false}, false);
-
-    pros::delay(600);
-
-    mogo_mech.set_value(false);
+    chassis.moveToPose(55, 3, 270, 2000, {.forwards = false}, false);
 
     pros::delay(600);
 
-    intake.move(-127);
+    chassis.turnToHeading(180, 1000);
 
-    chassis.moveToPose(42, 50, 0, 1300, {.forwards = true}, false);
+    chassis.moveToPose(55, 55, 180, 2000, {.forwards = false}, false);
 
-    pros::delay(600);
-
-    intake.move(0);
-
-    chassis.turnToHeading(245, 500);
-
-    chassis.moveToPose(55, 70, 245, 1300, {.forwards = false}, false);
-
-    mogo_mech.set_value(true);
-
-    chassis.moveToPose(69, 85, 245, 1300, {.forwards = false}, false);
-
-    chassis.moveToPose(40, 50, 245, 1300, {.forwards = true}, false);
+    chassis.moveToPose(45, -55, 180, 2000, {.forwards = false}, false);
 
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, ".........");
 }
