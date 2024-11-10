@@ -301,9 +301,17 @@ void autonomous()
 
     chassis.turnToHeading(180, 1000);
 
-    chassis.moveToPose(55, 55, 180, 2000, {.forwards = false}, false);
+    chassis.moveToPose(55, 70, 180, 1500, {.forwards = false}, false);
 
-    chassis.moveToPose(45, -55, 180, 2000, {.forwards = false}, false);
+    chassis.moveToPose(55, 55, 180, 800, {.forwards = true}, false);
+
+    chassis.moveToPose(55, 70, 180, 800, {.forwards = false}, false);
+
+    chassis.moveToPose(55, -70, 180, 1500, {.forwards = true}, false);
+
+    chassis.moveToPose(55, -55, 180, 800, {.forwards = false}, false);
+
+    chassis.moveToPose(55, -70, 180, 800, {.forwards = true}, false);
 
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, ".........");
 }

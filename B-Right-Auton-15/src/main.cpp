@@ -190,49 +190,23 @@ ASSET(switch_txt);
 
 void autonomous() 
 {
-    chassis.setPose(0,0,150);
+    chassis.setPose(0,0,0);
 
     mogo_mech.set_value(true);
 
-    chassis.moveToPose(-14, 24, 150, 2000, {.forwards = false, .lead=0, .maxSpeed=90}, false);
+    chassis.moveToPose(15, 0, 0, 2000, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
     mogo_mech.set_value(false);
 
-    pros::delay(500);
-    
-    chassis.turnToHeading(90, 1200);
-
-    pros::delay(500);
-
-    intake.move(-135);
-
-    pros::delay(500);
-
-    intake.move(127);
-
-    pros::delay(400);
-
     intake.move(-127);
 
-    chassis.moveToPose(5, 24, 90, 1000, {.forwards = true, .lead=0, .maxSpeed=110}, false);
-
-    pros::delay(1000);
-
-    chassis.moveToPose(2, 24, 90, 2000, {.forwards = false, .lead=0, .maxSpeed=110}, false);
-
-    intake.move(127);
-    chassis.turnToHeading(0, 1200);
-    
     pros::delay(800);
 
-    intake.move(-127);
-    chassis.moveToPose(7, 38, 0, 2000, {.forwards = true, .lead=0, .maxSpeed=80}, false);
+    chassis.turnToHeading(0, 800);
 
-    pros::delay(500);
+    chassis.moveToPose(15, 0, 0, 2000, {.forwards = false, .lead=0, .maxSpeed=90}, false);
 
-    chassis.moveToPose(7, 25, 0, 1000, {.forwards = false, .lead=0, .maxSpeed=100}, false);
-    chassis.turnToHeading(270, 1200);
-    chassis.moveToPose(-30, 25, 270, 1000, {.forwards = true, .lead=0, .maxSpeed=100}, false);
+    
 
 
     // //-- Scoring Preload --//
