@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
@@ -134,31 +133,18 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
   *     Mogo - Optical Sensor for mogo_scan()
   */
 
-pros::Optical mogo_optical(18);
-
-
+pros::Distance mogo_dist(1);
+pros::Motor testing_mogo (3);
 
 bool mogo_scan() {
-    float proximity_lim_low;
-    float proximity_lim_high;
+    float proximity_lim_low = 20;
+    float proximity_lim_high = 55;
 
-    float red_lim_low = 255 - 5;
-    float red_lim_high;
-    float green_lim_low;
-    float green_lim_high;
-    float blue_lim_low;
-    float blue_lim_high;
+    int proximity = mogo_dist.get();
 
-    double red = mogo_optical.get_rgb().red;
-    double green = mogo_optical.get_rgb().green;
-    double blue = mogo_optical.get_rgb().blue;
-
-    int proximity = mogo_optical.get_proximity();
-
-    bool mogo_color = ((red > red_lim_low && red < red_lim_high) && (blue > blue_lim_low && blue < blue_lim_high) && (green > green_lim_low && green < green_lim_high));
     bool mogo_proximity = (proximity > proximity_lim_low && proximity < proximity_lim_high);
 
-    if (mogo_color && mogo_proximity) {
+    if (mogo_proximity) {
         return true;
     }
 
@@ -174,16 +160,18 @@ bool mogo_scan() {
 bool battery_cap_low = false;
 
 void initialize() {
-    mogo_optical.set_led_pwm(100); // Light optical LED
     pros::lcd::initialize(); // initialize brain screen  d
     chassis.calibrate(); // calibrate sensors
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     pros::Task screenTask([]() {
         while (true) {
+            bool mogo_in_range = mogo_scan();
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            pros::lcd::print(2, "R: %d, G: %d, B: %d", mogo_optical.get_rgb().red, mogo_optical.get_rgb().green, mogo_optical.get_rgb().blue);
+            pros::lcd::print(3, "MogoProx: %i", mogo_dist.get());
+            if (mogo_in_range) {pros::lcd::print(4, "GoalInRange: True");}
+            else {pros::lcd::print(4, "GoalInRange: False");}
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             pros::delay(50);
         }
@@ -415,14 +403,25 @@ void opcontrol()
         bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_R2);
 
         if (b_button && !latch) {
-            if (mogo_scan()) {
-                toggle = !toggle;             // Flip the toggle state
-                mogo_mech.set_value(toggle);  // Update mogo_mech based on the new toggle state
-                latch = true;  
+            if (toggle) {
+                if (mogo_scan()) {
+                    mogo_mech.set_value(toggle); // Set mogo_mech based on toggle state
+                    testing_mogo.move(127); // Move the motor forward at full speed
+                    pros::delay(100); // Wait for 100 milliseconds
+
+                    latch = true;  // Engage latch to prevent repeated toggles
+                    toggle = !toggle; // Flip the toggle state
+                }
+            } else {
+                mogo_mech.set_value(toggle); // Set mogo_mech based on toggle state
+                testing_mogo.move(-60); // Move the motor backward at partial speed
+                pros::delay(100); // Wait for 100 milliseconds
+
+                latch = true;  // Engage latch to prevent repeated toggles
+                toggle = !toggle; // Flip the toggle state
             }
-            // Engage latch to prevent repeated toggles
         } else if (!b_button) {
-            latch = false;                // Reset latch when button is released
+            latch = false; // Reset latch when button is released
         }
 
 
