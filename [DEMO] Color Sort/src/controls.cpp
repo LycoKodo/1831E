@@ -48,3 +48,35 @@ bool ringInspect() {
     }
     return true; // Default: passes for any other color
 }
+
+void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async) {
+    // Get the start time
+    if (async) {
+        pros::Task task([&]() { Intake_SortedMove(voltage, msDelay, penaltyFactor, false); });
+        pros::delay(10); // delay to give the task time to start
+        return;
+    }
+
+    auto startTime = std::chrono::high_resolution_clock::now();
+    auto endTime = startTime + std::chrono::milliseconds(static_cast<int>(msDelay));
+
+    // While the elapsed time is less than msDelay
+    while (std::chrono::high_resolution_clock::now() < endTime) {
+        if (voltage > 0) {
+            // Intaking
+            bool passed = ringInspect();
+            if (passed) {
+                intake.move(voltage);
+            } else {
+                intake.move(voltage * penaltyFactor);
+            }
+        } else {
+            // Outtaking or stopping
+            intake.move(voltage);
+        }
+        pros::delay(10);
+    }
+
+    // Stop intake after delay
+    intake.move(0);
+}

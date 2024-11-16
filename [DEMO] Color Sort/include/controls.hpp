@@ -12,5 +12,6 @@ void setColorSort();
 void confirmSelection();
 bool ringInspect();
 void opcontrol();
+void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async);
 
 #endif // CONTROLS_HPP

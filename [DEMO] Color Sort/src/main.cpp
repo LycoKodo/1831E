@@ -47,6 +47,8 @@ void competition_initialize() {
 void autonomous() 
 {
     chassis.setPose(0,0,0);
+    intake.move(-127);
+    Intake_SortedMove(-127, 2000, 0.5, true);
 }
 
 
@@ -69,14 +71,14 @@ void opcontrol()
         // ---------------------------------------
 
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intake.move(127); // Spin forward
+            intake.move(-127); // Spin out
             intake_spinning = false;
             printf("Intake Activitated\n");
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             bool passed = ringInspect();
             if (passed) {
-                intake.move(-127);
+                intake.move(127); // spin in
                 printf("Intake (INSPECT) Activitated\n");
                 printf("    PASSED: True \n");
             }
@@ -84,6 +86,7 @@ void opcontrol()
                 intake.move(-50);
                 printf("Intake (INSPECT) COMPROMISED [!]\n");
                 printf("    PASSED: False \n");
+                pros::delay(50);
             }
 
             intake_spinning = false;
