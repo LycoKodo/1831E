@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "[T4] Blue-Right",
+    "project_name": "1831E Stable-Core",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -298,9 +298,9 @@
       }
     },
     "upload_options": {
-      "description": "Right Auton ",
+      "description": "Core Autonomous Template of Team 1831E",
       "icon": "X",
-      "slot": 2
+      "slot": 1
     },
     "use_early_access": false
   }
