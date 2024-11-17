@@ -19,6 +19,8 @@ void initialize() {
     pros::lcd::register_btn0_cb(setColorSort);
     pros::lcd::print(3, "[!] ALLIANCE NOT SELECTED, (MID BTN)");
 
+    pros::lcd::
+
     chassis.calibrate(); // calibrate sensors
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     pros::Task screenTask([]() {
