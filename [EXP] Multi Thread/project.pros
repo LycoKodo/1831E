@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "DEMO - Color Sort",
+    "project_name": "Demo - Multi thread",
     "target": "v5",
     "templates": {
       "LemLib": {
