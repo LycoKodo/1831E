@@ -12,15 +12,31 @@
 #include "robot-config.hpp"
 #include "controls.hpp"
 
+/*
+    TODO:
+    [ ] Tune controls.cpp Color sort wait time
+    [ ] Test Intake_sortedmove's async parameter
+    [ ] Validate all refractored files and merge to main
+ */
+
 void initialize() {
+    // -----------------------
+    // Initialise Core Systems
+    // -----------------------
     pros::lcd::initialize(); // initialize brain screen
+    chassis.calibrate(); // calibrate sensors
+
+    // -----------------------
+    // Initialise Sensors
+    // -----------------------
     colorSort.set_led_pwm(100);
     // Selecting Alliance Color
     pros::lcd::register_btn1_cb(setColorSort);
     pros::lcd::print(3, "[!] ALLIANCE NOT SELECTED, (MID BTN)");
 
-    chassis.calibrate(); // calibrate sensors
-    intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    // -----------------------
+    // Start Screen Task
+    // -----------------------
     pros::Task screenTask([]() {
         while (true) {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
@@ -30,6 +46,11 @@ void initialize() {
             pros::delay(50);
         }
     });
+
+    // -----------------------
+    // Initialise Subsystems
+    // -----------------------
+    intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     mogo_mech.set_value(true);
 }
 
@@ -48,7 +69,7 @@ void autonomous()
 {
     chassis.setPose(0,0,0);
     intake.move(-127);
-    Intake_SortedMove(-127, 2000, 0.5, true);
+    Intake_SortedMove(-127, 2000, 0.5, true); 
 }
 
 
@@ -57,7 +78,8 @@ void opcontrol()
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     
-    pros::Task intakeTask(intake_control);
+    // DON'T CHANGE!: Multi-treading for robot controls (To prevent color sort interruption)
+    pros::Task intakeTask(intake_control); // Interrupted by color sort
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
 }
