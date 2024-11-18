@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 
 #include "robot-config.hpp"
+#include "ladyPid.hpp"
 
 char alliance = 'N';
 bool allianceConfirmed = false;
@@ -134,6 +135,33 @@ void mogo_control() {
         pros::delay(10);
     }
 }
+
+// ------------------------------
+// TODO: Finish these functions
+
+void lady_smart_control() {
+    lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+    while (true) {
+        bool lower = master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
+        bool raise = master.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
+
+        if (lower) {
+            LadyMovePID(90, 127, 0, 50, 2000, 1);
+        }
+        else if (raise) {
+            LadyMovePID(0, 127, 0, 50, 2000, 1);
+        }
+        else lady.brake();
+    }
+}
+
+void lady_dumb_control() {
+
+}
+
+// END TODO
+// ------------------------------
 
 void drivetrain_control() {
     while (true) {
