@@ -30,7 +30,7 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-pros::Motor intake(19);
+pros::Motor intake(-19);
 pros::Motor lady(20);
 pros::adi::DigitalOut mogo_mech (8);
 
@@ -39,7 +39,7 @@ pros::adi::DigitalOut mogo_mech (8);
 // ---------------------------------------
 
 pros::Imu imu(9);
-pros::Optical colorSort (12);
+pros::Optical colorSort (18);
 
 // ---------------------------------------
 // Odometry

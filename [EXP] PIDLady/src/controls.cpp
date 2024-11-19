@@ -39,7 +39,7 @@ void confirmSelection() {
 
 bool ringInspect() {
     const float blue_lim_low = 150, blue_lim_high = 250;
-    const float red_lim_low = 0, red_lim_high = 30;
+    const float red_lim_low = 0, red_lim_high = 50;
     double hue = colorSort.get_hue();
 
     if (alliance == 'B') {
@@ -103,8 +103,9 @@ void intake_control() {
                 printf("Intake (INSPECT) COMPROMISED [!]\n");
                 printf("    PASSED: False \n");
                 intake.move(127);
-                pros::delay(100); // TODO - Tune delay accordingly to intake
+                pros::delay(220); // TODO - Tune delay accordingly to intake
                 intake.brake();
+                pros::delay(200);
             }
 
             intake_spinning = false;
@@ -139,26 +140,26 @@ void mogo_control() {
 // ------------------------------
 // TODO: Finish these functions
 
-void lady_smart_control() {
-    lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+// void lady_smart_control() {
+//     lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-    while (true) {
-        bool lower = master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
-        bool raise = master.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
+//     while (true) {
+//         bool lower = master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
+//         bool raise = master.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 
-        if (lower) {
-            LadyMovePID(90, 127, 0, 50, 2000, 1);
-        }
-        else if (raise) {
-            LadyMovePID(0, 127, 0, 50, 2000, 1);
-        }
-        else lady.brake();
-    }
-}
+//         if (lower) {
+//             LadyMovePID(90, 127, 0, 50, 2000, 1);
+//         }
+//         else if (raise) {
+//             LadyMovePID(0, 127, 0, 50, 2000, 1);
+//         }
+//         else lady.brake();
+//     }
+// }
 
-void lady_dumb_control() {
+// void lady_dumb_control() {
 
-}
+// }
 
 // END TODO
 // ------------------------------
