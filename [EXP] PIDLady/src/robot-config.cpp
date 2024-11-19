@@ -12,8 +12,8 @@
 // Drivetrain & Chassis
 // ---------------------------------------
 
-pros::MotorGroup leftMotors({-5, -2, -6}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
-pros::MotorGroup rightMotors({1, 11, 4}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+pros::MotorGroup leftMotors({-3, -2, -7}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
+pros::MotorGroup rightMotors({8, 9, 10}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // PID settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
@@ -30,8 +30,8 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-pros::Motor intake(-19);
-pros::Motor lady(20);
+pros::MotorGroup intake({-1, 6});
+pros::Motor lady(5);
 pros::adi::DigitalOut mogo_mech (8);
 
 // ---------------------------------------
