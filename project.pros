@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "1831E Stable-Core",
+    "project_name": "Main Development Template",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -298,9 +298,9 @@
       }
     },
     "upload_options": {
-      "description": "Core Autonomous Template of Team 1831E",
-      "icon": "X",
-      "slot": 1
+      "description": "Core template",
+      "icon": "clawbot",
+      "slot": 8
     },
     "use_early_access": false
   }
