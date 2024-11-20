@@ -85,5 +85,6 @@ void opcontrol()
     pros::Task intakeTask(intake_control); // Interrupted by color sort
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
+    pros::Task ladyTask(ladyctl);
 }
 

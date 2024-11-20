@@ -18,5 +18,6 @@ void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async
 void intake_control();
 void mogo_control();
 void drivetrain_control();
+void ladyctl();
 
 #endif // CONTROLS_HPP

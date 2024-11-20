@@ -82,6 +82,27 @@ void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async
     intake.move(0);
 }
 
+void ladyctl() {
+    bool spinning = true;
+    lady.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+
+    while (true) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+            lady.move(-127);
+            spinning = false;
+        }
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            lady.move(127);
+            spinning = false;
+        }
+        else if (spinning == false) {
+            lady.move(0);
+            spinning = true;
+        }
+        pros::delay(10);
+    }
+}
+
 void intake_control() {
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     bool intake_spinning = true;
