@@ -836,6 +836,11 @@ class Chassis {
          * chassis.moveToPoint(10, 10, 4000);
          * @endcode
          */
+
+        void variableCurvature(int throttle, int turn, double slowFactor, bool disableDriveCurve);
+        /**
+         * @brief modified method of chassis class for slower curvature movements (NOT LEMLIB ORG)
+         */
         void cancelMotion();
         /**
          * @brief Cancels all motions, even those that are queued.

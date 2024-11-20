@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "[T4] Blue-Right",
+    "project_name": "Main Development Template",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -298,9 +298,9 @@
       }
     },
     "upload_options": {
-      "description": "Right Auton ",
-      "icon": "X",
-      "slot": 2
+      "description": "Core template",
+      "icon": "clawbot",
+      "slot": 8
     },
     "use_early_access": false
   }
