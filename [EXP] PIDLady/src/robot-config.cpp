@@ -12,7 +12,7 @@
 // Drivetrain & Chassis
 // ---------------------------------------
 
-pros::MotorGroup leftMotors({-3, -2, -7}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
+pros::MotorGroup leftMotors({-2, -3, -7}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
 pros::MotorGroup rightMotors({8, 9, 10}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // PID settings
@@ -20,8 +20,8 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
                               15.2, // 11.6 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3"25' omnis
-                              360, // drivetrain rpm is 200 (green direct)
-                              5 // horizontal drift is 2. If we had traction wheels, it would have been 8
+                              450, // drivetrain rpm is 200 (green direct)
+                              4 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // ---------------------------------------
@@ -30,7 +30,7 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-pros::MotorGroup intake({-1, 6});
+pros::MotorGroup intake({1, -6}, pros::MotorGearset::green); // front 1, back 6
 pros::Motor lady(5);
 pros::adi::DigitalOut mogo_mech (8);
 
@@ -38,9 +38,9 @@ pros::adi::DigitalOut mogo_mech (8);
 // Sensors (Miscellaneous)
 // ---------------------------------------
 
-pros::Imu imu(9);
+pros::Imu imu(11);
 pros::Optical colorSort (18);
-
+//Hollow8KnightCM
 // ---------------------------------------
 // Odometry
 // ---------------------------------------
