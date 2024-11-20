@@ -40,6 +40,7 @@ void confirmSelection() {
 bool ringInspect() {
     const float blue_lim_low = 150, blue_lim_high = 250;
     const float red_lim_low = 0, red_lim_high = 30;
+    
     double hue = colorSort.get_hue();
 
     if (alliance == 'B') {
