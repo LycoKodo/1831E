@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Demo - Multi thread",
+    "project_name": "Main Dev",
     "target": "v5",
     "templates": {
       "LemLib": {

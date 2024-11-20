@@ -67,8 +67,6 @@ void competition_initialize() {
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    chassis.setPose(0,0,0);
-    intake.move(-127);
     Intake_SortedMove(-127, 2000, 0.5, true); 
 }
 

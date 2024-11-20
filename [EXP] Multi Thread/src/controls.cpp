@@ -102,7 +102,7 @@ void intake_control() {
                 printf("Intake (INSPECT) COMPROMISED [!]\n");
                 printf("    PASSED: False \n");
                 intake.move(127);
-                pros::delay(100); // TODO - Tune delay accordingly to intake
+                pros::delay(110); // TODO - Tune delay accordingly to intake
                 intake.brake();
             }
 
