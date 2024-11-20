@@ -15,7 +15,7 @@
 
 /*
     TODO:
-    [ ] Tune controls.cpp Color sort wait time
+    [x] Tune controls.cpp Color sort wait time
     [ ] Test Intake_sortedmove's async parameter
     [ ] Validate all refractored files and merge to main
  */

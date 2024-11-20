@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
@@ -26,7 +25,7 @@ void setConstraints(float kp, float ki, float kd) {
 // to be called continuously and calculate velocity at state
 // float calculateControlSignal(float error, float kp, float ki, float kd) 
 
-void LadyMovePID(float target, float maxSpeed=127, float minSpeed=0, float maxIntegral, float timeOut, float acceptableError) {
+void LadyMovePID(float target, float maxSpeed, float minSpeed, float maxIntegral, float timeOut, float acceptableError) {
     float current_pos;
 
     float error;
