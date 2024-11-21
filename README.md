@@ -6,6 +6,11 @@ If you decide to use our code, please consider **starring our project** to suppo
 
 Special mention to Liam from Lemlib for creating an amazing tool that we based on!
 
+
+## License
+This project is licensed under the MIT license. Check [LICENSE](https://github.com/LemLib/LemLib/blob/master/LICENSE) for more details.
+
+
 ## Table of Contents  
 
 - [About Us](#about-us)  
