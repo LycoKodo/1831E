@@ -104,6 +104,11 @@ void ladyctl() {
 }
 
 void intake_control() {
+    const double stuck_lim_low = 10.0;
+    const double stuck_lim_high = 30.0;
+    const int reverse_time = 200;
+    const int forward_delay = 100;
+
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     bool intake_spinning = true;
     
@@ -116,7 +121,17 @@ void intake_control() {
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             bool passed = ringInspect();
             if (passed) {
-                intake.move(127); // spin in
+                double velocity = intake.get_actual_velocity();
+                if (velocity < stuck_lim_low && velocity > -stuck_lim_high) {
+                    // Reverse the motor briefly
+                    intake.move(-127);
+                    pros::delay(reverse_time);
+                    // Resume forward spin
+                    intake.move(127);
+                    pros::delay(forward_delay);
+                } else {
+                    intake.move(127); // Spin in normally
+                }
                 printf("Intake (INSPECT) Activitated\n");
                 printf("    PASSED: True \n");
             }
@@ -128,7 +143,6 @@ void intake_control() {
                 intake.brake();
                 pros::delay(200);
             }
-
             intake_spinning = false;
         }
         else if (intake_spinning == false) {
