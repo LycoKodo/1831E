@@ -1,4 +1,4 @@
-# Welcome To Team 1831E's Autonomous Repo!
+# Welcome To Team 1831E's Code Repo! 🔥🚀
 
 Welcome Adventurer! This repository contains all the code and related documentation for our robotics projects, developed for VEX Robotics competitions.  
 
