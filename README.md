@@ -4,6 +4,8 @@ Welcome Adventurer! This repository contains all the code and related documentat
 
 If you decide to use our code, please consider **starring our project** to support us!
 
+Special mention to Liam from Lemlib for creating an amazing tool that we based on!
+
 ## Table of Contents  
 
 - [About Us](#about-us)  
@@ -17,7 +19,7 @@ If you decide to use our code, please consider **starring our project** to suppo
 
 ## About Us  
 
-**Team 1831E** is a competitive robotics team focused on designing, building, and programming robots to excel in VEX Robotics competitions. We believe in collaboration, innovation, and pushing the boundaries of technology.  
+**Team 1831E** is a currently active V5RC HS team based in **The King's School, Paramatta, Sydney Australia** competing in the VEX Robotics Competition 2024-2025 "High Stakes". 
 
 ---
 
