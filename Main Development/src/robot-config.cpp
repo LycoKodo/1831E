@@ -33,6 +33,7 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup intake({1, -6}, pros::MotorGearset::green); // front 1, back 6
 pros::Motor lady(5);
 pros::adi::DigitalOut mogo_mech (8);
+// pros::adi::DigitalOut lift ();
 
 // ---------------------------------------
 // Sensors (Miscellaneous)
@@ -54,9 +55,9 @@ lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omn
 
 lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, +1.25);
 
-lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
+lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            &horizontal_tracking_wheel, // &horizontal_tracking_wheel
+                            nullptr, // &horizontal_tracking_wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu     // inertial sensor &imu
 );
@@ -66,8 +67,8 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
 // ---------------------------------------
 
 lemlib::ControllerSettings linearController(  8.5, // proportional gain (kP)
-                                              0.00085, // integral gain (kI) 0.42
-                                              0.6, // derivative gain (kD) 0.3
+                                              0.00, // integral gain (kI) 0.42
+                                              0.0, // derivative gain (kD) 0.3
                                               0, // anti windup
                                               1, // small error range, in inches
                                               1200, // small error range timeout, in milliseconds

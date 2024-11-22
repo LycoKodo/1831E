@@ -27,6 +27,7 @@ void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
 
+    lady_zero = lady.get_position();
     // -----------------------
     // Initialise Sensors
     // -----------------------
@@ -43,7 +44,7 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            pros::lcd::print(4, "Lady: %f", lady.get_position());
+            pros::lcd::print(4, "Lady Err: %f", lady_err);
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             pros::delay(50);
         }
@@ -69,10 +70,18 @@ void competition_initialize() {
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    chassis.setPose(0,0,0);
-    intake.move(-127);
-    Intake_SortedMove(-127, 2000, 0.5, true); 
+    chassis.setPose(0,0,180);
+    chassis.moveToPose(0, 35, 180, 2500, {.forwards=false}, false);
+    pros::delay(1800);
+    mogo_mech.set_value(false);
+    intake.move(127);
 
+    // chassis.setPose(0,0,0);
+
+    // chassis.moveToPose(0, 48, 0, 3000, {.forwards=true}, false);
+    // chassis.moveToPose(0, 24, 0, 2500, {.forwards=false}, false);
+    // chassis.moveToPose(0, 0, 0, 2500, {.forwards=false}, false);
+    
 }
 
 

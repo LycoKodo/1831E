@@ -46,6 +46,8 @@ void Chassis::arcade(int throttle, int turn, bool disableDriveCurve, float desat
 
 void Chassis::curvature(int throttle, int turn, bool disableDriveCurve) {
     // If we're not moving forwards change to arcade drive
+    turn *= 0.9;
+
     if (throttle == 0) {
         arcade(throttle, turn, disableDriveCurve);
         return;
@@ -58,7 +60,7 @@ void Chassis::curvature(int throttle, int turn, bool disableDriveCurve) {
     }
 
     float leftPower = throttle + (std::fabs(throttle) * turn / 127.0);
-    float rightPower = throttle - (std::fabs(throttle) * turn / 127.0);
+    float rightPower = throttle - (std::fabs(throttle) * turn / 127.0) * 0.9;
 
     // desaturate output
     float max = std::max(std::fabs(leftPower), std::fabs(rightPower)) / 127;

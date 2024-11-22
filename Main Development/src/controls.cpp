@@ -14,6 +14,10 @@
 char alliance = 'N';
 bool allianceConfirmed = false;
 
+double lady_zero;
+double lady_err;
+double lady_pos;
+
 void setColorSort() {
     static bool pressed = false;
     pressed = !pressed;
@@ -87,12 +91,29 @@ void ladyctl() {
     lady.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 
     while (true) {
+        lady_pos = lady.get_position() - lady_zero;
+
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
             lady.move(-127);
             spinning = false;
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             lady.move(127);
+            spinning = false;
+        }
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+            lady_err = (lady_zero + 5) - lady_pos;
+            while (!(lady_err < 2 && lady_err > -2)) {
+                if (lady_err > 0) {
+                    lady.move(-50);
+                }
+                else {
+                    lady.move(50);
+                }
+                lady_pos = lady.get_position();
+                lady_err = (lady_zero + 5) - lady_pos;
+            }
+            lady.brake();
             spinning = false;
         }
         else if (spinning == false) {
@@ -104,8 +125,8 @@ void ladyctl() {
 }
 
 void intake_control() {
-    const double stuck_lim_low = 10.0;
-    const double stuck_lim_high = 30.0;
+    const double stuck_lim_low = 0.0;
+    const double stuck_lim_high = 0.0;
     const int reverse_time = 200;
     const int forward_delay = 100;
 
@@ -122,7 +143,7 @@ void intake_control() {
             bool passed = ringInspect();
             if (passed) {
                 double velocity = intake.get_actual_velocity();
-                if (velocity < stuck_lim_low && velocity > -stuck_lim_high) {
+                if (false) {// velocity < stuck_lim_low && velocity > -stuck_lim_high
                     // Reverse the motor briefly
                     intake.move(-127);
                     pros::delay(reverse_time);
