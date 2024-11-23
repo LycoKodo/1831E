@@ -42,6 +42,7 @@ pros::adi::DigitalOut mogo_mech (8);
 pros::Imu imu(11);
 pros::Optical colorSort (18);
 //Hollow8KnightCM
+pros::Rotation lady_rotation (12);
 
 // ---------------------------------------
 // Odometry

@@ -30,6 +30,7 @@ extern pros::adi::DigitalOut mogo_mech;
 // ---------------------------------------
 extern pros::Imu imu;
 extern pros::Optical colorSort;
+extern pros::Rotation lady_rotation;
 
 // ---------------------------------------
 // Odometry

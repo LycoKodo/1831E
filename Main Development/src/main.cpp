@@ -27,11 +27,12 @@ void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
 
-    lady_zero = lady.get_position();
     // -----------------------
     // Initialise Sensors
     // -----------------------
     colorSort.set_led_pwm(100);
+    lady_rotation.reset(0);
+
     // Selecting Alliance Color
     pros::lcd::register_btn1_cb(setColorSort);
     pros::lcd::print(3, "[!] ALLIANCE NOT SELECTED, (MID BTN)");
@@ -44,7 +45,7 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            pros::lcd::print(4, "Lady Err: %f", lady_err);
+            pros::lcd::print(4, "Lady Pos: %ld", lady_rotation.get_angle());
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             pros::delay(50);
         }
@@ -87,13 +88,16 @@ void autonomous()
 
 void opcontrol() 
 {
+    lady_rotation.set_position(0);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     
     // DON'T CHANGE!: Multi-treading for robot controls (To prevent color sort interruption)
+    
     pros::Task intakeTask(intake_control); // Interrupted by color sort
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
+
 }
 

@@ -86,41 +86,43 @@ void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async
     intake.move(0);
 }
 
+void ladyMoveToSTDPose(float target, float acceptableRange) {
+    float error = target - lady_rotation.get_angle();
+    while (!(error < error + acceptableRange && error > error - acceptableRange)) {
+        if (error > 0) { // when error is positive
+            lady.move(50);
+        }
+        else { // when error is negative
+            lady.move(-50);
+        }
+    }
+    lady.brake();
+}
+
 void ladyctl() {
-    bool spinning = true;
-    lady.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    bool spinning = false;
+    lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    int counter = 0;
 
     while (true) {
-        lady_pos = lady.get_position() - lady_zero;
+        // lady_pos = lady.get_position() - lady_zero;
 
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-            lady.move(-127);
-            spinning = false;
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+            lady.move(-100);
+            spinning = true;
         }
-        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-            lady.move(127);
-            spinning = false;
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            lady.move(100);
+            spinning = true;
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-            lady_err = (lady_zero + 5) - lady_pos;
-            while (!(lady_err < 2 && lady_err > -2)) {
-                if (lady_err > 0) {
-                    lady.move(-50);
-                }
-                else {
-                    lady.move(50);
-                }
-                lady_pos = lady.get_position();
-                lady_err = (lady_zero + 5) - lady_pos;
-            }
+            ladyMoveToSTDPose(20, 5);
+        }
+        else if (spinning == true) {
             lady.brake();
             spinning = false;
         }
-        else if (spinning == false) {
-            lady.move(0);
-            spinning = true;
-        }
-        pros::delay(10);
+        pros::delay(5);
     }
 }
 
