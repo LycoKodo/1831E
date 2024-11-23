@@ -6,71 +6,69 @@
 #include "pros/motors.h"
 #include "pros/rtos.h"
 #include "pros/rtos.hpp"
+#include "lemlib/pid.hpp"
 #include <sys/wait.h>
 
 #include "robot-config.hpp"
 #include "controls.hpp"
 
-float kP = 0;
-float kI = 0;
-float kD = 0;
+using namespace lemlib;
 
+PID ladypid(10, 0, 0, 20000000000, false); // declare PID (constraints, tuning etc)
 
-void setConstraints(float kp, float ki, float kd) {
-    kP = kp;
-    kI = ki;
-    kD = kd;
+// float kP, float kI, float kD, float windupRange, bool signFlipReset
+
+// Calculate Errror
+
+int LadyMovePID(float target, float timeout) {
+    // Record the time when the movement starts
+    unsigned long start_time = pros::millis();
+
+    // Loop until the target is reached or the timeout occurs
+    while (true) {
+        // Get the current position from the system
+        float current_pos = lady_rotation.get_position();
+
+        // Calculate the error between the target and current position
+        float error = target - current_pos;
+
+        // If the error is within an acceptable range, exit the loop
+        if (fabs(error) < 0.01) {  // You can adjust the threshold as needed
+            break;
+        }
+
+        // Check if the timeout has expired
+        if (pros::millis() - start_time > timeout) {
+            break;
+        }
+
+        // Update the PID controller with the error to get the control signal
+        float control_signal = ladypid.update(error) / 200;
+
+        // Send the control signal to the movement system (motor/actuator)
+        lady.move(control_signal);
+        
+        // Optionally, add a small delay to prevent too frequent updates (e.g., 10ms)
+        printf("PID-Signal: %f | Reading: %f | Target: %f \n", control_signal, error, target);
+        pros::delay(10);  // Adjust as needed based on your system's requirements
+    }
+
+    // After the loop ends (either target reached or timeout), stop the motor
+    lady.move(0);  // Assuming there's a method to stop the motor
+    lady.brake();
+
+    return (fabs(target - lady_rotation.get_position()) < 0.01) ? 1 : 0;  // Return 1 if target reached, 0 if timed out
 }
+
+
+
+
+
+
+
+
+
 
 // to be called continuously and calculate velocity at state
 // float calculateControlSignal(float error, float kp, float ki, float kd) 
 
-void LadyMovePID(float target, float maxSpeed, float minSpeed, float maxIntegral, float timeOut, float acceptableError) {
-    float current_pos;
-
-    float error;
-    float previousError = 0;
-
-    float integral;
-    float derivative;
-
-    float output;
-
-    float startTime = pros::millis(); // Start time for timeout check
-
-    while (true) {
-        current_pos = lady.get_position(); // Update current position
-
-        // Calculate PID components
-        error = target - current_pos;
-        integral += error;
-
-        // Anti-windup: Clamp the integral term
-        if (integral > maxIntegral) integral = maxIntegral;
-        else if (integral < -maxIntegral) integral = -maxIntegral;
-
-        derivative = error - previousError;
-
-        // Calculate output
-        output = (kP * error) + (kI * integral) + (kD * derivative);
-
-        // Clamp output to motor limits
-        if (output > maxSpeed) output = maxSpeed;
-        else if (output < minSpeed) output = minSpeed;
-
-        // Move the motor
-        lady.move(output);
-
-        // Check for convergence within acceptable error
-        if (fabs(error) <= acceptableError) break;
-
-        // Check for timeout
-        if ((pros::millis() - startTime) >= timeOut) break;
-
-        previousError = error;
-
-        pros::delay(20); // Loop delay for consistent timing
-    }
-
-    lady.brake();
-}

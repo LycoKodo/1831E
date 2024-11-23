@@ -1,47 +1,25 @@
-#ifndef LADY_MOVE_PID_HPP
-#define LADY_MOVE_PID_HPP
+#ifndef LADY_PID_HPP
+#define LADY_PID_HPP
 
-#include "main.h"
-#include "lemlib/api.hpp"
-#include "lemlib/chassis/chassis.hpp"
-#include "pros/device.hpp"
-#include "pros/misc.h"
-#include "pros/motors.h"
-#include "pros/rtos.h"
-#include "pros/rtos.hpp"
-#include <sys/wait.h>
-#include "robot-config.hpp"
-#include "controls.hpp"
+#include "pros/device.hpp"  // For device handling (e.g., motor, sensors)
+#include "pros/misc.h"      // For miscellaneous utilities like delay
+#include "pros/motors.h"    // For motor control
+#include "pros/rtos.hpp"    // For real-time operating system functions
 
-// PID tuning constants
-extern float kP;
-extern float kI;
-extern float kD;
+#include "lemlib/api.hpp"    // For LemLib API (presumably your library for robotic control)
+#include "lemlib/chassis/chassis.hpp"  // For chassis control (if needed)
+#include "lemlib/pid.hpp"    // For PID controller class
+#include "robot-config.hpp"  // For robot configuration (motors, sensors, etc.)
+#include "controls.hpp"      // For control-related code (e.g., joystick inputs)
 
-/**
- * @brief Sets the PID constraints (kP, kI, kD).
- * 
- * @param kp Proportional gain
- * @param ki Integral gain
- * @param kd Derivative gain
- */
-void setConstraints(float kp, float ki, float kd);
+// Using lemlib namespace for convenience
+using namespace lemlib;
 
-/**
- * @brief Executes the PID control loop for a motor movement.
- * 
- * @param target The target position to move to.
- * @param maxSpeed The maximum output speed. Default is 127.
- * @param minSpeed The minimum output speed. Default is 0.
- * @param maxIntegral The maximum value for the integral term to prevent windup.
- * @param timeOut The maximum time (in milliseconds) for the operation before timeout.
- * @param acceptableError The threshold of error to consider the target reached.
- */
-void LadyMovePID(float target, 
-                 float maxSpeed = 127, 
-                 float minSpeed = 0, 
-                 float maxIntegral = 50, 
-                 float timeOut = 5000, 
-                 float acceptableError = 1);
+// Declare a PID controller for your system
+extern PID ladypid;  // PID controller instance
 
-#endif // LADY_MOVE_PID_HPP
+// Forward declarations of the functions
+int LadyMovePID(float target, float timeout);  // Move to a target position using PID
+float calculateControlSignal(float error, float kP, float kI, float kD); // Helper function to calculate control signal
+
+#endif // PID_CONTROL_HPP

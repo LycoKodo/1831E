@@ -31,7 +31,7 @@ void initialize() {
     // Initialise Sensors
     // -----------------------
     colorSort.set_led_pwm(100);
-    lady_rotation.reset(0);
+    lady_rotation.set_position(0);
 
     // Selecting Alliance Color
     pros::lcd::register_btn1_cb(setColorSort);
@@ -45,7 +45,11 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            pros::lcd::print(4, "Lady Pos: %ld", lady_rotation.get_angle());
+            pros::lcd::print(4, "Lady Pos: %ld", lady_rotation.get_position());
+
+            master.clear_line(0);
+            master.set_text(0, 0, "ALS: " + alliance);
+
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             pros::delay(50);
         }
