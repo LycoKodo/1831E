@@ -15,6 +15,7 @@ void setColorSort();
 void confirmSelection();
 bool ringInspect();
 void opcontrol();
+void graphOdom();
 void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async);
 
 // Controls

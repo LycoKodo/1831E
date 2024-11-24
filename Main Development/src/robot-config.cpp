@@ -18,7 +18,7 @@ pros::MotorGroup rightMotors({8, 9, 10}, pros::MotorGearset::blue); // right mot
 // PID settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              15.2, // 11.6 inch track width
+                              12.8, // 11.6 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3"25' omnis
                               450, // drivetrain rpm is 200 (green direct)
                               4 // horizontal drift is 2. If we had traction wheels, it would have been 8
@@ -48,17 +48,20 @@ pros::Rotation lady_rotation (12);
 // Odometry
 // ---------------------------------------
 
-pros::Rotation horizontal_encoder(-1); // Change to the "A" tagged encoder
+pros::Rotation horizontal_encoder(13); // Change to the "A" tagged encoder
 
-pros::Rotation vertical_encoder(-17);
+pros::Rotation vertical_encoder(17);
 
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -1.25);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_275, +1.95);
 
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, +1.25);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_275, -1.6);
 
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
+// chassis: 12.8 across, 13.5 height
+// traking cneter: 6.4, 6.75 
+
+lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr, // &horizontal_tracking_wheel
+                            &horizontal_tracking_wheel, // &horizontal_tracking_wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu     // inertial sensor &imu
 );
@@ -67,15 +70,15 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
 // PID Controller
 // ---------------------------------------
 
-lemlib::ControllerSettings linearController(  8.5, // proportional gain (kP)
-                                              0.00, // integral gain (kI) 0.42
-                                              0.0, // derivative gain (kD) 0.3
-                                              0, // anti windup
+lemlib::ControllerSettings linearController(  4.5, // proportional gain (kP)
+                                              0, // integral gain (kI) 0.11
+                                              0, // derivative gain (kD) 1.5
+                                              3, // anti windup
                                               1, // small error range, in inches
-                                              1200, // small error range timeout, in milliseconds
+                                              200, // small error range timeout, in milliseconds
                                               3, // large error range, in inches
-                                              2000, // large error range timeout, in milliseconds
-                                              127 // maximum acceleration (slew)
+                                              500, // large error range timeout, in milliseconds
+                                              5 // maximum acceleration (slew)
 );
 
 lemlib::ControllerSettings angularController(1.9, // proportional gain (kP)

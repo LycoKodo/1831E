@@ -18,6 +18,18 @@ double lady_zero;
 double lady_err;
 double lady_pos;
 
+void graphOdom() {
+    do {
+        Pose position = chassis.getPose();
+        float x = position.x;
+        float y = position.y;
+
+        printf("X: %f| Y: %f \n", x, y);
+        pros::delay(10);
+    }
+    while (chassis.isInMotion());
+}
+
 void setColorSort() {
     static bool pressed = false;
     pressed = !pressed;

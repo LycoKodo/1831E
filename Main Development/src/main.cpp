@@ -75,6 +75,7 @@ void competition_initialize() {
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
+    pros::Task grapTaskh(graphOdom);
     /*chassis.setPose(0,0,180);
     chassis.moveToPose(0, 35, 180, 2500, {.forwards=false}, false);
     pros::delay(1800);
@@ -85,11 +86,11 @@ void autonomous()
 
 
 
-    chassis.moveToPose(0, 30, 0, 1300, {.forwards=true, .maxSpeed=100}, false);
+    chassis.moveToPoint(0, 48, 2500, {.forwards=true, .maxSpeed=127}, false);
 
-    chassis.moveToPose(0, 60, 0, 1300, {.forwards=true, .maxSpeed=100}, false);
+    chassis.moveToPoint(0, 24, 2500, {.forwards=false, .maxSpeed=127}, false);
 
-    chassis.moveToPose(0, 0, 0, 1300, {.forwards=false, .maxSpeed=100}, false);
+    chassis.moveToPoint(0, 0, 2500, {.forwards=false, .maxSpeed=127}, false);
     // chassis.setPose(0,0,0);
 
     // chassis.moveToPose(0, 48, 0, 3000, {.forwards=true}, false);
@@ -111,6 +112,7 @@ void opcontrol()
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
+
 
 }
 

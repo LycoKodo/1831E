@@ -423,7 +423,7 @@
     "upload_options": {
       "description": "very ez yahh",
       "icon": "pizza",
-      "slot": 8
+      "slot": 1
     },
     "use_early_access": false
   }

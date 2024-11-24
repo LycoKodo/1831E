@@ -300,7 +300,7 @@
     "upload_options": {
       "description": "Core template",
       "icon": "clawbot",
-      "slot": 8
+      "slot": 1
     },
     "use_early_access": false
   }
