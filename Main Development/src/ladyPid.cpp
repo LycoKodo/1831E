@@ -14,7 +14,7 @@
 
 using namespace lemlib;
 
-PID ladypid(10, 0, 0, 20000000000, false); // declare PID (constraints, tuning etc)
+PID ladypid(10, 0.4, 50, 0, false); // declare PID (constraints, tuning etc)
 
 // float kP, float kI, float kD, float windupRange, bool signFlipReset
 
@@ -49,12 +49,11 @@ int LadyMovePID(float target, float timeout) {
         lady.move(control_signal);
         
         // Optionally, add a small delay to prevent too frequent updates (e.g., 10ms)
-        printf("PID-Signal: %f | Reading: %f | Target: %f \n", control_signal, error, target);
+        printf("PID-Signal: %f | Current: %f | Target: %f \n", control_signal, current_pos, target);
         pros::delay(10);  // Adjust as needed based on your system's requirements
     }
 
     // After the loop ends (either target reached or timeout), stop the motor
-    lady.move(0);  // Assuming there's a method to stop the motor
     lady.brake();
 
     return (fabs(target - lady_rotation.get_position()) < 0.01) ? 1 : 0;  // Return 1 if target reached, 0 if timed out
