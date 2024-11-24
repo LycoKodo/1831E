@@ -75,12 +75,21 @@ void competition_initialize() {
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    chassis.setPose(0,0,180);
+    /*chassis.setPose(0,0,180);
     chassis.moveToPose(0, 35, 180, 2500, {.forwards=false}, false);
     pros::delay(1800);
     mogo_mech.set_value(false);
-    intake.move(127);
+    intake.move(127);*/
 
+    chassis.setPose(0,0,0);
+
+    
+
+    chassis.moveToPose(0, 30, 0, 1300, {.forwards=true}, false);
+
+    chassis.moveToPose(0, 60, 0, 1300, {.forwards=true}, false);
+
+    chassis.moveToPose(0, 0, 0, 1300, {.forwards=false}, false);
     // chassis.setPose(0,0,0);
 
     // chassis.moveToPose(0, 48, 0, 3000, {.forwards=true}, false);
