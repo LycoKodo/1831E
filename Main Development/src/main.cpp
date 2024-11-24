@@ -83,13 +83,13 @@ void autonomous()
 
     chassis.setPose(0,0,0);
 
-    
 
-    chassis.moveToPose(0, 30, 0, 1300, {.forwards=true}, false);
 
-    chassis.moveToPose(0, 60, 0, 1300, {.forwards=true}, false);
+    chassis.moveToPose(0, 30, 0, 1300, {.forwards=true, .maxSpeed=100}, false);
 
-    chassis.moveToPose(0, 0, 0, 1300, {.forwards=false}, false);
+    chassis.moveToPose(0, 60, 0, 1300, {.forwards=true, .maxSpeed=100}, false);
+
+    chassis.moveToPose(0, 0, 0, 1300, {.forwards=false, .maxSpeed=100}, false);
     // chassis.setPose(0,0,0);
 
     // chassis.moveToPose(0, 48, 0, 3000, {.forwards=true}, false);
