@@ -59,7 +59,7 @@ Before running the code, ensure you have the following installed:
 
 1. Clone the repository to your local machine:  
    ```bash  
-   git clone https://github.com/your-org/1831E-Robotics.git  
+   git clone https://github.com/LycoKodo/1831E-Robotics.git  
    ```  
 2. Open the project in VScode
 
