@@ -31,6 +31,8 @@ void initialize() {
     // Initialise Sensors
     // -----------------------
     colorSort.set_led_pwm(100);
+    lady_rotation.set_position(0);
+
     // Selecting Alliance Color
     pros::lcd::register_btn1_cb(setColorSort);
     pros::lcd::print(3, "[!] ALLIANCE NOT SELECTED, (MID BTN)");
@@ -43,7 +45,11 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            pros::lcd::print(4, "Lady: %f", lady.get_position());
+            pros::lcd::print(4, "Lady Pos: %ld", lady_rotation.get_position());
+
+            master.clear_line(0);
+            master.set_text(0, 0, "ALS: " + alliance);
+
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             pros::delay(50);
         }
@@ -69,22 +75,42 @@ void competition_initialize() {
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    chassis.setPose(0,0,0);
-    intake.move(-127);
-    Intake_SortedMove(-127, 2000, 0.5, true); 
+    /*chassis.setPose(0,0,180);
+    chassis.moveToPose(0, 35, 180, 2500, {.forwards=false}, false);
+    pros::delay(1800);
+    mogo_mech.set_value(false);
+    intake.move(127);*/
 
+    chassis.setPose(0,0,0);
+
+
+
+    chassis.moveToPose(0, 30, 0, 1300, {.forwards=true, .maxSpeed=100}, false);
+
+    chassis.moveToPose(0, 60, 0, 1300, {.forwards=true, .maxSpeed=100}, false);
+
+    chassis.moveToPose(0, 0, 0, 1300, {.forwards=false, .maxSpeed=100}, false);
+    // chassis.setPose(0,0,0);
+
+    // chassis.moveToPose(0, 48, 0, 3000, {.forwards=true}, false);
+    // chassis.moveToPose(0, 24, 0, 2500, {.forwards=false}, false);
+    // chassis.moveToPose(0, 0, 0, 2500, {.forwards=false}, false);
+    
 }
 
 
 void opcontrol() 
 {
+    lady_rotation.set_position(0);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     
     // DON'T CHANGE!: Multi-treading for robot controls (To prevent color sort interruption)
+    
     pros::Task intakeTask(intake_control); // Interrupted by color sort
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
+
 }
 

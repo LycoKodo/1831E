@@ -14,6 +14,10 @@
 char alliance = 'N';
 bool allianceConfirmed = false;
 
+double lady_zero;
+double lady_err;
+double lady_pos;
+
 void setColorSort() {
     static bool pressed = false;
     pressed = !pressed;
@@ -82,28 +86,52 @@ void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async
     intake.move(0);
 }
 
+void ladyMoveToSTDPose(float target, float acceptableRange) {
+    float error = target - lady_rotation.get_angle();
+    while (!(error < error + acceptableRange && error > error - acceptableRange)) {
+        if (error > 0) { // when error is positive
+            lady.move(50);
+        }
+        else { // when error is negative
+            lady.move(-50);
+        }
+    }
+    lady.brake();
+}
+
 void ladyctl() {
-    bool spinning = true;
-    lady.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    bool spinning = false;
+    lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    int counter = 0;
 
     while (true) {
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-            lady.move(-127);
-            spinning = false;
-        }
-        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-            lady.move(127);
-            spinning = false;
-        }
-        else if (spinning == false) {
-            lady.move(0);
+        // lady_pos = lady.get_position() - lady_zero;
+
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+            lady.move(-100);
             spinning = true;
+        }
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            lady.move(100);
+            spinning = true;
+        }
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+            LadyMovePID(-800, 2000);
+        }
+        else if (spinning == true) {
+            lady.brake();
+            spinning = false;
         }
         pros::delay(10);
     }
 }
 
 void intake_control() {
+    const double stuck_lim_low = 0.0;
+    const double stuck_lim_high = 0.0;
+    const int reverse_time = 200;
+    const int forward_delay = 100;
+
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     bool intake_spinning = true;
     
@@ -116,7 +144,17 @@ void intake_control() {
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             bool passed = ringInspect();
             if (passed) {
-                intake.move(127); // spin in
+                double velocity = intake.get_actual_velocity();
+                if (false) {// velocity < stuck_lim_low && velocity > -stuck_lim_high
+                    // Reverse the motor briefly
+                    intake.move(-127);
+                    pros::delay(reverse_time);
+                    // Resume forward spin
+                    intake.move(127);
+                    pros::delay(forward_delay);
+                } else {
+                    intake.move(127); // Spin in normally
+                }
                 printf("Intake (INSPECT) Activitated\n");
                 printf("    PASSED: True \n");
             }
@@ -128,7 +166,6 @@ void intake_control() {
                 intake.brake();
                 pros::delay(200);
             }
-
             intake_spinning = false;
         }
         else if (intake_spinning == false) {

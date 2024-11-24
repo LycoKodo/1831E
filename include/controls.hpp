@@ -6,6 +6,9 @@
 // Variables to keep track of alliance and selection status
 extern char alliance;
 extern bool allianceConfirmed;
+extern double lady_zero;
+extern double lady_err;
+extern double lady_pos;
 
 // Function declarations
 void setColorSort();
