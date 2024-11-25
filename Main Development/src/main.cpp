@@ -47,8 +47,8 @@ void initialize() {
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             pros::lcd::print(4, "Lady Pos: %ld", lady_rotation.get_position());
 
-            master.clear_line(0);
-            master.set_text(0, 0, "ALS: " + alliance);
+            // master.clear_line(0);
+            // master.set_text(0, 0, "ALS: " + alliance);
 
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             pros::delay(50);
@@ -84,13 +84,14 @@ void autonomous()
 
     chassis.setPose(0,0,0);
 
+    chassis.turnToHeading(180, 2500);
+    chassis.turnToHeading(0, 2500);
 
+    // chassis.moveToPoint(0, 48, 2500, {.forwards=true, .maxSpeed=127}, false);
 
-    chassis.moveToPoint(0, 48, 2500, {.forwards=true, .maxSpeed=127}, false);
+    // chassis.moveToPoint(0, 24, 2500, {.forwards=false, .maxSpeed=127}, false);
 
-    chassis.moveToPoint(0, 24, 2500, {.forwards=false, .maxSpeed=127}, false);
-
-    chassis.moveToPoint(0, 0, 2500, {.forwards=false, .maxSpeed=127}, false);
+    // chassis.moveToPoint(0, 0, 2500, {.forwards=false, .maxSpeed=127}, false);
     // chassis.setPose(0,0,0);
 
     // chassis.moveToPose(0, 48, 0, 3000, {.forwards=true}, false);
