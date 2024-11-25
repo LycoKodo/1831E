@@ -76,8 +76,9 @@ ASSET(RedGoalRush_txt)
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    chassis.setPose(-54.289, -62.25, 280);
+    chassis.setPose(-51.763, -60.774, 274.2);
 
+    chassis.moveToPose(-14, -60, 274.2, 2500 {false} false);
     chassis.follow(
         RedGoalRush_txt,
         5,
@@ -85,6 +86,8 @@ void autonomous()
         false,
         false
     );
+    pros::delay(500);
+    mogo_mech.set_value(false);
     
 }
 
