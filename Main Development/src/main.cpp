@@ -11,13 +11,11 @@
 
 #include "robot-config.hpp"
 #include "controls.hpp"
-// #include "ladyPid.hpp"
+#include "ladyPid.hpp"
 
 /*
     TODO:
-    [x] Tune controls.cpp Color sort wait time
-    [ ] Test Intake_sortedmove's async parameter
-    [ ] Validate all refractored files and merge to main
+        Done yay
  */
 
 void initialize() {
@@ -46,7 +44,7 @@ void initialize() {
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             pros::lcd::print(4, "Lady Pos: %ld", lady_rotation.get_position());
-
+            
             master.clear_line(0);
             master.set_text(0, 0, "ALS: " + alliance);
 

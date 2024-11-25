@@ -33,19 +33,13 @@ int LadyMovePID(float target, float timeout) {
         float error = target - current_pos;
 
         // If the error is within an acceptable range, exit the loop
-        if (fabs(error) < 0.01) {  // You can adjust the threshold as needed
-            break;
-        }
-
+        if (fabs(error) < 0.01) break;
+        
         // Check if the timeout has expired
-        if (pros::millis() - start_time > timeout) {
-            break;
-        }
-
+        if (pros::millis() - start_time > timeout) break;
         // Update the PID controller with the error to get the control signal
         float control_signal = ladypid.update(error) / 200;
 
-        // Send the control signal to the movement system (motor/actuator)
         lady.move(control_signal);
         
         // Optionally, add a small delay to prevent too frequent updates (e.g., 10ms)

@@ -33,6 +33,9 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup intake({1, -6}, pros::MotorGearset::green); // front 1, back 6
 pros::Motor lady(5);
 pros::adi::DigitalOut mogo_mech (8);
+
+
+pros::Imu imu2(10);
 // pros::adi::DigitalOut lift ();
 
 // ---------------------------------------
