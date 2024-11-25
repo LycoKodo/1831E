@@ -11,7 +11,7 @@
 
 #include "robot-config.hpp"
 #include "controls.hpp"
-// #include "ladyPid.hpp"
+#include "ladyPid.hpp"
 
 /*
     TODO:
@@ -73,21 +73,37 @@ void competition_initialize() {
 }
 
 ASSET(RedGoalRush_txt)
+ASSET(BlueLeftMiddle_txt)
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    chassis.setPose(-51.763, -60.774, 274.2);
-
-    chassis.moveToPose(-14, -60, 274.2, 2500 {false} false);
-    chassis.follow(
-        RedGoalRush_txt,
-        5,
-        5000, 
-        false,
-        false
-    );
-    pros::delay(500);
+    //Red Right Rush
+    /*chassis.setPose(-51.763, -60, 270);
+    chassis.moveToPose(-3, -60, 270, 1000, {.forwards = false, .maxSpeed=200}, false);
+    chassis.turnToHeading(210, 500);
+    chassis.moveToPose(0, -33, 210, 500, {.forwards = false, .maxSpeed=200}, false);
+    pros::delay(200);
     mogo_mech.set_value(false);
+    pros::delay(700);
+    LadyMovePID(-7000, 100);
+    intake.move(127);
+    chassis.moveToPose(-20, -60, 210, 1000, {.forwards = true, .maxSpeed=200}, false);*/
+
+    chassis.setPose(0, 0, 300);
+    chassis.moveToPose(35, -17.5, 300, 1000, {.forwards = false, .maxSpeed=200}, false);
+    mogo_mech.set_value(false);
+    pros::delay(1000);
+    LadyMovePID(-9000, 500);
+    intake.move(127);
+    pros::delay(400);
+    intake.move(0);
+    pros::delay(500);
+    chassis.turnToHeading(80, 800, {.maxSpeed = 127}, false);
+    chassis.setPose(-23.716, 24.605, 50);
+    intake.move(127);
+    chassis.follow(BlueLeftMiddle_txt, 6, 5000);
+    
+
     
 }
 
