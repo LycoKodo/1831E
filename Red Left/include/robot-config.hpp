@@ -24,6 +24,7 @@ extern pros::Controller master;
 extern pros::MotorGroup intake;
 extern pros::Motor lady;
 extern pros::adi::DigitalOut mogo_mech;
+extern pros::adi::DigitalOut intake_lift;
 
 // ---------------------------------------
 // Sensors (Miscellaneous)
