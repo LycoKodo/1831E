@@ -90,7 +90,7 @@ void autonomous()
     chassis.moveToPose(-20, -60, 210, 1000, {.forwards = true, .maxSpeed=200}, false);*/
 
     chassis.setPose(0, 0, 300);
-    chassis.moveToPose(35, -17.5, 300, 1000, {.forwards = false, .maxSpeed=200}, false);
+    chassis.moveToPose(37, -18.5, 300, 1000, {.forwards = false, .maxSpeed=200}, false);
     mogo_mech.set_value(false);
     pros::delay(1000);
     LadyMovePID(-9000, 500);
@@ -99,9 +99,10 @@ void autonomous()
     intake.move(0);
     pros::delay(500);
     chassis.turnToHeading(80, 800, {.maxSpeed = 127}, false);
-    chassis.setPose(-23.716, 24.605, 50);
+    //chassis.setPose(-23.716, 24.605, 50);
     intake.move(127);
-    chassis.follow(BlueLeftMiddle_txt, 6, 5000);
+    //chassis.follow(quinnscurve_txt, 6, 5000);
+    chassis.moveToPose(50, 0, 80, 1000, {.forwards = true, .maxSpeed=200}, false);
     
 
     
