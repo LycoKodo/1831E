@@ -78,8 +78,19 @@ ASSET(RushMovement_txt)
 void autonomous() 
 {
     //Red Right Rush
-    chassis.setPose(-52.893, -61.504, 270);
-    chassis.follow(RushMovement_txt, 8, 4000, false);
+    lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.setPose(-46.615, -59.365, 270);
+    LadyMovePID(-5000, 800, true);
+    chassis.follow(RushMovement_txt, 15, 10000, false, false);
+    pros::delay(200);
+    mogo_mech.set_value(false);
+    pros::delay(200);
+    intake.move(127);
+    chassis.turnToHeading(340, 1200);
+    pros::delay(1000)
+    mogo_mech.set(false);
+
+
     
     /*pros::delay(200);
     mogo_mech.set_value(false);

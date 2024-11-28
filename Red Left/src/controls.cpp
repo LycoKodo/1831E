@@ -128,7 +128,7 @@ void ladyctl() {
             spinning = true;
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-            LadyMovePID(-830, 2000);
+            LadyMovePID(-830, 2000, false);
         }
         else if (spinning == true) {
             lady.brake();

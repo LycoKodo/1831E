@@ -20,8 +20,17 @@ PID ladypid(10, 0.4, 50, 0, false); // declare PID (constraints, tuning etc)
 
 // Calculate Errror
 
-int LadyMovePID(float target, float timeout) {
+int LadyMovePID(float target, float timeout, bool async) {
     // Record the time when the movement starts
+
+    if (async) {
+        pros::Task asynctask([=]() {
+            LadyMovePID(target, timeout, false); // Call the synchronous version
+        });
+        pros::delay(10); // Delay to give the task time to start
+        return 2;
+    }
+
     unsigned long start_time = pros::millis();
 
     // Loop until the target is reached or the timeout occurs

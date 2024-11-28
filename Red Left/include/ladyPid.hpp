@@ -19,7 +19,7 @@ using namespace lemlib;
 extern PID ladypid;  // PID controller instance
 
 // Forward declarations of the functions
-int LadyMovePID(float target, float timeout);  // Move to a target position using PID
+int LadyMovePID(float target, float timeout, bool async);   // Move to a target position using PID
 float calculateControlSignal(float error, float kP, float kI, float kD); // Helper function to calculate control signal
 
 #endif // PID_CONTROL_HPP
