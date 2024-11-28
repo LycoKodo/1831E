@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
@@ -74,30 +73,36 @@ void competition_initialize() {
 
 ASSET(RedGoalRush_txt)
 ASSET(BlueLeftMiddle_txt)
+ASSET(RushMovement_txt)
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
     //Red Right Rush
-    /*chassis.setPose(-51.763, -60, 270);
-    chassis.moveToPose(-3, -60, 270, 1000, {.forwards = false, .maxSpeed=200}, false);
-    chassis.turnToHeading(210, 500);
-    chassis.moveToPose(0, -33, 210, 500, {.forwards = false, .maxSpeed=200}, false);
-    pros::delay(200);
+    chassis.setPose(-52.893, -61.504, 270);
+    chassis.follow(RushMovement_txt, 8, 4000, false);
+    
+    /*pros::delay(200);
     mogo_mech.set_value(false);
     pros::delay(700);
-    LadyMovePID(-7000, 100);
+    LadyMovePID(-5000, 100);
     intake.move(127);
-    chassis.moveToPose(-20, -60, 210, 1000, {.forwards = true, .maxSpeed=200}, false);*/
-    lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    pros::delay(700);
+    intake.move(0);
+    pros::Motor(1).move(127);
+    chassis.moveToPose(-45, -48, 270, 700, {.forwards = true, .maxSpeed=200}, false);
+    chassis.turnToHeading(180, 700, {.maxSpeed=200});*/
+    
+    //Red Left Side
+    /*lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
     chassis.setPose(0, 0, 300);
 
     
     chassis.turnToPoint(22, -11.534, 250, {.forwards=false}, false);
-    chassis.moveToPose(22.6, -11.734, 295.63, 1400, {.forwards = false, .lead=0.5, .maxSpeed=105}, false);
+    chassis.moveToPose(22.6, -11.734, 295.63, 1300, {.forwards = false, .lead=0.5, .maxSpeed=120}, false);
+    LadyMovePID(-5564, 200);
     mogo_mech.set_value(false);
-    pros::delay(500);
-    LadyMovePID(-5564, 500);
+    pros::delay(300);
     intake.move(127);
     pros::delay(500);
     intake.move(-127);
@@ -105,11 +110,11 @@ void autonomous()
 
     chassis.turnToHeading(400, 800, {.maxSpeed = 120}, false);
     intake.move(127);
-    chassis.moveToPose(43, 6.5, 404, 2000, {.forwards = true,.lead=0.7, .maxSpeed=120, .minSpeed=30}, false);
+    chassis.moveToPose(41, 6.5, 404, 2000, {.forwards = true,.lead=0.7, .maxSpeed=120, .minSpeed=30}, false);
 
     chassis.swingToHeading(358, DriveSide::LEFT, 2000, {.maxSpeed=120, .minSpeed=40}, false);
-    chassis.moveToPose(41, 21, 358, 2000, {.forwards = true, .lead=0, .maxSpeed=120, .minSpeed=60}, false);
-
+    chassis.moveToPose(39, 21, 358, 2000, {.forwards = true, .lead=0, .maxSpeed=120, .minSpeed=60}, false);
+    pros::Motor(-6).move(-127);
     chassis.moveToPose(
         25.8,
         15.52,
@@ -119,19 +124,21 @@ void autonomous()
         false
     );
 
+    pros::Motor(-6).move(127);
+
     // 13 24 208
     intake_lift.set_value(false);
     chassis.moveToPose(
-        5,
-        -24,
-        208,
-        5000,
-        {.forwards=true,.lead=0.8, .maxSpeed=127,},
+        7,
+        -33,
+        118,
+        4000,
+        {.forwards=true,.lead=0.5, .maxSpeed=127, .minSpeed = 60},
         false
     );
     intake_lift.set_value(true);
 
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);*/
     
 
     
