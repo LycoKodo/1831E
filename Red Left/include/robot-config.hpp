@@ -21,6 +21,8 @@ extern lemlib::Drivetrain drivetrain;
 // Subsystem Configuration
 // ---------------------------------------
 extern pros::Controller master;
+extern pros::Motor roller;
+extern pros::Motor hook;
 extern pros::MotorGroup intake;
 extern pros::Motor lady;
 extern pros::adi::DigitalOut mogo_mech;

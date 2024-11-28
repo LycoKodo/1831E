@@ -86,9 +86,18 @@ void autonomous()
     mogo_mech.set_value(false);
     pros::delay(200);
     intake.move(127);
-    chassis.turnToHeading(340, 1200);
-    pros::delay(1000)
-    mogo_mech.set(false);
+    chassis.turnToHeading(350, 1500, {.maxSpeed=90});
+    pros::delay(1000);
+    mogo_mech.set_value(true);
+    intake.move(0);
+    roller.move(127);
+    chassis.moveToPose(-15, -23, 350, 2000, { .maxSpeed=90 }, false);
+
+    chassis.moveToPose(-19, -29, 350, 2000, {.forwards=false, .maxSpeed=110, .minSpeed=35 }, false);
+
+    chassis.turnToHeading(180, 1400);
+
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
 
     
