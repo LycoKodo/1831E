@@ -128,7 +128,8 @@ void ladyctl() {
             spinning = true;
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-            LadyMovePID(-830, 2000, false);
+            lady_rotation.set_position(0);
+            LadyMovePID(-900, 2000, false);
         }
         else if (spinning == true) {
             lady.brake();
@@ -189,8 +190,7 @@ void intake_control() {
 }
 
 void mogo_control() {
-    bool mogo_pis = false;
-    bool toggle = false;
+    bool toggle = true;
     bool latch = false;
 
     while (true) {

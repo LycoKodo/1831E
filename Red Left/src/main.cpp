@@ -74,30 +74,45 @@ void competition_initialize() {
 ASSET(RedGoalRush_txt)
 ASSET(BlueLeftMiddle_txt)
 ASSET(RushMovement_txt)
+ASSET(LadyRUsh_txt)
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
     //Red Right Rush
+    chassis.setPose(0, 0, 195);
+
     lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.setPose(-46.615, -59.365, 270);
-    LadyMovePID(-5000, 800, true);
-    chassis.follow(RushMovement_txt, 15, 10000, false, false);
-    pros::delay(200);
-    mogo_mech.set_value(false);
-    pros::delay(200);
-    intake.move(127);
-    chassis.turnToHeading(350, 1500, {.maxSpeed=90});
-    pros::delay(1000);
-    mogo_mech.set_value(true);
-    intake.move(0);
-    roller.move(127);
-    chassis.moveToPose(-15, -23, 350, 2000, { .maxSpeed=90 }, false);
 
-    chassis.moveToPose(-19, -29, 350, 2000, {.forwards=false, .maxSpeed=110, .minSpeed=35 }, false);
+    LadyMovePID(-14000, 800, false);
+    chassis.moveToPose(24, 30, 195, 20000, {.forwards=false, .maxSpeed=127, .minSpeed=15}, false);
 
-    chassis.turnToHeading(180, 1400);
+    
 
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+
+
+
+    // LadyMovePID(-5000, 800, true);
+    // chassis.follow(RushMovement_txt, 15, 10000, false, false);
+    // pros::delay(200);
+    // mogo_mech.set_value(false);
+    // pros::delay(200);
+    // intake.move(127);
+    // chassis.turnToHeading(350, 1500, {.maxSpeed=90});
+    // pros::delay(1000);
+    // mogo_mech.set_value(true);
+    // intake.move(0);
+    // roller.move(127);
+    // chassis.moveToPose(-15, -37, 350, 2000, { .maxSpeed=90 }, false);
+
+    // chassis.turnToPoint(-18, -25, 1200, {.maxSpeed=90}, false);
+
+    // chassis.moveToPose(-23, -28, 180, 2500, {.forwards=false, .lead=0.7, .maxSpeed=110, .minSpeed=15 }, false);
+
+    // mogo_mech.set_value(false);
+    // pros::delay(300);
+    // intake.move(127);
+
+    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
 
     
@@ -169,7 +184,6 @@ void opcontrol()
 {
 
     chassis.setPose(39, 7, 404);
-    lady_rotation.set_position(0);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     
