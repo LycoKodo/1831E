@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Main Development Template",
+    "project_name": "Red Right Rush MD",
     "target": "v5",
     "templates": {
       "LemLib": {
