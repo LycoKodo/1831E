@@ -300,7 +300,7 @@
     "upload_options": {
       "description": "Tournament Program",
       "icon": "X",
-      "slot": 1
+      "slot": 3
     },
     "use_early_access": false
   }
