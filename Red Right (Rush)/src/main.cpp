@@ -80,30 +80,33 @@ void autonomous()
 {
     //Red Right Rush
     lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.setPose(-46.964, -56.92, 90);
+    chassis.setPose(0, 0, 180);
     LadyMovePID(-1000, 800, true);
+    intake.move(127);
 
-    chassis.follow(LadyRUsh_txt, 15, 6000, true, true);
+    //chassis.follow(LadyRUsh_txt, 15, 6000, true, true);
 
     roller.move(100);
     pros::delay(100);
 
     int done = 0;
-    do {
+    /*do {
         hook.move(60);
         pros::delay(300);
         hook.move(-60);
         pros::delay(300);
         done++;
-    } while (done < 2);
+    } while (done < 2);*/
     hook.move(60);
     pros::delay(1200);
     hook.brake();
 
-    while (true) {
+    /*while (true) {
         if (!(chassis.isInMotion())) break; //until movement stops
-    }
+    }*/
     LadyMovePID(-16000, 800, false); //score
+
+
 
 
 
