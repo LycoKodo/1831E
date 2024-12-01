@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Main Development Template",
+    "project_name": "Red Left MD",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -300,7 +300,7 @@
     "upload_options": {
       "description": "Core template",
       "icon": "clawbot",
-      "slot": 1
+      "slot": 2
     },
     "use_early_access": false
   }
