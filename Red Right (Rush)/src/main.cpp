@@ -59,6 +59,7 @@ void initialize() {
     // -----------------------
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     mogo_mech.set_value(true);
+    doinker.set_value(false);
 }
 
 
@@ -71,150 +72,55 @@ void disabled()
 void competition_initialize() {
 }
 
-ASSET(RedGoalRush_txt)
-ASSET(BlueLeftMiddle_txt)
-ASSET(RushMovement_txt)
-ASSET(LadyRUsh_txt)
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    //Red Right Rush
-    lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.setPose(0, 0, 180);
-    LadyMovePID(-1000, 800, true);
-    intake.move(127);
+    const float goalHeight = 12;
+    //Red Right Rush    
+    chassis.setPose(0, 0, 0); 
 
-    //chassis.follow(LadyRUsh_txt, 15, 6000, true, true);
-
-    roller.move(100);
-    pros::delay(100);
-
-    int done = 0;
-    /*do {
-        hook.move(60);
-        pros::delay(300);
-        hook.move(-60);
-        pros::delay(300);
-        done++;
-    } while (done < 2);*/
-    hook.move(60);
-    pros::delay(1200);
-    hook.brake();
-
-    /*while (true) {
-        if (!(chassis.isInMotion())) break; //until movement stops
-    }*/
-    LadyMovePID(-16000, 800, false); //score
-
-
-
-
-
-
-
-    // LadyMovePID(-5000, 800, true);
-    // chassis.follow(RushMovement_txt, 15, 10000, false, false);
-    // pros::delay(200);
-    // mogo_mech.set_value(false);
-    // pros::delay(200);
     // intake.move(127);
-    // chassis.turnToHeading(350, 1500, {.maxSpeed=90});
-    // pros::delay(1000);
-    // mogo_mech.set_value(true);
-    // intake.move(0);
-    // roller.move(127);
-    // chassis.moveToPose(-15, -37, 350, 2000, { .maxSpeed=90 }, false);
-
-    // chassis.turnToPoint(-18, -25, 1200, {.maxSpeed=90}, false);
-
-    // chassis.moveToPose(-23, -28, 180, 2500, {.forwards=false, .lead=0.7, .maxSpeed=110, .minSpeed=15 }, false);
-
-    // mogo_mech.set_value(false);
-    // pros::delay(300);
-    // intake.move(127);
-
-    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-
-
+    // pros::delay(800);
+    //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     
-    /*pros::delay(200);
+    chassis.moveToPose(0, 32, 0,  900, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
+    doinker.set_value(true);
+    pros::delay(400);
+    chassis.moveToPoint(0, 24, 1000, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false);
+    doinker.set_value(false);
+    chassis.turnToHeading(180, 1000, {.maxSpeed=100});
+    chassis.moveToPose(-13, 43, 105,  950, {.forwards=false, .lead=0.23, .maxSpeed=85, .minSpeed=5}, false);
     mogo_mech.set_value(false);
-    pros::delay(700);
-    LadyMovePID(-5000, 100);
+    pros::delay(600);
+    LadyMovePID(-14000, 2000, true);
     intake.move(127);
-    pros::delay(700);
+    pros::delay(600);
     intake.move(0);
-    pros::Motor(1).move(127);
-    chassis.moveToPose(-45, -48, 270, 700, {.forwards = true, .maxSpeed=200}, false);
-    chassis.turnToHeading(180, 700, {.maxSpeed=200});*/
-    
-    //Red Left Side
-    /*lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-    chassis.setPose(0, 0, 300);
-
-    
-    chassis.turnToPoint(22, -11.534, 250, {.forwards=false}, false);
-    chassis.moveToPose(22.6, -11.734, 295.63, 1300, {.forwards = false, .lead=0.5, .maxSpeed=120}, false);
-    LadyMovePID(-5564, 200);
+    roller.move(127);
+    chassis.turnToHeading(250, 1000, {.maxSpeed=100});
+    mogo_mech.set_value(true);
+    chassis.moveToPose(-10, 35, 250, 890, {.forwards=true, .maxSpeed=127, .minSpeed=40}, false);
+    chassis.turnToHeading(50, 1000, {.maxSpeed=100});
+    chassis.moveToPose(-34, 29, 90,  1300, {.forwards=false, .lead=0.2, .maxSpeed=85, .minSpeed=5}, false);
     mogo_mech.set_value(false);
-    pros::delay(300);
     intake.move(127);
-    pros::delay(500);
-    intake.move(-127);
-    pros::delay(300);
-
-    chassis.turnToHeading(400, 800, {.maxSpeed = 120}, false);
-    intake.move(127);
-    chassis.moveToPose(41, 6.5, 404, 2000, {.forwards = true,.lead=0.7, .maxSpeed=120, .minSpeed=30}, false);
-
-    chassis.swingToHeading(358, DriveSide::LEFT, 2000, {.maxSpeed=120, .minSpeed=40}, false);
-    chassis.moveToPose(39, 21, 358, 2000, {.forwards = true, .lead=0, .maxSpeed=120, .minSpeed=60}, false);
-    pros::Motor(-6).move(-127);
-    chassis.moveToPose(
-        25.8,
-        15.52,
-        337.8,
-        2000,
-        {.forwards=true,.lead=0.8, .maxSpeed=115, .earlyExitRange=8},
-        false
-    );
-
-    pros::Motor(-6).move(127);
-
-    // 13 24 208
-    intake_lift.set_value(false);
-    chassis.moveToPose(
-        7,
-        -33,
-        118,
-        4000,
-        {.forwards=true,.lead=0.5, .maxSpeed=127, .minSpeed = 60},
-        false
-    );
-    intake_lift.set_value(true);
-
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);*/
-    
-
+    pros::delay(1000);
+    chassis.turnToHeading(300, 1000, {.maxSpeed=100});
+    LadyMovePID(-12000, 2000, true);
+    chassis.moveToPose(-36, 36, 300,  1200, {.forwards=true, .lead=0.2, .maxSpeed=85, .minSpeed=5}, false);
     
 }
 
-
 void opcontrol() 
 {
-
-    chassis.setPose(39, 7, 404);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     
     // DON'T CHANGE!: Multi-treading for robot controls (To prevent color sort interruption)
-    
     pros::Task intakeTask(intake_control); // Interrupted by color sort
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
-
-
+    pros::Task doinkerTask(doinker_control);
 }
 

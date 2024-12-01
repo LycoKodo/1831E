@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
@@ -15,7 +14,9 @@
 
 /*
     TODO:
-        Done yay
+    [x] Tune controls.cpp Color sort wait time
+    [ ] Test Intake_sortedmove's async parameter
+    [ ] Validate all refractored files and merge to main
  */
 
 void initialize() {
@@ -44,15 +45,9 @@ void initialize() {
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             pros::lcd::print(4, "Lady Pos: %ld", lady_rotation.get_position());
-<<<<<<< HEAD
-            
-            master.clear_line(0);
-            master.set_text(0, 0, "ALS: " + alliance);
-=======
 
             // master.clear_line(0);
             // master.set_text(0, 0, "ALS: " + alliance);
->>>>>>> 08e5e8ea750503ef6bce903772762ff8e589a2d8
 
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             pros::delay(50);
@@ -64,6 +59,7 @@ void initialize() {
     // -----------------------
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     mogo_mech.set_value(true);
+    doinker.set_value(false);
 }
 
 
@@ -79,45 +75,51 @@ void competition_initialize() {
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    pros::Task grapTaskh(graphOdom);
-    /*chassis.setPose(0,0,180);
-    chassis.moveToPose(0, 35, 180, 2500, {.forwards=false}, false);
-    pros::delay(1800);
+    //Red Right Rush    
+    chassis.setPose(0, 0, 0); 
+
+    // intake.move(127);
+    // pros::delay(800);
+    //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    
+    chassis.moveToPose(0, 32, 0, 900, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false); // No mirroring needed for y-axis symmetry
+    doinker.set_value(true);
+    pros::delay(400);
+    chassis.moveToPoint(0, 24, 1000, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false); // No mirroring needed
+    doinker.set_value(false);
+    chassis.turnToHeading(180, 1000, {.maxSpeed=100}); // Mirrored heading remains the same (180 is its own mirror)
+    chassis.moveToPose(13, 43, 360 - 105, 950, {.forwards=false, .lead=0.23, .maxSpeed=85, .minSpeed=5}, false); // Mirror x, angle becomes 255
     mogo_mech.set_value(false);
-    intake.move(127);*/
-
-    chassis.setPose(0,0,0);
-
-    chassis.turnToHeading(180, 2500);
-    chassis.turnToHeading(0, 2500);
-
-    // chassis.moveToPoint(0, 48, 2500, {.forwards=true, .maxSpeed=127}, false);
-
-    // chassis.moveToPoint(0, 24, 2500, {.forwards=false, .maxSpeed=127}, false);
-
-    // chassis.moveToPoint(0, 0, 2500, {.forwards=false, .maxSpeed=127}, false);
-    // chassis.setPose(0,0,0);
-
-    // chassis.moveToPose(0, 48, 0, 3000, {.forwards=true}, false);
-    // chassis.moveToPose(0, 24, 0, 2500, {.forwards=false}, false);
-    // chassis.moveToPose(0, 0, 0, 2500, {.forwards=false}, false);
+    pros::delay(600);
+    LadyMovePID(-14000, 2000, true); // Mirror x movement
+    intake.move(127);
+    pros::delay(600);
+    intake.move(0);
+    roller.move(127);
+    chassis.turnToHeading(360 - 250, 1000, {.maxSpeed=100}); // Angle becomes 110
+    mogo_mech.set_value(true);
+    chassis.moveToPose(10, 35, 360 - 250, 890, {.forwards=true, .maxSpeed=127, .minSpeed=40}, false); // Mirror x, angle becomes 110
+    chassis.turnToHeading(360 - 50, 1000, {.maxSpeed=100}); // Angle becomes 310
+    chassis.moveToPose(34, 29, 360 - 90, 1300, {.forwards=false, .lead=0.2, .maxSpeed=85, .minSpeed=5}, false); // Mirror x, angle becomes 270
+    mogo_mech.set_value(false);
+    intake.move(127);
+    pros::delay(1000);
+    chassis.turnToHeading(360 - 300, 1000, {.maxSpeed=100}); // Angle becomes 60
+    LadyMovePID(-12000, 2000, true); // Mirror x movement
+    chassis.moveToPose(36, 36, 360 - 300, 1200, {.forwards=true, .lead=0.2, .maxSpeed=85, .minSpeed=5}, false); // Mirror x, angle becomes 60
     
 }
 
-
 void opcontrol() 
 {
-    lady_rotation.set_position(0);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     
     // DON'T CHANGE!: Multi-treading for robot controls (To prevent color sort interruption)
-    
     pros::Task intakeTask(intake_control); // Interrupted by color sort
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
-
-
+    pros::Task doinkerTask(doinker_control);
 }
 

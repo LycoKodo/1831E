@@ -65,50 +65,22 @@ void initialize() {
 
 void disabled() 
 {
-    // womp womp cant walk
+
 }
 
 
 void competition_initialize() {
 }
 
-//OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
     const float goalHeight = 12;
-    //Red Right Rush    
     chassis.setPose(0, 0, 0); 
 
-    // intake.move(127);
-    // pros::delay(800);
-    //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-    
-    chassis.moveToPose(0, 32, 0,  900, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
-    doinker.set_value(true);
-    pros::delay(400);
-    chassis.moveToPoint(0, 24, 1000, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false);
-    doinker.set_value(false);
-    chassis.turnToHeading(180, 1000, {.maxSpeed=100});
-    chassis.moveToPose(-13, 43, 105,  950, {.forwards=false, .lead=0.23, .maxSpeed=85, .minSpeed=5}, false);
-    mogo_mech.set_value(false);
-    pros::delay(600);
-    LadyMovePID(-14000, 2000, true);
-    intake.move(127);
-    pros::delay(600);
-    intake.move(0);
-    roller.move(127);
-    chassis.turnToHeading(250, 1000, {.maxSpeed=100});
-    mogo_mech.set_value(true);
-    chassis.moveToPose(-10, 35, 250, 890, {.forwards=true, .maxSpeed=127, .minSpeed=40}, false);
-    chassis.turnToHeading(50, 1000, {.maxSpeed=100});
-    chassis.moveToPose(-34, 29, 90,  1300, {.forwards=false, .lead=0.2, .maxSpeed=85, .minSpeed=5}, false);
-    mogo_mech.set_value(false);
-    intake.move(127);
-    pros::delay(1000);
-    chassis.turnToHeading(300, 1000, {.maxSpeed=100});
-    LadyMovePID(-12000, 2000, true);
-    chassis.moveToPose(-36, 36, 300,  1200, {.forwards=true, .lead=0.2, .maxSpeed=85, .minSpeed=5}, false);
-    
+    // Yeah timmy get back to programming grrrrrrr
+        // and quinn ur house literally has mustard gas frfr bro T^T
+
+    // Anyways happy coding
 }
 
 void opcontrol() 
@@ -121,5 +93,6 @@ void opcontrol()
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
+    pros::Task doinkerTask(doinker_control);
 }
 

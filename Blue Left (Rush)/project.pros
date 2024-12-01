@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Main Development Template",
+    "project_name": "[RUSH] Blue Left",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -298,8 +298,8 @@
       }
     },
     "upload_options": {
-      "description": "Core template",
-      "icon": "clawbot",
+      "description": "Tournament Program",
+      "icon": "X",
       "slot": 1
     },
     "use_early_access": false

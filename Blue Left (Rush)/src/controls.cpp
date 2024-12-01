@@ -128,7 +128,8 @@ void ladyctl() {
             spinning = true;
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-            LadyMovePID(-830, 2000);
+            lady_rotation.set_position(0);
+            LadyMovePID(-900, 2000, false);
         }
         else if (spinning == true) {
             lady.brake();
@@ -189,8 +190,7 @@ void intake_control() {
 }
 
 void mogo_control() {
-    bool mogo_pis = false;
-    bool toggle = false;
+    bool toggle = true;
     bool latch = false;
 
     while (true) {
@@ -207,6 +207,23 @@ void mogo_control() {
     }
 }
 
+void doinker_control() {
+    bool toggle = true;
+    bool latch = false;
+
+    while (true) {
+        bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_X);
+
+        if (b_button && !latch) {
+            toggle = !toggle;             // Flip the toggle state
+            doinker.set_value(toggle);  // Update mogo_mech based on the new toggle state
+            latch = true;                 // Engage latch to prevent repeated toggles
+        } else if (!b_button) {
+            latch = false;                // Reset latch when button is released
+        }
+        pros::delay(10);
+    }
+}
 // ------------------------------
 // TODO: Finish these functions
 

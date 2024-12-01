@@ -20,8 +20,17 @@ PID ladypid(10, 0.4, 50, 0, false); // declare PID (constraints, tuning etc)
 
 // Calculate Errror
 
-int LadyMovePID(float target, float timeout) {
+int LadyMovePID(float target, float timeout, bool async) {
     // Record the time when the movement starts
+
+    if (async) {
+        pros::Task asynctask([=]() {
+            LadyMovePID(target, timeout, false); // Call the synchronous version
+        });
+        pros::delay(10); // Delay to give the task time to start
+        return 2;
+    }
+
     unsigned long start_time = pros::millis();
 
     // Loop until the target is reached or the timeout occurs
@@ -33,13 +42,19 @@ int LadyMovePID(float target, float timeout) {
         float error = target - current_pos;
 
         // If the error is within an acceptable range, exit the loop
-        if (fabs(error) < 0.01) break;
-        
+        if (fabs(error) < 0.01) {  // You can adjust the threshold as needed
+            break;
+        }
+
         // Check if the timeout has expired
-        if (pros::millis() - start_time > timeout) break;
+        if (pros::millis() - start_time > timeout) {
+            break;
+        }
+
         // Update the PID controller with the error to get the control signal
         float control_signal = ladypid.update(error) / 200;
 
+        // Send the control signal to the movement system (motor/actuator)
         lady.move(control_signal);
         
         // Optionally, add a small delay to prevent too frequent updates (e.g., 10ms)

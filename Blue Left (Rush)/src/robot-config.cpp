@@ -21,7 +21,7 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               12.8, // 11.6 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3"25' omnis
                               450, // drivetrain rpm is 200 (green direct)
-                              4 // horizontal drift is 2. If we had traction wheels, it would have been 8
+                              8 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // ---------------------------------------
@@ -30,12 +30,14 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
+pros::Motor roller(1);
+pros::Motor hook(-6);
+
 pros::MotorGroup intake({1, -6}, pros::MotorGearset::green); // front 1, back 6
 pros::Motor lady(5);
 pros::adi::DigitalOut mogo_mech (8);
 
-
-pros::Imu imu2(10);
+pros::adi::DigitalOut doinker (7);
 // pros::adi::DigitalOut lift ();
 
 // ---------------------------------------
@@ -44,7 +46,6 @@ pros::Imu imu2(10);
 
 pros::Imu imu(11);
 pros::Optical colorSort (18);
-//Hollow8KnightCM
 pros::Rotation lady_rotation (12);
 
 // ---------------------------------------
@@ -73,15 +74,15 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
 // PID Controller
 // ---------------------------------------
 
-lemlib::ControllerSettings linearController(  4.6, // proportional gain (kP)
-                                              0, // integral gain (kI) 0.11
-                                              0, // derivative gain (kD) 1.5
-                                              3, // anti windup
+lemlib::ControllerSettings linearController(  6, // proportional gain (kP)
+                                              -0.0045, // integral gain (kI) 0.11
+                                              2, // derivative gain (kD) 1.5
+                                              0, // anti windup
                                               1, // small error range, in inches
                                               200, // small error range timeout, in milliseconds
                                               3, // large error range, in inches
                                               500, // large error range timeout, in milliseconds
-                                              20 // maximum acceleration (slew)
+                                              75 // maximum acceleration (slew)
 );
 
 lemlib::ControllerSettings angularController(0.75, // proportional gain (kP)

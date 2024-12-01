@@ -23,5 +23,6 @@ void intake_control();
 void mogo_control();
 void drivetrain_control();
 void ladyctl();
+void doinker_control();
 
 #endif // CONTROLS_HPP

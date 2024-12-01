@@ -172,5 +172,6 @@ void opcontrol()
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
+    pros::Task doinkerTask(doinker_control);
 }
 

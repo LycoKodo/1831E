@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Red Right Rush MD",
+    "project_name": "Giga Skills",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -298,9 +298,9 @@
       }
     },
     "upload_options": {
-      "description": "Core template",
+      "description": "Autonomous Skills ",
       "icon": "X",
-      "slot": 1
+      "slot": 5
     },
     "use_early_access": false
   }
