@@ -21,7 +21,7 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               12.8, // 11.6 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3"25' omnis
                               450, // drivetrain rpm is 200 (green direct)
-                              4 // horizontal drift is 2. If we had traction wheels, it would have been 8
+                              8 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // ---------------------------------------
@@ -37,7 +37,7 @@ pros::MotorGroup intake({1, -6}, pros::MotorGearset::green); // front 1, back 6
 pros::Motor lady(5);
 pros::adi::DigitalOut mogo_mech (8);
 
-pros::adi::DigitalOut intake_lift (7);
+pros::adi::DigitalOut doinker (7);
 // pros::adi::DigitalOut lift ();
 
 // ---------------------------------------
@@ -74,15 +74,15 @@ lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
 // PID Controller
 // ---------------------------------------
 
-lemlib::ControllerSettings linearController(  8.5, // proportional gain (kP)
-                                              0.00075, // integral gain (kI) 0.11
-                                              0.6, // derivative gain (kD) 1.5
+lemlib::ControllerSettings linearController(  6, // proportional gain (kP)
+                                              -0.0045, // integral gain (kI) 0.11
+                                              2, // derivative gain (kD) 1.5
                                               0, // anti windup
                                               1, // small error range, in inches
-                                              1200, // small error range timeout, in milliseconds
+                                              200, // small error range timeout, in milliseconds
                                               3, // large error range, in inches
-                                              1500, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
+                                              500, // large error range timeout, in milliseconds
+                                              75 // maximum acceleration (slew)
 );
 
 lemlib::ControllerSettings angularController(0.75, // proportional gain (kP)

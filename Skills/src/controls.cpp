@@ -198,7 +198,7 @@ void mogo_control() {
 
         if (b_button && !latch) {
             toggle = !toggle;             // Flip the toggle state
-            mogo_mech.set_value(toggle);  // Update mogo_mech based on the new toggle state
+            doinker.set_value(toggle);  // Update mogo_mech based on the new toggle state
             latch = true;                 // Engage latch to prevent repeated toggles
         } else if (!b_button) {
             latch = false;                // Reset latch when button is released

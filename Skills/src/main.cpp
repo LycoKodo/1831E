@@ -59,6 +59,7 @@ void initialize() {
     // -----------------------
     intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     mogo_mech.set_value(true);
+    doinker.set_value(false);
 }
 
 
@@ -80,14 +81,24 @@ void autonomous()
 
     // intake.move(127);
     // pros::delay(800);
-
-    chassis.moveToPoint(0, 48, 2500, {.forwards=true}, false);
-    chassis.moveToPoint(0, 24, 2500, {.forwards=false}, false);
-    chassis.moveToPoint(0, 0, 2500, {.forwards=false}, false);
-
-
-
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    
+    chassis.moveToPose(0, 32, 0,  900, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
+    doinker.set_value(true);
+    pros::delay(400);
+    chassis.moveToPoint(0, 24, 1000, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false);
+    doinker.set_value(false);
+    chassis.turnToHeading(180, 1000, {.maxSpeed=100});
+    chassis.moveToPose(-13, 43, 105,  950, {.forwards=false, .lead=0.2, .maxSpeed=85, .minSpeed=5}, false);
+    mogo_mech.set_value(false);
+    pros::delay(600);
+    LadyMovePID(-14000, 2000, true);
+    intake.move(127);
+    pros::delay(600);
+    intake.move(0);
+    roller.move(127);
+    chassis.turnToHeading(235, 1000, {.maxSpeed=100});
+    chassis.moveToPose(-10, 35, 235, 890, {.forwards=true, .maxSpeed=127, .minSpeed=40}, false);
 }
 
 void opcontrol() 
