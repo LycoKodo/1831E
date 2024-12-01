@@ -299,7 +299,7 @@
     },
     "upload_options": {
       "description": "Core template",
-      "icon": "clawbot",
+      "icon": "X",
       "slot": 1
     },
     "use_early_access": false
