@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Blue Right",
+    "project_name": "Blue Right MD",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -300,7 +300,7 @@
     "upload_options": {
       "description": "Tournament Program",
       "icon": "X",
-      "slot": 2
+      "slot": 4
     },
     "use_early_access": false
   }

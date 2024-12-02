@@ -102,13 +102,15 @@ void autonomous()
 
     pros::delay(400);
 
-    chassis.moveToPose(26.9, 27.7, 360 - 2.34, 1200, {.forwards=false, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
+    chassis.moveToPose(28, 27.7, 360 - 2.34, 1200, {.forwards=false, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
+    intake.move(127);
 
-    chassis.moveToPose(26.6, 33.97, 360 - 2.34, 1600, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
+    chassis.moveToPose(25, 40, 360, 1600, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
 
     pros::delay(500);
     
-    chassis.moveToPose(20, 14, 360 - 154, 20000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=40}, false);
+    chassis.moveToPose(25, 14, 360 - 154, 20000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=40}, false);
+    intake.move(127);
 
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
