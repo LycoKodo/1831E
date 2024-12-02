@@ -57,7 +57,7 @@ void initialize() {
     // -----------------------
     // Initialise Subsystems
     // -----------------------
-    intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     mogo_mech.set_value(true);
     doinker.set_value(false);
 }
@@ -74,6 +74,7 @@ void competition_initialize() {
 
 void autonomous() 
 {
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     const float goalHeight = 12;
     chassis.setPose(0, 0, 0); 
 
@@ -81,6 +82,58 @@ void autonomous()
         // and quinn ur house literally has mustard gas frfr bro T^T
 
     // Anyways happy coding
+    //Quinn: it's not that bad 😭
+    //Tim: real
+
+    hook.move(127);
+    pros::delay(400);
+    hook.move(0);
+    chassis.moveToPose(0, 17, 0, 900, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
+    pros::delay(100);
+    chassis.turnToHeading(270, 1000);
+    chassis.moveToPose(29, 14, 275, 1200, {.forwards=false, .maxSpeed=127, .minSpeed=60}, true);
+    pros::delay(700);
+    mogo_mech.set_value(false);
+    pros::delay(400);
+    chassis.turnToHeading(89, 1200);
+    intake.move(127);
+    chassis.moveToPose(50, 14, 90, 1200, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
+    pros::delay(400);
+    chassis.moveToPose(60, 14, 90, 1200, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
+    pros::delay(400);
+    chassis.moveToPose(45, 17, 90, 1200, {.forwards=false, .lead=0.1, .maxSpeed=127, .minSpeed=60}, false);
+    chassis.turnToHeading(180, 900);
+    pros::delay(400);
+    chassis.moveToPose(45, 5, 180, 1200, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
+    pros::delay(400);
+    chassis.turnToHeading(-66, 900);
+    chassis.moveToPose(57, 4, 300, 1200, {.forwards=false, .lead=0.2, .maxSpeed=127, .minSpeed=60}, false);
+    mogo_mech.set_value(true);
+    pros::delay(400);
+    chassis.moveToPose(55, 14, 0, 1200, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
+    intake.move(0);
+    chassis.turnToHeading(90, 900);
+    chassis.moveToPose(-25, 21, 90, 5000, {.forwards=false, .maxSpeed=127, .minSpeed=60}, false);
+    mogo_mech.set_value(false);
+    pros::delay(400);
+    chassis.turnToHeading(275, 900);
+    intake.move(127);
+    chassis.moveToPose(-55, 25, 275, 5000, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
+    pros::delay(400);
+    chassis.moveToPose(-48, 28, 310, 1000, {.forwards=false, .maxSpeed=127, .minSpeed=60}, false);
+    chassis.turnToHeading(180, 900);
+    chassis.moveToPose(-48, 10, 180, 5000, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
+    pros::delay(400);
+    chassis.turnToHeading(90, 900);
+    chassis.moveToPose(-57, 10, 110, 5000, {.forwards=false, .lead=0.3, .maxSpeed=127, .minSpeed=60}, false);
+    //chassis.moveToPose(29, 14, 275, 1200, {.forwards=false, .maxSpeed=127, .minSpeed=60}, true);
+    /*chassis.moveToPose(26, 20, 225, 3000, {.forwards=false, .lead=0.4, .maxSpeed=127, .minSpeed=60}, false);
+    mogo_mech.set_value(false);
+    pros::delay(600);
+    chassis.turnToHeading(100, 2000, {.maxSpeed=100, .minSpeed=30});
+    intake.move(127);
+    chassis.moveToPose(53, 17, 100, 3000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=60}, false);*/
+
 }
 
 void opcontrol() 
