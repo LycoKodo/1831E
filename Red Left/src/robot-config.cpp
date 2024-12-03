@@ -58,7 +58,7 @@ pros::Rotation vertical_encoder(17);
 
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_275, +1.95);
 
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_275, -1.1);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_275, -1.6);
 
 // chassis: 12.8 across, 13.5 height
 // traking cneter: 6.4, 6.75 
