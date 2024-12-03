@@ -125,7 +125,14 @@ void autonomous()
     chassis.moveToPose(-48, 10, 180, 5000, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
     pros::delay(400);
     chassis.turnToHeading(90, 900);
-    chassis.moveToPose(-57, 10, 110, 5000, {.forwards=false, .lead=0.3, .maxSpeed=127, .minSpeed=60}, false);
+    chassis.moveToPose(-58, 10, 110, 5000, {.forwards=false, .lead=0.3, .maxSpeed=127, .minSpeed=60}, false);
+    mogo_mech.set_value(true);
+    pros::delay(400);
+    chassis.moveToPose(-56, 11, 110, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
+    chassis.moveToPose(-48, 20, 0, 5000, {.forwards=true, .lead=0.3, .maxSpeed=127, .minSpeed=60}, false);
+    LadyMovePID(25000, 1200, false);
+    chassis.turnToHeading(0, 900);
+    chassis.moveToPose(-48, 50, 0, 5000, {.forwards=true, .maxSpeed=127, .minSpeed=60}, false);
     //chassis.moveToPose(29, 14, 275, 1200, {.forwards=false, .maxSpeed=127, .minSpeed=60}, true);
     /*chassis.moveToPose(26, 20, 225, 3000, {.forwards=false, .lead=0.4, .maxSpeed=127, .minSpeed=60}, false);
     mogo_mech.set_value(false);
