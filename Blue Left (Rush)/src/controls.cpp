@@ -291,14 +291,10 @@ void drivetrain_control() {
         if (r1_button && !latch_dt) {
             chassis_mode_hold = !chassis_mode_hold;  // Toggle chassis mode
             latch_dt = true;                            // Engage latch to prevent repeated toggles
-            // Notifying Driver of change
 
-            if (chassis_mode_hold) {
-                pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
-            }
-            else {
-                pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "-");
-            }
+            // Notifying Driver of change
+            if (chassis_mode_hold) pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
+            else pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "-");
 
         } else if (!r1_button) {
             latch_dt = false;                           // Reset latch when button is released
