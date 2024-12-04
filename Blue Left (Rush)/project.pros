@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "[RUSH] Blue Left",
+    "project_name": "BL",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -300,7 +300,7 @@
     "upload_options": {
       "description": "Tournament Program",
       "icon": "X",
-      "slot": 3
+      "slot": 4
     },
     "use_early_access": false
   }

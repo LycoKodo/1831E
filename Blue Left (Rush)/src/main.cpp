@@ -82,15 +82,16 @@ void autonomous()
     // pros::delay(800);
     //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     
-    chassis.moveToPose(0, 32, 0, 900, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false); // No mirroring needed for y-axis symmetry
+    chassis.moveToPose(0, 32, 0, 900, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, true); // No mirroring needed for y-axis symmetry
+    pros::delay(840);
     doinker.set_value(true);
     pros::delay(400);
-    chassis.moveToPose(0, 18, 0, 1200, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false); // No mirroring needed
+    chassis.moveToPose(0, 17, 0, 1200, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false); // No mirroring needed
     pros::delay(400);
     doinker.set_value(false);
-    chassis.moveToPose(0, 15, 0, 800, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false); // No mirroring needed
+    chassis.moveToPose(0, 15, 0, 1200, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false);
     chassis.turnToHeading(240, 900, {.maxSpeed=100});
-    chassis.moveToPose(17, 30, 215, 2000, {.forwards=false, .lead=0.2, .maxSpeed=110, .minSpeed=40}, false);
+    chassis.moveToPose(18, 31, 215, 2000, {.forwards=false, .lead=0.2, .maxSpeed=110, .minSpeed=40}, false);
     mogo_mech.set_value(false);
     LadyMovePID(-14000, 2000, true); // Mirror x movement
     intake.move(127);
@@ -104,8 +105,10 @@ void autonomous()
     mogo_mech.set_value(false);
     pros::delay(600);
     intake.move(127);
-    LadyMovePID(-14000, 5000, true);
-    chassis.moveToPose(30, 35, 70, 2000, {.forwards=true, .lead=0.4, .maxSpeed=110, .minSpeed=40}, false);
+    LadyMovePID(-15000, 5000, true);
+    chassis.moveToPose(28, 33, 70, 2000, {.forwards=true, .lead=0.4, .maxSpeed=110, .minSpeed=40}, true);
+    pros::delay(1200);
+    mogo_mech.set_value(false);
     
 }
 
