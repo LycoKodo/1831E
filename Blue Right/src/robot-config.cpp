@@ -38,6 +38,7 @@ pros::Motor lady(5);
 pros::adi::DigitalOut mogo_mech (8);
 
 pros::adi::DigitalOut doinker (7);
+pros::adi::DigitalOut endgame (1);
 // pros::adi::DigitalOut lift ();
 
 // ---------------------------------------

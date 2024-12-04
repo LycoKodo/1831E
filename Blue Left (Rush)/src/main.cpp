@@ -120,5 +120,7 @@ void opcontrol()
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
     pros::Task doinkerTask(doinker_control);
+
+    pros::Task endgameTask(endgame_control);
 }
 

@@ -225,6 +225,24 @@ void doinker_control() {
     }
 }
 
+void endgame_control() {
+    bool toggle = true;
+    bool latch = false;
+
+    while (true) {
+        bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+
+        if (b_button && !latch) {
+            toggle = !toggle;             // Flip the toggle state
+            endgame.set_value(toggle);  // Update mogo_mech based on the new toggle state
+            latch = true;                 // Engage latch to prevent repeated toggles
+        } else if (!b_button) {
+            latch = false;                // Reset latch when button is released
+        }
+        pros::delay(10);
+    }
+}
+
 // ------------------------------
 // TODO: Finish these functions
 

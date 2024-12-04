@@ -27,6 +27,7 @@ extern pros::MotorGroup intake;
 extern pros::Motor lady;
 extern pros::adi::DigitalOut mogo_mech;
 extern pros::adi::DigitalOut doinker;
+extern pros::adi::DigitalOut endgame;
 
 // ---------------------------------------
 // Sensors (Miscellaneous)

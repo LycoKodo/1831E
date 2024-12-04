@@ -24,5 +24,6 @@ void mogo_control();
 void doinker_control();
 void drivetrain_control();
 void ladyctl();
+void endgame_control();
 
 #endif // CONTROLS_HPP
