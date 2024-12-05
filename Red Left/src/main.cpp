@@ -78,12 +78,12 @@ ASSET(LadyRUsh_txt)
 //OPTIMAL Se-TIME for 24 inch (1 tile): 1900
 void autonomous() 
 {
-    //Red Right Rush
-    chassis.setPose(-62.596, 9.546, 214);
+    // Red Right Rush Mirrored
+    chassis.setPose(-62.596, 9.546, 214); // Mirrored pose
 
     lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-    LadyMovePID(-13000, 1200, false);
+    LadyMovePID(-13000, 1200, false); // Adjusted for mirrored x
 
     LadyMovePID(-9000, 2000, true);
 
@@ -94,29 +94,37 @@ void autonomous()
         false,
         false
     );
+    // chassis.moveToPoint(-14, 29.35, 500, {.forwards=false, .maxSpeed=127, .minSpeed=25}, true); // *** USED ONLY FOR BAD MOGO *** //
 
-
-
-    // chassis.moveToPose(-16.61, 26, 192.34, 3000, {.forwards=false, .lead=0.15, .maxSpeed=115, .minSpeed=30}, false);
     mogo_mech.set_value(false);
-    pros::delay(300);
-    chassis.turnToHeading(48.29, 1500);
-    intake.move(127); 
-    chassis.moveToPose(-14, 37.26, 48.29, 1200, {.forwards=true, .lead=0, .maxSpeed=115, .minSpeed=30}, false);
 
-    pros::delay(400);
+    pros::delay(100);
+    chassis.turnToHeading(71.3, 1500); // Mirrored heading
 
-
-    chassis.moveToPose(-26.9, 27.7, 2.34, 1200, {.forwards=false, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
-
-    chassis.moveToPose(-26.6, 33.97, 2.34, 1600, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
-
-    pros::delay(500);
+    intake.move(127);
+    chassis.moveToPose(-13.21, 38, 42, 3000, {.forwards=true, .lead=0.05, .maxSpeed=127, .minSpeed=50}, false);
     
-    chassis.moveToPose(-22.5, 13.46, 150, 20000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=40}, false);
+    chassis.swingToHeading(53, DriveSide::RIGHT, 1000, {.maxSpeed=100, .minSpeed=45}, false); // Minspeed issue
+    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
+    pros::delay(600);
 
-    LadyMovePID(-16000, 20000, false);
-    
+
+
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+
+    chassis.moveToPose(-28, 27.7, 2.34, 1200, {.forwards=false, .lead=0, .maxSpeed=127, .minSpeed=35}, false);
+    intake.move(127);
+
+    chassis.moveToPose(-28.5, 37.5, -4, 2200, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=60}, false);
+
+    pros::delay(100);
+
+    // ** COMMENTED TO TEST POSITION *** //
+
+    chassis.moveToPose(-25, 14, 154, 20000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=40}, false);
+    intake.move(127);
+
+    LadyMovePID(-18000, 2000, true);    
 }
 
 void opcontrol() 

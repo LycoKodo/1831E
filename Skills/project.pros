@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Giga Skills",
+    "project_name": "Tera Skills",
     "target": "v5",
     "templates": {
       "LemLib": {

@@ -541,7 +541,7 @@ class Chassis {
          * chassis.turnToHeading(45, 2000, {.minSpeed = 60, .earlyExitRange = 5});
          * @endcode
          */
-        void turnToHeading(float theta, int timeout, TurnToHeadingParams params = {}, bool async = true);
+        void turnToHeading(float theta, int timeout, TurnToHeadingParams params = {}, bool async = false);
         /**
          * @brief Turn the chassis so it is facing the target heading, but only by moving one half of the drivetrain
          *
@@ -549,7 +549,7 @@ class Chassis {
          * @param lockedSide side of the drivetrain that is locked
          * @param timeout longest time the robot can spend moving
          * @param params struct to simulate named parameters
-         * @param async whether the function should be run asynchronously. true by default
+         * @param async whether the function should be run asynchronously. false by default
          *
          * @b Example
          * @code {.cpp}
@@ -651,7 +651,7 @@ class Chassis {
          * chassis.moveToPose(0, 0, 0, 4000, {.lead = 0.3});
          * @endcode
          */
-        void moveToPose(float x, float y, float theta, int timeout, MoveToPoseParams params = {}, bool async = true);
+        void moveToPose(float x, float y, float theta, int timeout, MoveToPoseParams params = {}, bool async = false);
         /**
          * @brief Move the chassis towards a target point
          *
@@ -659,7 +659,7 @@ class Chassis {
          * @param y y location
          * @param timeout longest time the robot can spend moving
          * @param params struct to simulate named parameters
-         * @param async whether the function should be run asynchronously. true by default
+         * @param async whether the function should be run asynchronously. false by default
          *
          * @b Example
          * @code {.cpp}

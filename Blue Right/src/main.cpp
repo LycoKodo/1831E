@@ -94,78 +94,32 @@ void autonomous()
         false,
         false
     );
-    chassis.moveToPoint(14, 29.35, 500, {.forwards=false, .maxSpeed=127, .minSpeed=25}, true);
-    pros::delay(300);
+    // chassis.moveToPoint(14, 29.35, 500, {.forwards=false, .maxSpeed=127, .minSpeed=25}, true); // *** USED ONLY FOR BAD MOGO *** // 
+
     mogo_mech.set_value(false);
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
-    pros::delay(300);
-    chassis.turnToHeading(360 - 48.29, 1500); // Mirrored heading
+    pros::delay(100);
+    chassis.turnToHeading(360 - 71.3, 1500); // Mirrored heading
 
     intake.move(127);
-    chassis.moveToPose(13.21, 37.26, 360 - 48.29, 1200, {.forwards=true, .lead=0, .maxSpeed=115, .minSpeed=30}, false);
+    chassis.moveToPose(13.21, 38, 318, 3000, {.forwards=true, .lead=0.05, .maxSpeed=127, .minSpeed=50}, false);
 
-    pros::delay(400);
+    pros::delay(600);
 
-    chassis.moveToPose(28, 27.7, 360 - 2.34, 1200, {.forwards=false, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
+    chassis.moveToPose(28, 27.7, 360 - 2.34, 1200, {.forwards=false, .lead=0, .maxSpeed=127, .minSpeed=35}, false);
     intake.move(127);
 
-    chassis.moveToPose(25, 40, 360, 1600, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
+    chassis.moveToPose(28.5, 37.5, 364, 2200, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=60}, false);
 
     pros::delay(500);
-    
+
+    // ** COMMENTED TO TEST POSITION *** //
+
     chassis.moveToPose(25, 14, 360 - 154, 20000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=40}, false);
     intake.move(127);
 
-    LadyMovePID(-13000, 2000, true);
-
-    //Red Left Side
-    /*lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-    chassis.setPose(0, 0, 300);
-
+    LadyMovePID(-15000, 2000, true);
     
-    chassis.turnToPoint(22, -11.534, 250, {.forwards=false}, false);
-    chassis.moveToPose(22.6, -11.734, 295.63, 1300, {.forwards = false, .lead=0.5, .maxSpeed=120}, false);
-    LadyMovePID(-5564, 200);
-    mogo_mech.set_value(false);
-    pros::delay(300);
-    intake.move(127);
-    pros::delay(500);
-    intake.move(-127);
-    pros::delay(300);
-
-    chassis.turnToHeading(400, 800, {.maxSpeed = 120}, false);
-    intake.move(127);
-    chassis.moveToPose(41, 6.5, 404, 2000, {.forwards = true,.lead=0.7, .maxSpeed=120, .minSpeed=30}, false);
-
-    chassis.swingToHeading(358, DriveSide::LEFT, 2000, {.maxSpeed=120, .minSpeed=40}, false);
-    chassis.moveToPose(39, 21, 358, 2000, {.forwards = true, .lead=0, .maxSpeed=120, .minSpeed=60}, false);
-    pros::Motor(-6).move(-127);
-    chassis.moveToPose(
-        25.8,
-        15.52,
-        337.8,
-        2000,
-        {.forwards=true,.lead=0.8, .maxSpeed=115, .earlyExitRange=8},
-        false
-    );
-
-    pros::Motor(-6).move(127);
-
-    // 13 24 208
-    intake_lift.set_value(false);
-    chassis.moveToPose(
-        7,
-        -33,
-        118,
-        4000,
-        {.forwards=true,.lead=0.5, .maxSpeed=127, .minSpeed = 60},
-        false
-    );
-    intake_lift.set_value(true);
-
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);*/
     
 }
 
