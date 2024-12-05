@@ -130,6 +130,32 @@ void autonomous()
     
     mogo_mech.set_value(false);
 
+    pros::delay(200);
+    
+    chassis.turnToHeading(0, 1300);
+
+    chassis.moveToPose(-25.5, 40, 0, 1800, {.forwards=true, .lead=0, .maxSpeed = 108, .minSpeed = 0}, false);
+
+    chassis.turnToHeading(270, 1300);
+
+    chassis.moveToPose(-50, 38.7, 270, 2000, {.forwards=true, .lead=0, .maxSpeed = 108, .minSpeed = 0}, false);
+
+    chassis.turnToHeading(180, 1300);
+
+    chassis.moveToPose(-48.5, 7, 180, 2000, {.forwards=true, .lead=0, .maxSpeed = 108, .minSpeed = 0}, false);
+
+    pros::delay(200);
+
+    chassis.turnToHeading(55, 1300, {.direction=AngularDirection::CW_CLOCKWISE}, false);
+
+    chassis.moveToPose(-56, 3, 55, 1200, {.forwards=false, .lead=0, .maxSpeed = 100, .minSpeed = 0}, false);
+
+    mogo_mech.set_value(true); // unclamp
+
+    pros::delay(200);
+
+    chassis.moveToPose(-43, 13, 60, 1500, {.forwards=true, .lead=0, .maxSpeed = 100, .minSpeed = 0}, false);
+
     /*
     pros::delay(1700);
     mogo_mech.set_value(false);
