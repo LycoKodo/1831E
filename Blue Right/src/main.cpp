@@ -85,6 +85,8 @@ void autonomous()
 
     LadyMovePID(-13000, 1200, false); // Adjusted for mirrored x
 
+    LadyMovePID(-9000, 2000, true);
+
     chassis.follow(
         RushMovement_txt,
         10,
@@ -92,8 +94,11 @@ void autonomous()
         false,
         false
     );
-    // chassis.moveToPose(16.61, 26, 360 - 192.34, 3000, {.forwards=false, .lead=0.15, .maxSpeed=115, .minSpeed=30}, false);
+    chassis.moveToPoint(14, 29.35, 500, {.forwards=false, .maxSpeed=127, .minSpeed=25}, true);
+    pros::delay(300);
     mogo_mech.set_value(false);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+
     pros::delay(300);
     chassis.turnToHeading(360 - 48.29, 1500); // Mirrored heading
 
@@ -112,7 +117,7 @@ void autonomous()
     chassis.moveToPose(25, 14, 360 - 154, 20000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=40}, false);
     intake.move(127);
 
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    LadyMovePID(-13000, 2000, true);
 
     //Red Left Side
     /*lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);

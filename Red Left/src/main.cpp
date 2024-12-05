@@ -85,6 +85,8 @@ void autonomous()
 
     LadyMovePID(-13000, 1200, false);
 
+    LadyMovePID(-9000, 2000, true);
+
     chassis.follow(
         RushMovement_txt,
         10,
@@ -92,15 +94,18 @@ void autonomous()
         false,
         false
     );
+
+
+
     // chassis.moveToPose(-16.61, 26, 192.34, 3000, {.forwards=false, .lead=0.15, .maxSpeed=115, .minSpeed=30}, false);
     mogo_mech.set_value(false);
     pros::delay(300);
     chassis.turnToHeading(48.29, 1500);
-
-    intake.move(127);
-    chassis.moveToPose(-13.21, 37.26, 48.29, 1200, {.forwards=true, .lead=0, .maxSpeed=115, .minSpeed=30}, false);
+    intake.move(127); 
+    chassis.moveToPose(-14, 37.26, 48.29, 1200, {.forwards=true, .lead=0, .maxSpeed=115, .minSpeed=30}, false);
 
     pros::delay(400);
+
 
     chassis.moveToPose(-26.9, 27.7, 2.34, 1200, {.forwards=false, .lead=0, .maxSpeed=127, .minSpeed=30}, false);
 
@@ -108,9 +113,9 @@ void autonomous()
 
     pros::delay(500);
     
-    chassis.moveToPose(-20, 14, 154, 20000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=40}, false);
+    chassis.moveToPose(-22.5, 13.46, 150, 20000, {.forwards=true, .lead=0.2, .maxSpeed=127, .minSpeed=40}, false);
 
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    LadyMovePID(-16000, 20000, false);
     
 }
 

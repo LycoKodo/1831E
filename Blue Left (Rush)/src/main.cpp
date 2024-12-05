@@ -82,27 +82,40 @@ void autonomous()
     // pros::delay(800);
     //chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     
-    chassis.moveToPose(0, 32, 0, 900, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, true); // No mirroring needed for y-axis symmetry
+    chassis.moveToPose(0, 32.8, 0, 900, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=30}, true); // No mirroring needed for y-axis symmetry
     pros::delay(840);
     doinker.set_value(true);
     pros::delay(400);
-    chassis.moveToPose(0, 17, 0, 1200, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false); // No mirroring needed
+    chassis.moveToPose(0, 16, 0, 1200, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false); // No mirroring needed
     pros::delay(400);
+    intake.move(-127);
     doinker.set_value(false);
-    chassis.moveToPose(0, 15, 0, 1200, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false);
+
+    intake.move(127);
+    pros::delay(300);
+    
+    chassis.moveToPose(0, 14, 0, 1200, {.forwards=false, .maxSpeed=110, .minSpeed=40}, false);
     chassis.turnToHeading(240, 900, {.maxSpeed=100});
     chassis.moveToPose(18, 31, 215, 2000, {.forwards=false, .lead=0.2, .maxSpeed=110, .minSpeed=40}, false);
     mogo_mech.set_value(false);
     LadyMovePID(-14000, 2000, true); // Mirror x movement
+    pros::delay(400);
     intake.move(127);
     pros::delay(600);
     intake.move(0);
     mogo_mech.set_value(true);
     roller.move(127);
-    chassis.moveToPose(-14, 24, 180, 2000, {.forwards=true, .lead=0.2, .maxSpeed=110, .minSpeed=40}, false);
+
+    chassis.moveToPose(-17, 25, 180, 2000, {.forwards=true, .lead=0.2, .maxSpeed=110, .minSpeed=40}, false); // getting stak
     chassis.turnToHeading(-195, 900, {.maxSpeed=100});
-    chassis.moveToPose(-10, 45, -220, 2000, {.forwards=false, .lead=0.2, .maxSpeed=110, .minSpeed=40}, false);
+
+
+    chassis.moveToPose(-10, 45, -220, 2000, {.forwards=false, .lead=0.2, .maxSpeed=110, .minSpeed=50}, true);
+
+    pros::delay(1000);
     mogo_mech.set_value(false);
+
+    
     pros::delay(600);
     intake.move(127);
     LadyMovePID(-15000, 5000, true);
