@@ -91,7 +91,7 @@ void autonomous()
 
     // ** GETTING RIGHT GOAL ** //
 
-    chassis.moveToPose(26, 14, 275, 1200, {.forwards=false, .maxSpeed=108, .minSpeed=35}, false); // ASYNC
+    chassis.moveToPose(27, 14, 275, 2400, {.forwards=false, .maxSpeed=100, .minSpeed=25}, false);
     mogo_mech.set_value(false);
     pros::delay(400); // delay to let mogo settle
 
@@ -101,9 +101,17 @@ void autonomous()
 
     chassis.turnToHeading(0, 1200);
 
-    chassis.moveToPose(25, 40, 0, 1800, {.forwards=true, .lead=0, .maxSpeed = 108, .minSpeed = 0}, false);
-    
+    chassis.moveToPose(25, 40, 0, 2500, {.forwards=true, .lead=0.05, .maxSpeed = 108, .minSpeed = 0}, false);
+
+    pros::delay(700);
+
+    intake.move(-127);
+
     chassis.turnToHeading(90, 1300);
+
+    intake.move(127);
+
+    pros::delay(200);
 
     chassis.moveToPose(50, 38.7, 90, 2000, {.forwards=true, .lead=0, .maxSpeed = 108, .minSpeed = 0}, false);
 
@@ -113,10 +121,10 @@ void autonomous()
     
     chassis.turnToHeading(305, 1300, {.direction=AngularDirection::CCW_COUNTERCLOCKWISE}, false);
 
+    mogo_mech.set_value(true); // unclamp FIRST
+
     // Dumping in corner
     chassis.moveToPose(56, 3, 305, 1200, {.forwards=false, .lead=0, .maxSpeed = 100, .minSpeed = 0}, false);
-
-    mogo_mech.set_value(true); // unclamp
 
     pros::delay(200);
 
@@ -124,10 +132,12 @@ void autonomous()
 
     chassis.turnToHeading(90, 1300);
 
+
+    // *** Other Side *** //
     chassis.moveToPose(-25.5, 14, 90, 5000, {.forwards=false, .maxSpeed=110, .minSpeed=60}, false);
 
     pros::delay(300);
-    
+
     mogo_mech.set_value(false);
 
     pros::delay(200);
@@ -136,7 +146,15 @@ void autonomous()
 
     chassis.moveToPose(-25.5, 40, 0, 1800, {.forwards=true, .lead=0, .maxSpeed = 108, .minSpeed = 0}, false);
 
+    pros::delay(700);
+
+    intake.move(-127);
+
     chassis.turnToHeading(270, 1300);
+
+    intake.move(127);
+
+    pros::delay(200);
 
     chassis.moveToPose(-50, 38.7, 270, 2000, {.forwards=true, .lead=0, .maxSpeed = 108, .minSpeed = 0}, false);
 
@@ -154,7 +172,17 @@ void autonomous()
 
     pros::delay(200);
 
-    chassis.moveToPose(-43, 13, 60, 1500, {.forwards=true, .lead=0, .maxSpeed = 100, .minSpeed = 0}, false);
+    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "................");
+
+    // chassis.moveToPose(-43, 13, 60, 1500, {.forwards=true, .lead=0, .maxSpeed = 100, .minSpeed = 0}, false);
+    // chassis.follow(
+    //     bigmove_txt,
+    //     12, s
+    //     10000,
+    //     true, 
+    //     false
+    // );
+    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
     /*
     pros::delay(1700);
@@ -189,7 +217,6 @@ void autonomous()
     //     false
     // );
     */
-    pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "................");
 }
 
 void opcontrol() 

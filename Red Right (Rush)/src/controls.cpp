@@ -111,6 +111,7 @@ void ladyMoveToSTDPose(float target, float acceptableRange) {
     lady.brake();
 }
 
+
 void ladyctl() {
     bool spinning = false;
     lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -128,6 +129,9 @@ void ladyctl() {
             spinning = true;
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+            lady.move(100);
+            pros::delay(400);
+            lady.move(0);
             lady_rotation.set_position(0);
             LadyMovePID(-900, 2000, false);
         }
