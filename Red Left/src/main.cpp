@@ -102,7 +102,7 @@ void autonomous()
     chassis.turnToHeading(71.3, 1500); // Mirrored heading
 
     intake.move(127);
-    chassis.moveToPose(-13.21, 38, 42, 3000, {.forwards=true, .lead=0.05, .maxSpeed=127, .minSpeed=50}, false);
+    chassis.moveToPose(-13.21, 37, 42, 3000, {.forwards=true, .lead=0.05, .maxSpeed=127, .minSpeed=50}, false);
     
     chassis.swingToHeading(53, DriveSide::RIGHT, 1000, {.maxSpeed=100, .minSpeed=45}, false); // Minspeed issue
     pros::c::controller_rumble(pros::E_CONTROLLER_MASTER, "..");
@@ -115,7 +115,7 @@ void autonomous()
     chassis.moveToPose(-28, 27.7, 2.34, 1200, {.forwards=false, .lead=0, .maxSpeed=127, .minSpeed=35}, false);
     intake.move(127);
 
-    chassis.moveToPose(-28.5, 37.5, -4, 2200, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=60}, false);
+    chassis.moveToPose(-28.5, 35, -4, 3000, {.forwards=true, .lead=0, .maxSpeed=127, .minSpeed=60}, false);
 
     pros::delay(100);
 
