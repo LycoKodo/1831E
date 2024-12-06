@@ -130,10 +130,11 @@ void ladyctl() {
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
             lady.move(100);
-            pros::delay(400);
+            pros::delay(650);
             lady.move(0);
             lady_rotation.set_position(0);
-            LadyMovePID(-900, 2000, false);
+            pros::delay(200);
+            LadyMovePID(-920, 2000, false);
         }
         else if (spinning == true) {
             lady.brake();
