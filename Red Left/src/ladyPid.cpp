@@ -1,16 +1,8 @@
-#include "main.h"
-#include "lemlib/api.hpp"
-#include "lemlib/chassis/chassis.hpp"
-#include "pros/device.hpp"
-#include "pros/misc.h"
-#include "pros/motors.h"
-#include "pros/rtos.h"
 #include "pros/rtos.hpp"
 #include "lemlib/pid.hpp"
 #include <sys/wait.h>
 
 #include "robot-config.hpp"
-#include "controls.hpp"
 
 using namespace lemlib;
 

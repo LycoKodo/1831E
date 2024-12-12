@@ -1,10 +1,7 @@
 #include "main.h"
-#include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
-#include "pros/device.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
-#include "pros/rtos.h"
 #include "pros/rtos.hpp"
 #include <sys/wait.h>
 
