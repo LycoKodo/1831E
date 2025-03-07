@@ -52,15 +52,15 @@ void ladyctl() {
     while (true) {
         // lady_pos = lady.get_position() - lady_zero;
 
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             lady.move(-100);
             spinning = true;
         }
-        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             lady.move(100);
             spinning = true;
         }
-        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
             lady.move(100);
             pros::delay(400);
             lady.move(0);
@@ -91,7 +91,8 @@ void intake_control() {
             printf("Intake Activitated\n");
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            bool passed = ringInspect();
+            // bool passed = ringInspect();
+            bool passed = true; // TODO - TEMPORARY
             if (passed) {
                 double velocity = intake.get_actual_velocity();
                 if (false) {// velocity < stuck_lim_low && velocity > -stuck_lim_high
@@ -130,7 +131,7 @@ void mogo_control() {
     bool latch = false;
 
     while (true) {
-        bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_R2);
+        bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_X);
 
         if (b_button && !latch) {
             toggle = !toggle;             // Flip the toggle state
@@ -143,41 +144,41 @@ void mogo_control() {
     }
 }
 
-void doinker_control() {
-    bool toggle = true;
-    bool latch = false;
+// void doinker_control() {
+//     bool toggle = true;
+//     bool latch = false;
 
-    while (true) {
-        bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_X);
+//     while (true) {
+//         bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
 
-        if (b_button && !latch) {
-            toggle = !toggle;             // Flip the toggle state
-            doinker.set_value(toggle);  // Update mogo_mech based on the new toggle state
-            latch = true;                 // Engage latch to prevent repeated toggles
-        } else if (!b_button) {
-            latch = false;                // Reset latch when button is released
-        }
-        pros::delay(10);
-    }
-}
+//         if (b_button && !latch) {
+//             toggle = !toggle;             // Flip the toggle state
+//             doinker.set_value(toggle);  // Update mogo_mech based on the new toggle state
+//             latch = true;                 // Engage latch to prevent repeated toggles
+//         } else if (!b_button) {
+//             latch = false;                // Reset latch when button is released
+//         }
+//         pros::delay(10);
+//     }
+// }
 
-void endgame_control() {
-    bool toggle = true;
-    bool latch = false;
+// void endgame_control() {
+//     bool toggle = true;
+//     bool latch = false;
 
-    while (true) {
-        bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+//     while (true) {
+//         bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
 
-        if (b_button && !latch) {
-            toggle = !toggle;             // Flip the toggle state
-            endgame.set_value(toggle);  // Update mogo_mech based on the new toggle state
-            latch = true;                 // Engage latch to prevent repeated toggles
-        } else if (!b_button) {
-            latch = false;                // Reset latch when button is released
-        }
-        pros::delay(10);
-    }
-}
+//         if (b_button && !latch) {
+//             toggle = !toggle;             // Flip the toggle state
+//             endgame.set_value(toggle);  // Update mogo_mech based on the new toggle state
+//             latch = true;                 // Engage latch to prevent repeated toggles
+//         } else if (!b_button) {
+//             latch = false;                // Reset latch when button is released
+//         }
+//         pros::delay(10);
+//     }
+// }
 
 void drivetrain_control() {
     while (true) {
@@ -188,11 +189,12 @@ void drivetrain_control() {
         // ----------------------------- //
 
         int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightY = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+        int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         // move the chassis with curvature drive
-            leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-            rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-            chassis.tank(leftY, rightY);                     // Regular tank
+        leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+        rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+        
+        chassis.variableCurvature(leftY, rightX, 1, false);                     // Regular tank
 
         pros::delay(10);
     }

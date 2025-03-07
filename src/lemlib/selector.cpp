@@ -209,39 +209,42 @@ void skillsBtnmAction(lv_event_t* e) {
 
 void tabWatcher(void* param) {
     try {
-        int activeTab = lv_tabview_get_tab_act(tabview);
-        while (!autonStarted) {
-            int currentTab = lv_tabview_get_tab_act(tabview);
-            if (currentTab != activeTab) {
-                activeTab = currentTab;
+        while (true) {
+            int activeTab = lv_tabview_get_tab_act(tabview);
+            if (!autonStarted) {
+                int currentTab = lv_tabview_get_tab_act(tabview);
+
+                if (currentTab != activeTab) {
+                    activeTab = currentTab;
+                }
+                // Handle actions for the active tab
+                if (activeTab == 1 && currentRedButton < UINT16_MAX) {
+                    deselect_all_buttons(redBtnm);
+                    lv_btnmatrix_set_btn_ctrl(redBtnm, currentRedButton, LV_BTNMATRIX_CTRL_CHECKED);
+                } else if (activeTab == 2 && currentBlueButton < UINT16_MAX) {
+                    deselect_all_buttons(blueBtnm);
+                    lv_btnmatrix_set_btn_ctrl(blueBtnm, currentBlueButton, LV_BTNMATRIX_CTRL_CHECKED);
+                } else if (activeTab == 3 && currentSKillsButton < UINT16_MAX) {
+                    deselect_all_buttons(skillsBtnm);
+                    lv_btnmatrix_set_btn_ctrl(skillsBtnm, currentSKillsButton, LV_BTNMATRIX_CTRL_CHECKED);
+                } else if (activeTab == 0) {
+                    motorUpdate();
+                    odomUpdate();
+                }
+
+                textUpdate();
+                printf("Current Auton %i", auton);
+                pros::delay(10);
             }
-            // Handle actions for the active tab
-            if (activeTab == 1 && currentRedButton < UINT16_MAX) {
-                deselect_all_buttons(redBtnm);
-                lv_btnmatrix_set_btn_ctrl(redBtnm, currentRedButton, LV_BTNMATRIX_CTRL_CHECKED);
-            } else if (activeTab == 2 && currentBlueButton < UINT16_MAX) {
-                deselect_all_buttons(blueBtnm);
-                lv_btnmatrix_set_btn_ctrl(blueBtnm, currentBlueButton, LV_BTNMATRIX_CTRL_CHECKED);
-            } else if (activeTab == 3 && currentSKillsButton < UINT16_MAX) {
-                deselect_all_buttons(skillsBtnm);
-                lv_btnmatrix_set_btn_ctrl(skillsBtnm, currentSKillsButton, LV_BTNMATRIX_CTRL_CHECKED);
-            } else if (activeTab == 0) {
+
+            // Auton has started
+            if (autonStarted) {
+                lv_tabview_set_act(tabview, 0, LV_ANIM_OFF);
                 motorUpdate();
                 odomUpdate();
+                printf("Current Auton %i", auton);
+                pros::delay(10);
             }
-            textUpdate();
-            printf("Current Auton %i", auton);
-            pros::delay(10);
-        }
-
-        // Auton has started
-        while (autonStarted) {
-            lv_tabview_set_act(tabview, 0, LV_ANIM_OFF);
-            motorUpdate();
-            odomUpdate();
-            
-            printf("Current Auton %i", auton);
-            pros::delay(10);
         }
     } catch (const std::exception& ex) {
         log_error("tabWatcher", ex.what());

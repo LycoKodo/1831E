@@ -1,3 +1,4 @@
+#include "lemlib/chassis/trackingWheel.hpp"
 #include "lemlib/smartMotor.hpp"
 #include "main.h"
 #include "lemlib/api.hpp"
@@ -17,15 +18,15 @@
 
 // CLAWBOT CONFIGS
 
-pros::MotorGroup leftMotors({10}, pros::MotorGearset::green); // left motor group - ports 3 (reversed), 4, 5 (reversed)
-pros::MotorGroup rightMotors({-1}, pros::MotorGearset::green); // right motor group - ports 6, 7, 9 (reversed)
+pros::MotorGroup leftMotors({-19, -10, -1}, pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
+pros::MotorGroup rightMotors({7, 8, 9}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // PID settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              11.6, // 11.6 inch track width
-                              lemlib::Omniwheel::OLD_325, // using new 3"25' omnis
-                              200, // drivetrain rpm is 200 (green direct)
+                              12.9, // 11.6 inch track width
+                              lemlib::Omniwheel::NEW_325, // using new 3"25' omnis
+                              450, // drivetrain rpm is 200 (green direct)
                               5 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
@@ -35,26 +36,26 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-pros::Motor roller(3);
-pros::Motor hook(8);
+pros::Motor roller(-20, pros::MotorGearset::green);
+pros::Motor hook(-5, pros::MotorGearset::blue);
 
-pros::MotorGroup intake({1, -6}, pros::MotorGearset::green); // front 1, back 6
-pros::adi::DigitalOut mogo_mech (8);
-pros::adi::DigitalOut doinker (7);
-pros::adi::DigitalOut endgame (1);
+pros::MotorGroup intake({-20, -5}, pros::MotorGearset::green); // front 1, back 6
+pros::adi::DigitalOut mogo_mech (1);
+// pros::adi::DigitalOut doinker (7);
+// pros::adi::DigitalOut endgame (1);
 
 // ---------------------------------------
 // Sensors (Miscellaneous)
 // ---------------------------------------
 
-pros::Imu imu(19);
-pros::Optical colorSort (18);
+// pros::Imu imu(19);
+// pros::Optical colorSort (18);
 
 // ---------------------------------------
 // Macro (Wall Stake Mech)
 // ---------------------------------------
 
-pros::MotorGroup lady({5});
+pros::MotorGroup lady({-6}); // TODO - Placeholder
 lemlib::PID ladypid(10, 0.4, 50, 0, false);
 pros::Rotation lady_rotation (12);
 lemlib::SmartMotor ladySmart(&lady, &lady_rotation, ladypid);
