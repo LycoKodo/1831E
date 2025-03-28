@@ -16,10 +16,9 @@
 
 int blue1() {
     
-    rightMotors.move_voltage(120000);
-    leftMotors.move_voltage(-120000);
+    
 
-    return 0;
+    return 0; // success, 1 for fail
 }
 
 

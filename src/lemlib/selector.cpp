@@ -42,7 +42,7 @@ enum AutonState {
 };
 
 AutonState autonState = NONE;
-int auton;
+int auton = 999;
 int blueLength;
 int redLength;
 int skillsLength;
@@ -232,6 +232,9 @@ void tabWatcher(void* param) {
                     odomUpdate();
                 }
 
+                if (auton == 999) {
+                    master.rumble(".");
+                }
                 textUpdate();
                 printf("Current Auton %i", auton);
                 pros::delay(10);
@@ -573,7 +576,7 @@ int customUpdate() {
     snprintf(buffer, sizeof(buffer), "Alliance: \n");
     lv_textarea_add_text(other_textarea, buffer);
 
-    snprintf(buffer, sizeof(buffer), "Lady Position: \n");
+    snprintf(buffer, sizeof(buffer), "Lady Rotation: %f\n", ladySmart.getRotation());
     lv_textarea_add_text(other_textarea, buffer);
 
     snprintf(buffer, sizeof(buffer), "Chassis Kp: \n");
@@ -632,7 +635,7 @@ int textUpdate() {
 // and it fails (most surely), please increase this counter       //
 // as a warning for the next person:                              //
 //                                                                //
-// total_hours_wasted_here = 5                                    //
+// total_hours_wasted_here = 5.1                                  //
 //                                                                //
 //----------------------------------------------------------------//
 

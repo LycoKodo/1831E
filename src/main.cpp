@@ -137,7 +137,7 @@ void initialize() {
         "Skills 2", "Skills 3", "Skills 4", nullptr
     };
 
-    lemlib::selector::init(1, redBtnmMap, blueBtnmMap, skillsBtnmMap, redBtnmDesc, blueBtnmDesc, skillsBtnmDesc); // declaring default auton
+    lemlib::selector::init(999, redBtnmMap, blueBtnmMap, skillsBtnmMap, redBtnmDesc, blueBtnmDesc, skillsBtnmDesc); // declaring default auton
 
     // TODO - temporary 
     pros::Task watcher(autonwatcher);

@@ -127,8 +127,12 @@ void intake_control() {
 }
 
 void mogo_control() {
+    // Start with the opposite default state
     bool toggle = true;
     bool latch = false;
+
+    // Set mogo_mech to the default state immediately
+    mogo_mech.set_value(toggle);
 
     while (true) {
         bool b_button = master.get_digital(pros::E_CONTROLLER_DIGITAL_X);
