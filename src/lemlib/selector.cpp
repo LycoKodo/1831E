@@ -573,19 +573,26 @@ int customUpdate() {
 
     char buffer[64]; // Buffer to hold formatted strings
 
-    snprintf(buffer, sizeof(buffer), "Alliance: \n");
+    // Logic to Update Alliance
+
+    char alliance = 'N';
+    if (auton >= 1 && auton <= 100){
+        alliance = 'R';
+    } else if (auton >= -100 && auton <= -1) {
+        alliance = 'B';
+    } else if (auton >= 101 && auton <= 201) {
+        alliance = 'S'; // @note: alliance for skills is RED
+    }
+    snprintf(buffer, sizeof(buffer), "Alliance: %c\n", alliance);
     lv_textarea_add_text(other_textarea, buffer);
 
-    snprintf(buffer, sizeof(buffer), "Lady Rotation: %f\n", ladySmart.getRotation());
+    snprintf(buffer, sizeof(buffer), "Lady Rotation: %.2f\n", ladySmart.getRotation());
     lv_textarea_add_text(other_textarea, buffer);
 
-    snprintf(buffer, sizeof(buffer), "Chassis Kp: \n");
+    snprintf(buffer, sizeof(buffer), "Drive P: %.2f I: %.2f D: %.2f\n", linearController.kP, linearController.kI, linearController.kD);
     lv_textarea_add_text(other_textarea, buffer);
 
-    snprintf(buffer, sizeof(buffer), "Chassis Ki: \n");
-    lv_textarea_add_text(other_textarea, buffer);
-
-    snprintf(buffer, sizeof(buffer), "Chassis Kd: ");
+    snprintf(buffer, sizeof(buffer), "Turn P: %.2f I: %.2f D: %.2f\n", angularController.kP, angularController.kI, angularController.kD);
     lv_textarea_add_text(other_textarea, buffer);
 
     return 0;
