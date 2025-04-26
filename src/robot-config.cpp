@@ -55,40 +55,39 @@ pros::adi::DigitalOut mogo_mech (1);
 // Macro (Wall Stake Mech)
 // ---------------------------------------
 
-pros::MotorGroup lady({-6}); // TODO - Placeholder
+pros::MotorGroup lady({-6}); 
 lemlib::PID ladypid(10, 0.4, 50, 0, false);
-pros::Rotation lady_rotation (12);
+pros::Rotation lady_rotation (13); // TODO - Test direction of rotation
 lemlib::SmartMotor ladySmart(&lady, &lady_rotation, ladypid);
 
 // ---------------------------------------
 // Odometry
 // ---------------------------------------
 
-// pros::Rotation horizontal_encoder(13); // Change to the "A" tagged encoder
+pros::Rotation horizontal_encoder(12); // Change to the "A" tagged encoder
 
-// pros::Rotation vertical_encoder(17);
+pros::Rotation vertical_encoder(21);
 
-// lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_275, +1.95);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, +1.95);
 
-// lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_275, -1.5);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -1.5);
 
-// chassis: 12.8 across, 13.5 height
-// traking cneter: 6.4, 6.75 
+pros::IMU imu(14);
 
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
                             nullptr, // &horizontal_tracking_wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr     // inertial sensor &imu
+                            &imu     // inertial sensor &imu
 );
 
 // ---------------------------------------
 // PID Controller
 // ---------------------------------------
 
-lemlib::ControllerSettings linearController(  6, // proportional gain (kP)
-                                              -0.0045, // integral gain (kI) 0.11
-                                              2, // derivative gain (kD) 1.5
+lemlib::ControllerSettings linearController(  7, // proportional gain (kP)
+                                              -0.0025, // integral gain (kI) 0.11
+                                              2.5, // derivative gain (kD) 1.5
                                               0, // anti windup
                                               1, // small error range, in inches
                                               200, // small error range timeout, in milliseconds

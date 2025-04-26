@@ -154,47 +154,48 @@ void competition_initialize() {}
 void autonomous() {  
     chassis.setPose(0, 0, 0); 
 
-    int auton = lemlib::selector::auton;
+    chassis.moveToPoint(0, 24, 3500);   
+    // int auton = lemlib::selector::auton;
 
-    lemlib::selector::autonStarted = true;
+    // lemlib::selector::autonStarted = true;
     
-    if (auton >= 1 && auton <= 100) {
-        switch (auton) {
-            case 1: red1(); break;
-            case 2: red2(); break;
-            case 3: red3(); break;
-            case 4: red4(); break;
-            case 5: red5(); break;
-            case 6: red6(); break;
-            // add more red cases as needed up to 100
-        }
-    }
-    else if (auton >= -100 && auton <= -1) {
-        switch (auton) {
-            case -1: blue1(); break;
-            case -2: blue2(); break;
-            case -3: blue3(); break;
-            case -4: blue4(); break;
-            case -5: blue5(); break;
-            case -6: blue6(); break;
-            // add more blue cases as needed up to -100
-        }
-    }
-    else if (auton >= 101 && auton <= 201) {
-        switch (auton) {
-            case 101: skills1(); break;
-            case 102: skills2(); break;
-            case 103: skills3(); break;
-            case 104: skills4(); break;
-            case 105: skills5(); break;
-            case 106: skills6(); break;
-            // add more skills cases as needed up to 106
-        }
-    }
-    else {
-        // Default auton
-        auton1ring();
-    }
+    // if (auton >= 1 && auton <= 100) {
+    //     switch (auton) {
+    //         case 1: red1(); break;
+    //         case 2: red2(); break;
+    //         case 3: red3(); break;
+    //         case 4: red4(); break;
+    //         case 5: red5(); break;
+    //         case 6: red6(); break;
+    //         // add more red cases as needed up to 100
+    //     }
+    // }
+    // else if (auton >= -100 && auton <= -1) {
+    //     switch (auton) {
+    //         case -1: blue1(); break;
+    //         case -2: blue2(); break;
+    //         case -3: blue3(); break;
+    //         case -4: blue4(); break;
+    //         case -5: blue5(); break;
+    //         case -6: blue6(); break;
+    //         // add more blue cases as needed up to -100
+    //     }
+    // }
+    // else if (auton >= 101 && auton <= 201) {
+    //     switch (auton) {
+    //         case 101: skills1(); break;
+    //         case 102: skills2(); break;
+    //         case 103: skills3(); break;
+    //         case 104: skills4(); break;
+    //         case 105: skills5(); break;
+    //         case 106: skills6(); break;
+    //         // add more skills cases as needed up to 106
+    //     }
+    // }
+    // else {
+    //     // Default auton
+    //     auton1ring();
+    // }
 
 
 }

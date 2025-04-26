@@ -583,18 +583,21 @@ int customUpdate() {
     } else if (auton >= 101 && auton <= 201) {
         alliance = 'S'; // @note: alliance for skills is RED
     }
-    snprintf(buffer, sizeof(buffer), "Alliance: %c\n", alliance);
-    lv_textarea_add_text(other_textarea, buffer);
-
-    snprintf(buffer, sizeof(buffer), "Lady Rotation: %.2f\n", ladySmart.getRotation());
-    lv_textarea_add_text(other_textarea, buffer);
-
-    snprintf(buffer, sizeof(buffer), "Drive P: %.2f I: %.2f D: %.2f\n", linearController.kP, linearController.kI, linearController.kD);
-    lv_textarea_add_text(other_textarea, buffer);
-
-    snprintf(buffer, sizeof(buffer), "Turn P: %.2f I: %.2f D: %.2f\n", angularController.kP, angularController.kI, angularController.kD);
-    lv_textarea_add_text(other_textarea, buffer);
-
+    try {
+        snprintf(buffer, sizeof(buffer), "Alliance: %c\n", alliance);
+        lv_textarea_add_text(other_textarea, buffer);
+    
+        snprintf(buffer, sizeof(buffer), "Lady Rotation: %.2f\n", ladySmart.getRotation());
+        lv_textarea_add_text(other_textarea, buffer);
+    
+        snprintf(buffer, sizeof(buffer), "Drive P: %.2f I: %.2f D: %.2f\n", linearController.kP, linearController.kI, linearController.kD);
+        lv_textarea_add_text(other_textarea, buffer);
+    
+        snprintf(buffer, sizeof(buffer), "Turn P: %.2f I: %.2f D: %.2f\n", angularController.kP, angularController.kI, angularController.kD);
+        lv_textarea_add_text(other_textarea, buffer);
+    } catch (const std::exception& ex) {
+        log_error("customUpdate", ex.what());
+    }
     return 0;
 }
 

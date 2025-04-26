@@ -51,8 +51,8 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // calculate distance to the target point
         const float distTarget = pose.distance(target);
 
-        // check if the robot is close enough to the target to start settling
-        if (distTarget < 7.5 && close == false) {
+        // check if the robot is close enough to the target to start settling //TODO - Modified from 7.5
+        if (distTarget < 0 && close == false) {
             close = true;
             params.maxSpeed = fmax(fabs(prevLateralOut), 60);
         }
