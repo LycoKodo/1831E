@@ -64,7 +64,9 @@ void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async
             if (passed) {
                 intake.move(voltage);
             } else {
-                intake.move(voltage * penaltyFactor);
+                pros::delay(90);
+                hook.move(voltage * penaltyFactor);
+                pros::delay(100);
             }
         } else {
             // Outtaking or stopping

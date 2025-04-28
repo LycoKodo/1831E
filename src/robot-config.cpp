@@ -41,6 +41,7 @@ pros::Motor hook(-5, pros::MotorGearset::blue);
 
 pros::MotorGroup intake({-20, -5}, pros::MotorGearset::green); // front 1, back 6
 pros::adi::DigitalOut mogo_mech (1);
+pros::adi::DigitalOut sos (2);
 // pros::adi::DigitalOut doinker (7);
 // pros::adi::DigitalOut endgame (1);
 
@@ -49,14 +50,15 @@ pros::adi::DigitalOut mogo_mech (1);
 // ---------------------------------------
 
 // pros::Imu imu(19);
-// pros::Optical colorSort (18);
+pros::Optical colorSort (3);
 
 // ---------------------------------------
 // Macro (Wall Stake Mech)
 // ---------------------------------------
 
 pros::MotorGroup lady({-6}); 
-lemlib::PID ladypid(10, 0.4, 50, 0, false);
+// 5, -0.0026, 17, 15, 
+lemlib::PID ladypid(3.2, -0.0002, 1, 0, false);
 pros::Rotation lady_rotation (13); // TODO - Test direction of rotation
 lemlib::SmartMotor ladySmart(&lady, &lady_rotation, ladypid);
 
@@ -64,19 +66,19 @@ lemlib::SmartMotor ladySmart(&lady, &lady_rotation, ladypid);
 // Odometry
 // ---------------------------------------
 
-pros::Rotation horizontal_encoder(12); // Change to the "A" tagged encoder
+pros::Rotation horizontal_encoder(-21); // Change to the "A" tagged encoder
 
-pros::Rotation vertical_encoder(21);
+pros::Rotation vertical_encoder(-12);
 
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, +1.95);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, +0.157); //+1.95. 32.4 x 25.5 cm? 16.6 x 16.3
 
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -1.5);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -1.4); //-1.5
 
-pros::IMU imu(14);
+pros::IMU imu(2);
 
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
+lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr, // &horizontal_tracking_wheel
+                            &horizontal_tracking_wheel, // &horizontal_tracking_wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu     // inertial sensor &imu
 );
@@ -85,9 +87,9 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
 // PID Controller
 // ---------------------------------------
 
-lemlib::ControllerSettings linearController(  7, // proportional gain (kP)
-                                              -0.0025, // integral gain (kI) 0.11
-                                              2.5, // derivative gain (kD) 1.5
+lemlib::ControllerSettings linearController(  6.3, // proportional gain (kP)
+                                              -0.0045, // integral gain (kI) 0.11
+                                              3.3, // derivative gain (kD) 1.5
                                               0, // anti windup
                                               1, // small error range, in inches
                                               200, // small error range timeout, in milliseconds
@@ -96,9 +98,9 @@ lemlib::ControllerSettings linearController(  7, // proportional gain (kP)
                                               75 // maximum acceleration (slew)
 );
 
-lemlib::ControllerSettings angularController(0.75, // proportional gain (kP)
-                                             0.00010, // integral gain (kI)
-                                             0.5, // derivative gain (kD)
+lemlib::ControllerSettings angularController(0.9, // proportional gain (kP)
+                                             -0.00095, // integral gain (kI)//00010
+                                             0, // derivative gain (kD)
                                              0, // anti windup
                                              1, // small error range, in degrees
                                              200, // small error range timeout, in milliseconds

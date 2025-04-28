@@ -65,7 +65,7 @@ void ladyctl() {
             pros::delay(400);
             lady.move(0);
             lady_rotation.set_position(0);
-            ladySmart.movePID(-900, 2000, 0.5, false);
+            ladySmart.movePID(-1300, 2000, 0.5, false);
         }
         else if (spinning == true) {
             lady.brake();
@@ -113,8 +113,9 @@ void intake_control() {
                 printf("    PASSED: False \n");
                 intake.move(127);
                 pros::delay(220); // TODO - Tune delay accordingly to intake
-                intake.brake();
+                intake.move(-127);
                 pros::delay(200);
+                intake.move(127);
             }
             intake_spinning = false;
         }

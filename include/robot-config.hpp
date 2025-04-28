@@ -25,6 +25,7 @@ extern pros::Motor roller;
 extern pros::Motor hook;
 extern pros::MotorGroup intake;
 extern pros::adi::DigitalOut mogo_mech;
+extern pros::adi::DigitalOut sos;
 extern pros::adi::DigitalOut doinker;
 extern pros::adi::DigitalOut endgame;
 

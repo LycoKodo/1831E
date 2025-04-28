@@ -90,6 +90,7 @@ void initialize() {
 
     chassis.calibrate(); // calibrate sensors
 
+    ladySmart.reset();
     // // -----------------------
     // // Initialise Sensors
     // // -----------------------
@@ -152,9 +153,111 @@ void competition_initialize() {}
 
 
 void autonomous() {  
-    chassis.setPose(0, 0, 0); 
+    
+    setColorSort();
+    
+    /*chassis.setPose(0, 0, 34); 
 
-    chassis.moveToPoint(0, 24, 3500);   
+    chassis.moveToPose(-15, -23, 33, 1100, {.forwards = false}, false);
+
+    mogo_mech.set_value(true);
+    pros::delay(150);
+    
+    chassis.turnToHeading(160, 800);
+
+    Intake_SortedMove(127, 10000, -1, true); // TODO - TEMPORARY
+
+    chassis.moveToPose(0, -38, 130, 1500, {.forwards = true}, false);
+
+    chassis.moveToPose(17, -37, 110, 1400, {.forwards = true, .minSpeed = 20}, false);
+
+    chassis.turnToHeading(330, 800);
+
+    chassis.moveToPose(0, -25, 270, 2700, {.forwards = true, .minSpeed = 20}, false);
+    
+    chassis.turnToHeading(290, 800);
+
+    chassis.moveToPose(-43, 2, 290, 3000, {.forwards = true, .minSpeed = 20}, true);
+
+    pros::delay(1150);
+
+    sos.set_value(true);
+
+    chassis.turnToHeading(0, 900);
+
+    lady.move(100);
+    pros::delay(400);
+    sos.set_value(false);
+    lady.move(0);
+    lady_rotation.set_position(0);
+    ladySmart.movePID(-1400, 1050, 0.5, true);
+    lady.brake();
+
+    intake.move(127);
+
+    chassis.moveToPose(-38, 10, 0, 1300, {.forwards = true, .minSpeed = 60}, false);
+
+    pros::delay(400);
+
+    intake.move(0);
+
+    lady.move(-100);
+    lady.move(-100);*/
+
+    // STUFF
+    // chassis.setPose(0, 0, 47); 
+    
+    // lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    // ladySmart.movePID(-19529, 800, 10, false);
+
+    // TODO
+
+    chassis.setPose(0,0,0);
+
+    // chassis.moveToPoint(0, 48, 4000, {.forwards = true}, false);
+    
+    chassis.turnToHeading(180, 2000);
+
+    chassis.turnToHeading(0, 2000);
+
+    // lady.move_velocity(-127);
+    // pros::delay(1000);
+    // lady.move_velocity(40);
+
+    // chassis.moveToPose(-12, -12, 47, 800, {.forwards = false, .minSpeed = 20}, false);
+
+    // chassis.turnToHeading(90, 1200);
+
+    // sos.set_value(true);
+
+    // roller.move_velocity(127);
+
+    // chassis.moveToPose(23, -9, 90, 1000, {.forwards = true, .minSpeed = 20}, false);
+
+    // sos.set_value(false);
+
+    // lady.move_velocity(0);
+
+    // chassis.moveToPose(-8, -32, 40, 1500, {.forwards = false, .minSpeed = 20}, false);
+
+    // chassis.moveToPose(-10, -35, 40, 500, {.forwards = false, .minSpeed = 20}, false);
+
+    // mogo_mech.set_value(true);
+    
+    // pros::delay(100);
+    
+    // Intake_SortedMove(127, 10000, -1, true); // TODO - TEMPORARY
+
+    // pros::delay(200);
+
+    // chassis.turnToHeading(240, 800);
+
+    // chassis.moveToPose(20, -35, 240, 2000, {.forwards = true, .minSpeed = 20}, false);
+
+    
+
+
+
     // int auton = lemlib::selector::auton;
 
     // lemlib::selector::autonStarted = true;
