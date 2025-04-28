@@ -58,7 +58,7 @@ pros::Optical colorSort (3);
 
 pros::MotorGroup lady({-6}); 
 // 5, -0.0026, 17, 15, 
-lemlib::PID ladypid(3.2, -0.0002, 1, 0, false);
+lemlib::PID ladypid(4.6, 0.0212, 1, 0, false);
 pros::Rotation lady_rotation (13); // TODO - Test direction of rotation
 lemlib::SmartMotor ladySmart(&lady, &lady_rotation, ladypid);
 
