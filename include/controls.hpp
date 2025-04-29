@@ -72,6 +72,9 @@ void mogo_control();
  */
 void doinker_control();
 
+
+void intake_lift_control();
+
 /**
  * @brief Provides joystick-based drivetrain control with toggleable braking modes.
  */

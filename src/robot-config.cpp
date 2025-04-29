@@ -42,6 +42,7 @@ pros::Motor hook(-5, pros::MotorGearset::blue);
 pros::MotorGroup intake({-20, -5}, pros::MotorGearset::green); // front 1, back 6
 pros::adi::DigitalOut mogo_mech (1);
 pros::adi::DigitalOut sos (2);
+pros::adi::DigitalOut doinker (3);
 // pros::adi::DigitalOut doinker (7);
 // pros::adi::DigitalOut endgame (1);
 

@@ -103,7 +103,7 @@ void initialize() {
     // // -----------------------
     // intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     // mogo_mech.set_value(true);
-    // doinker.set_value(false);
+    doinker.set_value(false);
 
     lv_obj_del(img); // stop displaying TKSRC Logo as Calibration has ended
 
@@ -158,6 +158,64 @@ ASSET(CornerS_txt);
 void autonomous() {  
     
     setColorSort();
+    chassis.setPose(0, 0, 45);
+
+    ladySmart.movePID(-20000, 900, 10, false);
+    ladySmart.movePID(9000, 2000, 10, true);
+
+    chassis.moveToPose(-6, -6, 45, 1000, {.forwards = false}, false);
+
+    chassis.turnToHeading(100, 500);
+    
+    sos.set_value(true);
+
+    roller.move_velocity(80);
+
+    chassis.moveToPose(10, -9, 100, 800, {.forwards = true, .minSpeed = 20}, false);
+
+    pros::delay(150);
+
+    sos.set_value(false);
+
+    chassis.moveToPose(0, -4, 100, 800, {.forwards = false}, false);
+
+    pros::delay(100);
+
+    //chassis.moveToPose(-12, -46, 25, 1300, {.forwards = false}, false);
+
+    chassis.moveToPose(-6, -37, 25, 1400, {.forwards = false}, false);
+
+    chassis.moveToPose(-16, -47, 25, 850, {.forwards = false}, false);
+
+    mogo_mech.set_value(true);
+    
+    pros::delay(200);
+
+    chassis.turnToHeading(260, 900);
+
+    Intake_SortedMove(127, 6000, -1, true); // TODO - TEMPORARY
+
+    chassis.moveToPose(-29, -36, 260, 1000, {.forwards = true, .minSpeed = 20}, false);
+
+    pros::delay(1350);
+
+    mogo_mech.set_value(false);
+
+    intake.move(-127);
+
+    chassis.turnToHeading(0, 800);
+
+    chassis.moveToPose(-27, -60, 15, 18000, {.forwards = false, .minSpeed = 20}, false);
+
+    chassis.moveToPose(-27.5, -63, 15, 800, {.forwards = false, .minSpeed = 20}, false);
+
+    mogo_mech.set_value(false);
+
+    pros::delay(1400);
+
+    chassis.moveToPose(-46, -10, 45, 2500, {.forwards = true}, false);
+
+
     
     /*chassis.setPose(0, 0, 34); 
 
@@ -214,83 +272,6 @@ void autonomous() {
     // ladySmart.movePID(-19529, 800, 10, false);
 
     // TODO
-
-
-
-
-
-
-
-
-
-
-
-
-
-    chassis.setPose(-62.596,-9.546,326);
-
-    // chassis.moveToPoint(0, 48, 4000, {.forwards = true}, false);
-    
-    // SCORE 1 -> Alliance Wall Stake
-    ladySmart.movePID(-20000, 1200, 10, false);
-    ladySmart.movePID(-9000, 2000, 10, true);
-
-    chassis.follow(
-        GoalMovement_txt,
-        10,
-        5000, 
-        false,
-        false
-    );
-    mogo_mech.set_value(true);
-
-    chassis.turnToHeading(319, 800);
-    sos.set_value(true);
-
-    Intake_SortedMove(127, 7000, -1, true);
-
-    chassis.moveToPose(-42.6, -3.2, 319, 1200, {.forwards = true, .lead=0.1, .minSpeed = 30}, false);
-
-    chassis.moveToPoint(-39.7, -6.2, 700, {.forwards = false, .maxSpeed=110, .minSpeed = 40}, false);
-    pros::delay(700);
-    sos.set_value(false);
-
-    
-    // Returning to goal pose
-    chassis.moveToPose(-27, -23, 319, 1200, {.forwards = false, .lead=0.2, .minSpeed = 10}, false);
-    chassis.turnToHeading(186, 800); // face 2 stack
-
-    chassis.moveToPose(-30, -42, 186, 1500, {.forwards = true, .lead=0.1, .minSpeed = 10}, false);
-
-    intake.move(0);
-
-    // approach 2 stack
-
-
-    // chassis.moveToPose(-48, 0, 0, 1500, {.forwards = true, .lead=0.6}, false);
-
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-
-    Intake_SortedMove(127, 10000, -1, true); // TODO - TEMPORARY
-
-    chassis.setPose(-23.614, -51.314, 180);
-
-    chassis.follow(
-        CornerS_txt,
-        10,
-        5000, 
-        true,
-        false
-    );
-
-
-
-
-
-
-
-
-
 
     // lady.move_velocity(-127);
     // pros::delay(1000);
@@ -384,6 +365,7 @@ void opcontrol() {
     pros::Task mogoTask(mogo_control);
     pros::Task driveTask(drivetrain_control);
     pros::Task ladyTask(ladyctl);
-    // pros::Task doinkerTask(doinker_control);
+    pros::Task doinkerTask(doinker_control);
+    pros::Task intakeLiftTask(intake_lift_control);
     // pros::Task endgameTask(endgame_control);
 }
