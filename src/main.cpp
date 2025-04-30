@@ -70,7 +70,7 @@ LV_IMG_DECLARE(image); //TKSRC Logo
 // TODO - Temporary
 void autonwatcher() {
     while (true) {
-        printf("Selected Auton: %i\n", lemlib::selector::auton);
+        // printf("Selected Auton: %i\n", lemlib::selector::auton);
         pros::delay(10);
     }
 }
@@ -156,67 +156,6 @@ ASSET(GoalMovement_txt);
 ASSET(CornerS_txt);
 
 void autonomous() {  
-    
-    setColorSort();
-    
-    //red positive
-    
-    // chassis.setPose(0, 0, 45);
-
-    // ladySmart.movePID(-20000, 900, 10, false);
-    // ladySmart.movePID(9000, 2000, 10, true);
-
-    // chassis.moveToPose(-6, -6, 45, 1000, {.forwards = false}, false);
-
-    // chassis.turnToHeading(100, 500);
-    
-    // sos.set_value(true);
-
-    // roller.move_velocity(80);
-
-    // chassis.moveToPose(10, -9, 100, 800, {.forwards = true, .minSpeed = 20}, false);
-
-    // pros::delay(150);
-
-    // sos.set_value(false);
-
-    // chassis.moveToPose(0, -4, 100, 800, {.forwards = false}, false);
-
-    // pros::delay(100);
-
-    // //chassis.moveToPose(-12, -46, 25, 1300, {.forwards = false}, false);
-
-    // chassis.moveToPose(-6, -37, 25, 1400, {.forwards = false}, false);
-
-    // chassis.moveToPose(-16, -47, 25, 850, {.forwards = false}, false);
-
-    // mogo_mech.set_value(true);
-    
-    // pros::delay(200);
-
-    // chassis.turnToHeading(260, 900);
-
-    // Intake_SortedMove(127, 6000, -1, true); // TODO - TEMPORARY
-
-    // chassis.moveToPose(-29, -36, 260, 1000, {.forwards = true, .minSpeed = 20}, false);
-
-    // pros::delay(1350);
-
-    // mogo_mech.set_value(false);
-
-    // intake.move(-127);
-
-    // chassis.turnToHeading(0, 800);
-
-    // chassis.moveToPose(-27, -60, 15, 18000, {.forwards = false, .minSpeed = 20}, false);
-
-    // chassis.moveToPose(-27.5, -63, 15, 800, {.forwards = false, .minSpeed = 20}, false);
-
-    // mogo_mech.set_value(false);
-
-    // pros::delay(1400);
-
-    // chassis.moveToPose(-46, -10, 45, 2500, {.forwards = true}, false);
 
     chassis.setPose(0, 0, -53);
     
@@ -225,115 +164,23 @@ void autonomous() {
 
     chassis.moveToPose(17, -46, -33, 2000, {.forwards = false, .minSpeed = 30}, false);
 
-
     mogo_mech.set_value(true);
 
     pros::delay(400);
 
-    chassis.turnToHeading(160, 800);
+    chassis.turnToHeading(-235, 800);
 
-    intake.move_velocity(127);
+    Intake_SortedMove(127, 9000, -1, true);
 
-    chassis.moveToPose(38, -56, -256, 4000, {.forwards = true}, false);
+    chassis.moveToPose(22.3, -49.51, -174, 5000, {.forwards = true, .lead=0.3, .maxSpeed=50, .minSpeed = 0}, false);
 
+    chassis.turnToHeading(-174, 800);
+    // chassis.swingToHeading(90, DriveSide::LEFT, 1000, {.maxSpeed = 100, .minSpeed = 0}, false);
+    // // // intake.move_velocity(127);
     
-    pros::delay(1000);
+    // pros::delay(1000);
     
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-    
-    /*chassis.setPose(0, 0, 34); 
-
-    chassis.moveToPose(-15, -23, 33, 1100, {.forwards = false}, false);
-
-    mogo_mech.set_value(true);
-    pros::delay(150);
-    
-    chassis.turnToHeading(160, 800);
-
-    Intake_SortedMove(127, 10000, -1, true); // TODO - TEMPORARY
-
-    chassis.moveToPose(0, -38, 130, 1500, {.forwards = true}, false);
-
-    chassis.moveToPose(17, -37, 110, 1400, {.forwards = true, .minSpeed = 20}, false);
-
-    chassis.turnToHeading(330, 800);
-
-    chassis.moveToPose(0, -25, 270, 2700, {.forwards = true, .minSpeed = 20}, false);
-    
-    chassis.turnToHeading(290, 800);
-
-    chassis.moveToPose(-43, 2, 290, 3000, {.forwards = true, .minSpeed = 20}, true);
-
-    pros::delay(1150);
-
-    sos.set_value(true);
-
-    chassis.turnToHeading(0, 900);
-
-    lady.move(100);
-    pros::delay(400);
-    sos.set_value(false);
-    lady.move(0);
-    lady_rotation.set_position(0);
-    ladySmart.movePID(-1400, 1050, 0.5, true);
-    lady.brake();
-
-    intake.move(127);
-
-    chassis.moveToPose(-38, 10, 0, 1300, {.forwards = true, .minSpeed = 60}, false);
-
-    pros::delay(400);
-
-    intake.move(0);
-
-    lady.move(-100);
-    lady.move(-100);*/
-
-    // STUFF
-    // chassis.setPose(0, 0, 47); 
-    
-    // lady.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    // ladySmart.movePID(-19529, 800, 10, false);
-
-    // TODO
-
-    // lady.move_velocity(-127);
-    // pros::delay(1000);
-    // lady.move_velocity(40);
-
-    // chassis.moveToPose(-12, -12, 47, 800, {.forwards = false, .minSpeed = 20}, false);
-
-    // chassis.turnToHeading(90, 1200);
-
-    // sos.set_value(true);
-
-    // roller.move_velocity(127);
-
-    // chassis.moveToPose(23, -9, 90, 1000, {.forwards = true, .minSpeed = 20}, false);
-
-    // sos.set_value(false);
-
-    // lady.move_velocity(0);
-
-    // chassis.moveToPose(-8, -32, 40, 1500, {.forwards = false, .minSpeed = 20}, false);
-
-    // chassis.moveToPose(-10, -35, 40, 500, {.forwards = false, .minSpeed = 20}, false);
-
-    // mogo_mech.set_value(true);
-    
-    // pros::delay(100);
-    
-    // Intake_SortedMove(127, 10000, -1, true); // TODO - TEMPORARY
-
-    // pros::delay(200);
-
-    // chassis.turnToHeading(240, 800);
-
-    // chassis.moveToPose(20, -35, 240, 2000, {.forwards = true, .minSpeed = 20}, false);
-
-    
-
-
 
     // int auton = lemlib::selector::auton;
 

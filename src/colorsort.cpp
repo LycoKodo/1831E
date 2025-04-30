@@ -18,19 +18,19 @@ void ColorSortAlg();
 
 
 
-void setColorSort() {
-    static bool pressed = false;
-    pressed = !pressed;
-    if (pressed) {
-        pros::lcd::clear_line(3);
-        pros::lcd::set_text(3, "[CLS] Alliance: RED");
-        alliance = 'R';
-    } else {
-        pros::lcd::clear_line(3);
-        pros::lcd::set_text(3, "[CLS] Alliance: BLUE");
-        alliance = 'B';
-    }
-}
+// void setColorSort() {
+//     static bool pressed = false;
+//     pressed = !pressed;
+//     if (pressed) {
+//         pros::lcd::clear_line(3);
+//         pros::lcd::set_text(3, "[CLS] Alliance: RED");
+//         alliance = 'R';
+//     } else {
+//         pros::lcd::clear_line(3);
+//         pros::lcd::set_text(3, "[CLS] Alliance: BLUE");
+//         alliance = 'B';
+//     }
+// }
 
 bool ringInspect() {
     const float blue_lim_low = 150, blue_lim_high = 250;
@@ -38,9 +38,21 @@ bool ringInspect() {
     double hue = colorSort.get_hue();
 
     if (alliance == 'B') {
-        return !(red_lim_low < hue && hue < red_lim_high);
+        if (red_lim_low < hue && hue < red_lim_high) {
+            return false; // Reject red rings
+            printf("Rejected\n");
+        }
+        // Accept blue rings
+        return true;
+        printf("Accepted\n");
     } else if (alliance == 'R') {
-        return !(blue_lim_low < hue && hue < blue_lim_high);
+        
+        if (blue_lim_low < hue && hue < blue_lim_high) {
+            return false; // Reject blue rings
+            printf("Rejected\n");
+        }
+        return true; // Accept all other rings
+        printf("Accepted\n");
     }
     return true; // Default: passes for any other color
 }

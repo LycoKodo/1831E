@@ -11,7 +11,7 @@
 #include "robot-config.hpp"
 #include "colorsort.hpp"
 
-char alliance = 'N';
+char alliance = 'R'; // TODO - CHANGED FROM N
 bool allianceConfirmed = false;
 
 double lady_zero;
@@ -92,8 +92,7 @@ void intake_control() {
             printf("Intake Activitated\n");
         }
         else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            // bool passed = ringInspect();
-            bool passed = true; // TODO - TEMPORARY
+            bool passed = ringInspect();
             if (passed) {
                 double velocity = intake.get_actual_velocity();
                 if (false) {// velocity < stuck_lim_low && velocity > -stuck_lim_high

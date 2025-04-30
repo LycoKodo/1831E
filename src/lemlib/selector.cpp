@@ -236,7 +236,6 @@ void tabWatcher(void* param) {
                     master.rumble(".");
                 }
                 textUpdate();
-                printf("Current Auton %i", auton);
                 pros::delay(10);
             }
 
@@ -245,7 +244,6 @@ void tabWatcher(void* param) {
                 lv_tabview_set_act(tabview, 0, LV_ANIM_OFF);
                 motorUpdate();
                 odomUpdate();
-                printf("Current Auton %i", auton);
                 pros::delay(10);
             }
         }
