@@ -158,64 +158,88 @@ ASSET(CornerS_txt);
 void autonomous() {  
     
     setColorSort();
-    chassis.setPose(0, 0, 45);
-
-    ladySmart.movePID(-20000, 900, 10, false);
-    ladySmart.movePID(9000, 2000, 10, true);
-
-    chassis.moveToPose(-6, -6, 45, 1000, {.forwards = false}, false);
-
-    chassis.turnToHeading(100, 500);
     
-    sos.set_value(true);
+    //red positive
+    
+    // chassis.setPose(0, 0, 45);
 
-    roller.move_velocity(80);
+    // ladySmart.movePID(-20000, 900, 10, false);
+    // ladySmart.movePID(9000, 2000, 10, true);
 
-    chassis.moveToPose(10, -9, 100, 800, {.forwards = true, .minSpeed = 20}, false);
+    // chassis.moveToPose(-6, -6, 45, 1000, {.forwards = false}, false);
 
-    pros::delay(150);
+    // chassis.turnToHeading(100, 500);
+    
+    // sos.set_value(true);
 
-    sos.set_value(false);
+    // roller.move_velocity(80);
 
-    chassis.moveToPose(0, -4, 100, 800, {.forwards = false}, false);
+    // chassis.moveToPose(10, -9, 100, 800, {.forwards = true, .minSpeed = 20}, false);
 
-    pros::delay(100);
+    // pros::delay(150);
 
-    //chassis.moveToPose(-12, -46, 25, 1300, {.forwards = false}, false);
+    // sos.set_value(false);
 
-    chassis.moveToPose(-6, -37, 25, 1400, {.forwards = false}, false);
+    // chassis.moveToPose(0, -4, 100, 800, {.forwards = false}, false);
 
-    chassis.moveToPose(-16, -47, 25, 850, {.forwards = false}, false);
+    // pros::delay(100);
+
+    // //chassis.moveToPose(-12, -46, 25, 1300, {.forwards = false}, false);
+
+    // chassis.moveToPose(-6, -37, 25, 1400, {.forwards = false}, false);
+
+    // chassis.moveToPose(-16, -47, 25, 850, {.forwards = false}, false);
+
+    // mogo_mech.set_value(true);
+    
+    // pros::delay(200);
+
+    // chassis.turnToHeading(260, 900);
+
+    // Intake_SortedMove(127, 6000, -1, true); // TODO - TEMPORARY
+
+    // chassis.moveToPose(-29, -36, 260, 1000, {.forwards = true, .minSpeed = 20}, false);
+
+    // pros::delay(1350);
+
+    // mogo_mech.set_value(false);
+
+    // intake.move(-127);
+
+    // chassis.turnToHeading(0, 800);
+
+    // chassis.moveToPose(-27, -60, 15, 18000, {.forwards = false, .minSpeed = 20}, false);
+
+    // chassis.moveToPose(-27.5, -63, 15, 800, {.forwards = false, .minSpeed = 20}, false);
+
+    // mogo_mech.set_value(false);
+
+    // pros::delay(1400);
+
+    // chassis.moveToPose(-46, -10, 45, 2500, {.forwards = true}, false);
+
+    chassis.setPose(0, 0, -53);
+    
+    ladySmart.movePID(-20000, 900, 10, false);
+    ladySmart.movePID(10000, 1000, 10, true);
+
+    chassis.moveToPose(17, -46, -33, 2000, {.forwards = false, .minSpeed = 30}, false);
+
 
     mogo_mech.set_value(true);
+
+    pros::delay(400);
+
+    chassis.turnToHeading(160, 800);
+
+    intake.move_velocity(127);
+
+    chassis.moveToPose(38, -56, -256, 4000, {.forwards = true}, false);
+
     
-    pros::delay(200);
-
-    chassis.turnToHeading(260, 900);
-
-    Intake_SortedMove(127, 6000, -1, true); // TODO - TEMPORARY
-
-    chassis.moveToPose(-29, -36, 260, 1000, {.forwards = true, .minSpeed = 20}, false);
-
-    pros::delay(1350);
-
-    mogo_mech.set_value(false);
-
-    intake.move(-127);
-
-    chassis.turnToHeading(0, 800);
-
-    chassis.moveToPose(-27, -60, 15, 18000, {.forwards = false, .minSpeed = 20}, false);
-
-    chassis.moveToPose(-27.5, -63, 15, 800, {.forwards = false, .minSpeed = 20}, false);
-
-    mogo_mech.set_value(false);
-
-    pros::delay(1400);
-
-    chassis.moveToPose(-46, -10, 45, 2500, {.forwards = true}, false);
-
-
+    pros::delay(1000);
+    
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     
     /*chassis.setPose(0, 0, 34); 
 
