@@ -18,19 +18,19 @@ void ColorSortAlg();
 
 
 
-// void setColorSort() {
-//     static bool pressed = false;
-//     pressed = !pressed;
-//     if (pressed) {
-//         pros::lcd::clear_line(3);
-//         pros::lcd::set_text(3, "[CLS] Alliance: RED");
-//         alliance = 'R';
-//     } else {
-//         pros::lcd::clear_line(3);
-//         pros::lcd::set_text(3, "[CLS] Alliance: BLUE");
-//         alliance = 'B';
-//     }
-// }
+void setColorSort() {
+    static bool pressed = false;
+    pressed = !pressed;
+    if (pressed) {
+        pros::lcd::clear_line(3);
+        pros::lcd::set_text(3, "[CLS] Alliance: RED");
+        alliance = 'R';
+    } else {
+        pros::lcd::clear_line(3);
+        pros::lcd::set_text(3, "[CLS] Alliance: BLUE");
+        alliance = 'B';
+    }
+}
 
 bool ringInspect() {
     const float blue_lim_low = 150, blue_lim_high = 250;
@@ -70,13 +70,14 @@ void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async
 
     // While the elapsed time is less than msDelay
     while (std::chrono::high_resolution_clock::now() < endTime) {
+        double hook_voltage = hook.get_voltage();
         if (voltage > 0) {
             // Intaking
             bool passed = ringInspect();
             if (passed) {
                 intake.move(voltage);
             } else {
-                pros::delay(90);
+                pros::delay(60);
                 hook.move(voltage * penaltyFactor);
                 pros::delay(100);
             }
