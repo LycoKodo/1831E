@@ -1,22 +1,3 @@
-#include "main.h"
-
-#include "pros/motors.h"
-#include "robot-config.hpp"
-#include "controls.hpp"
-#include "lemlib/selector.hpp"
-#include "lemlib/smartMotor.hpp"
-#include "lemlib/chassis/chassis.hpp"
-
-
-
-// ------------------------- //
-// Red 1  Autonomous Routine //
-// ------------------------- //
-
-// e.g. red right
-
-int red1() {
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 
     chassis.setPose(0, 0, 51);
 
@@ -72,7 +53,3 @@ int red1() {
 
     chassis.moveToPose(-27, -47, -345, 3000, {.forwards = false, .minSpeed = 25}, false);
     
-    return 0;
-}
-
-

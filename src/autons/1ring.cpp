@@ -13,6 +13,7 @@
 // ------------------------- //
 
 int auton1ring() {
+    intake.move(127);
     return 0;
 }
 

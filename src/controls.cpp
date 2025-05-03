@@ -66,8 +66,8 @@ void ladyctl() {
             lady.move(0);
             lady_rotation.set_position(0);
             pros::delay(100);
-            ladySmart.movePID(-920, 2000, false);
-        }
+            ladySmart.movePID(-1020, 2000, false);
+        }// TODO - Make second macro
         else if (spinning == true) {
             lady.brake();
             spinning = false;
@@ -111,11 +111,18 @@ void intake_control() {
             else {
                 printf("Intake (INSPECT) COMPROMISED [!]\n");
                 printf("    PASSED: False \n");
-                intake.move(127);
-                pros::delay(220); // TODO - Tune delay accordingly to intake
+                // @note - upadted algorithm by quinnnnnnnnnn
+                pros::delay(90); // TODO - Tune delay accordingly to intake
                 intake.move(-127);
-                pros::delay(200);
+                pros::delay(100);
                 intake.move(127);
+
+                // @note - Past algorithm
+                // intake.move(127);
+                // pros::delay(220); // TODO - Tune delay accordingly to intake
+                // intake.move(-127);
+                // pros::delay(200);
+                // intake.move(127);
             }
             intake_spinning = false;
         }

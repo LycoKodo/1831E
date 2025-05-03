@@ -19,17 +19,7 @@ void ColorSortAlg();
 
 
 void setColorSort() {
-    static bool pressed = false;
-    pressed = !pressed;
-    if (pressed) {
-        pros::lcd::clear_line(3);
-        pros::lcd::set_text(3, "[CLS] Alliance: RED");
-        alliance = 'R';
-    } else {
-        pros::lcd::clear_line(3);
-        pros::lcd::set_text(3, "[CLS] Alliance: BLUE");
-        alliance = 'B';
-    }
+    alliance = 'R';
 }
 
 bool ringInspect() {
@@ -38,7 +28,7 @@ bool ringInspect() {
     double hue = colorSort.get_hue();
 
     if (alliance == 'B') {
-        if (red_lim_low < hue && hue < red_lim_high) {
+        if (red_lim_low < hue && hue < red_lim_high) { // TODO - After color detected, wait until wattage to outtake
             return false; // Reject red rings
             printf("Rejected\n");
         }
@@ -70,16 +60,15 @@ void Intake_SortedMove(int voltage, float msDelay, int penaltyFactor, bool async
 
     // While the elapsed time is less than msDelay
     while (std::chrono::high_resolution_clock::now() < endTime) {
-        double hook_voltage = hook.get_voltage();
         if (voltage > 0) {
             // Intaking
             bool passed = ringInspect();
             if (passed) {
                 intake.move(voltage);
             } else {
-                pros::delay(60);
+                pros::delay(90);
                 hook.move(voltage * penaltyFactor);
-                pros::delay(100);
+                pros::delay(200);
             }
         } else {
             // Outtaking or stopping
