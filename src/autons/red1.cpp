@@ -67,11 +67,11 @@ int red1() {
     pros::delay(500);
 
     doinker.set_value(false);
-// // //2644347
+
     chassis.turnToHeading(0, 1000);
 
     chassis.moveToPose(-27, -47, -345, 3000, {.forwards = false, .minSpeed = 25}, false);
-    
+
     return 0;
 }
 

@@ -92,11 +92,10 @@ void initialize() {
     chassis.calibrate(); // calibrate sensors
 
     ladySmart.reset();
-    // // -----------------------
-    // // Initialise Sensors
-    // // -----------------------
-    // colorSort.set_led_pwm(100);
-    // lady_rotation.set_position(0);
+    // -----------------------
+    // Initialise Sensors
+    // -----------------------
+    colorSort.set_led_pwm(100);
 
     // // -----------------------
     // // Initialise Subsystems

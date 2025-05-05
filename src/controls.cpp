@@ -11,7 +11,7 @@
 #include "robot-config.hpp"
 #include "colorsort.hpp"
 
-char alliance = 'R'; // TODO - CHANGED FROM N
+char alliance = 'N'; // TODO - CHANGED FROM N
 bool allianceConfirmed = false;
 
 double lady_zero;
@@ -66,7 +66,7 @@ void ladyctl() {
             lady.move(0);
             lady_rotation.set_position(0);
             pros::delay(100);
-            ladySmart.movePID(-1020, 2000, false);
+            ladySmart.movePID(-1020, 1000, false);
         }// TODO - Make second macro
         else if (spinning == true) {
             lady.brake();
@@ -86,12 +86,12 @@ void intake_control() {
     bool intake_spinning = true;
     
     while (true) {
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L2) == false) {
             intake.move(-127); // Spin out
             intake_spinning = false;
             printf("Intake Activitated\n");
         }
-        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) ) {
             bool passed = ringInspect();
             if (passed) {
                 double velocity = intake.get_actual_velocity();
@@ -125,6 +125,11 @@ void intake_control() {
                 // intake.move(127);
             }
             intake_spinning = false;
+        }
+        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) == false) {
+            intake.move(127); // Spin in normally
+            intake_spinning = false;
+            printf("Intake Activitated\n");
         }
         else if (intake_spinning == false) {
             intake.move(0);

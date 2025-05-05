@@ -142,7 +142,8 @@ bin/lemlib/selector.cpp.o: src/lemlib/selector.cpp include/api.h \
  include/fmt/core.h include/fmt/format-inl.h \
  include/lemlib/logger/baseSink.hpp include/fmt/args.h \
  include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
- include/lemlib/logger/telemetrySink.hpp include/lemlib/smartMotor.hpp
+ include/lemlib/logger/telemetrySink.hpp include/lemlib/smartMotor.hpp \
+ include/controls.hpp
 include/api.h:
 include/pros/adi.h:
 include/pros/colors.h:
@@ -385,3 +386,4 @@ include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
 include/lemlib/smartMotor.hpp:
+include/controls.hpp:

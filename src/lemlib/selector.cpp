@@ -15,6 +15,7 @@
 #include "pros/rtos.hpp"
 
 #include "robot-config.hpp"
+#include "controls.hpp"
 
 LV_IMG_DECLARE(dorito); //TKSRC Logo
 
@@ -71,27 +72,25 @@ int odomUpdate();
 int customUpdate();
 int textUpdate();
 
-lv_obj_t* tabview = lv_tabview_create(lv_scr_act(), LV_DIR_TOP, 50);
+lv_obj_t* tabview;
 // Creating LVGL buttons & tab object
+lv_obj_t* devTab;
+lv_obj_t* redTab;
+lv_obj_t* blueTab;
+lv_obj_t* skillsTab;
+lv_obj_t* bocchiTab;
+
+lv_obj_t* motor_temps_textarea;
+lv_obj_t* odom_textarea;
+lv_obj_t* other_textarea;
+
+lv_obj_t* red_textarea;
+lv_obj_t* blue_textarea;
+lv_obj_t* skills_textarea;
 
 lv_obj_t* redBtnm;
 lv_obj_t* blueBtnm;
 lv_obj_t* skillsBtnm;
-
-lv_obj_t* devTab = lv_tabview_add_tab(tabview, "Developer");
-lv_obj_t* redTab = lv_tabview_add_tab(tabview, "Red");
-lv_obj_t* blueTab = lv_tabview_add_tab(tabview, "Blue");
-lv_obj_t* skillsTab = lv_tabview_add_tab(tabview, "Skills");
-lv_obj_t* bocchiTab = lv_tabview_add_tab(tabview, " ");
-
-// Instead of lv_obj_t *motor_temps_textarea = lv_textarea_create(devTab);
-lv_obj_t *motor_temps_textarea = lv_textarea_create(devTab);
-lv_obj_t *odom_textarea = lv_textarea_create(devTab);
-lv_obj_t *other_textarea = lv_textarea_create(devTab);
-
-lv_obj_t *red_textarea = lv_textarea_create(redTab);
-lv_obj_t *blue_textarea = lv_textarea_create(blueTab);
-lv_obj_t *skills_textarea = lv_textarea_create(skillsTab);
 
 
 void log_error(const std::string& func_name, const std::string& msg) {
@@ -295,6 +294,23 @@ void init(int default_auton, const char** redAutons, const char** blueAutons, co
             i++;
         }
 
+        tabview = lv_tabview_create(lv_scr_act(), LV_DIR_TOP, 50);
+
+        devTab = lv_tabview_add_tab(tabview, "Developer");
+        redTab = lv_tabview_add_tab(tabview, "Red");
+        blueTab = lv_tabview_add_tab(tabview, "Blue");
+        skillsTab = lv_tabview_add_tab(tabview, "Skills");
+        bocchiTab = lv_tabview_add_tab(tabview, " ");
+
+        // Instead of lv_obj_t *motor_temps_textarea = lv_textarea_create(devTab);
+        motor_temps_textarea = lv_textarea_create(devTab);
+        odom_textarea = lv_textarea_create(devTab);
+        other_textarea = lv_textarea_create(devTab);
+
+        red_textarea = lv_textarea_create(redTab);
+        blue_textarea = lv_textarea_create(blueTab);
+        skills_textarea = lv_textarea_create(skillsTab);
+        
         auton = default_auton;
         autonState = (auton > 0) ? RED : ((auton < 0) ? BLUE : NONE);
 
@@ -573,7 +589,7 @@ int customUpdate() {
 
     // Logic to Update Alliance
 
-    char alliance = 'N';
+    alliance = 'N';
     if (auton >= 1 && auton <= 100){
         alliance = 'R';
     } else if (auton >= -100 && auton <= -1) {

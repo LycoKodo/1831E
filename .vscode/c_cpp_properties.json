@@ -12,7 +12,7 @@
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "/Users/timerburgerking/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
+      "compilerPath": "/Users/arona/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
       "intelliSenseMode": "gcc-arm",
@@ -21,7 +21,7 @@
       ],
       "browse": {
         "path": [
-          "/Users/timerburgerking/Documents/GitHub/1831E"
+          "/Users/arona/Documents/GitHub/1831E"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""
