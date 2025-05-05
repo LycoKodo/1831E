@@ -141,11 +141,7 @@ bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
  include/fmt/args.h include/lemlib/logger/message.hpp \
  include/lemlib/logger/infoSink.hpp \
  include/lemlib/logger/telemetrySink.hpp include/lemlib/smartMotor.hpp \
- include/lemlib/selector.hpp include/api.h \
- include/liblvgl/core/lv_event.h \
- include/liblvgl/extra/widgets/tabview/lv_tabview.h \
- include/robot-config.hpp include/main.h include/controls.hpp \
- include/autons.hpp include/lemlib/selector.hpp
+ include/robot-config.hpp include/main.h include/controls.hpp
 include/main.h:
 include/api.h:
 include/pros/adi.h:
@@ -384,12 +380,6 @@ include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
 include/lemlib/smartMotor.hpp:
-include/lemlib/selector.hpp:
-include/api.h:
-include/liblvgl/core/lv_event.h:
-include/liblvgl/extra/widgets/tabview/lv_tabview.h:
 include/robot-config.hpp:
 include/main.h:
 include/controls.hpp:
-include/autons.hpp:
-include/lemlib/selector.hpp:

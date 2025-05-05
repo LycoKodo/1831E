@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "1831 Common Codebase",
+    "project_name": "DRIVE ONLY",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -298,9 +298,9 @@
       }
     },
     "upload_options": {
-      "description": "Main ~~Scattfold~~ Schlattfold",
-      "icon": "power",
-      "slot": 1
+      "description": "If you had to run this... IM SORRY AHUHUHHHHHHH ToT~~",
+      "icon": "alien",
+      "slot": 2
     },
     "use_early_access": false
   }

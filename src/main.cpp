@@ -8,10 +8,8 @@
 #include "pros/rtos.hpp"
 #include <sys/wait.h>
 
-#include "lemlib/selector.hpp" // For auton selector
 #include "robot-config.hpp"
 #include "controls.hpp"
-#include "autons.hpp"
 
 
 
@@ -77,95 +75,30 @@ void autonwatcher() {
 
 
 void initialize() {
-    // ------------------------------------------
-    // Displaying TKSRC Logo (During calibration)
-    // ------------------------------------------
-    lv_obj_t *img = lv_img_create(lv_scr_act()); // Add to screen
-    lv_img_set_src(img, &image); // Link to source image
-    lv_obj_align(img, LV_ALIGN_CENTER, 0, -20);
-
-    // -----------------------
-    // Initialise Chassis
-    // -----------------------
-    // @removed - LLEMU CANNOT BE USED WITH LVGL | pros::lcd::initialize(); // initialize brain screen
-
+    pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
 
-    ladySmart.reset();
-    // -----------------------
-    // Initialise Sensors
-    // -----------------------
-    colorSort.set_led_pwm(100);
+    // the default rate is 50. however, if you need to change the rate, you
+    // can do the following.
+    // lemlib::bufferedStdout().setRate(...);
+    // If you use bluetooth or a wired connection, you will want to have a rate of 10ms
 
-    // // -----------------------
-    // // Initialise Subsystems
-    // // -----------------------
-    // intake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    // mogo_mech.set_value(true);
-    doinker.set_value(false);
-    sos.set_value(false);
+    // for more information on how the formatting for the loggers
+    // works, refer to the fmtlib docs
 
-    lv_obj_del(img); // stop displaying TKSRC Logo as Calibration has ended
-
-    // -----------------------
-    // TODO - LVGL INIT
-    // -----------------------
-
-
-    static const char* redBtnmMap[] = {
-        "R+ AWP", 
-        "R- 6-Ring", 
-        "R+ Alex", 
-        "\n",
-        "No", 
-        "No", 
-        "No", 
-        nullptr
-    };
-    static const char* redBtnmDesc[] = {
-        "[Reliability: MID] AWP for RED POSITIVE", 
-        "[Reliability: FOXWELL] 6-Ring for RED NEGATIVE", 
-        "[Reliability: FOXWELL] Alex's Positive, No MID RUSH",
-        "No", 
-        "No", 
-        "No", 
-        nullptr
-    };
-
-    static const char* blueBtnmMap[] = {
-        "B+ AWP", 
-        "B- 6-Ring", 
-        "No", 
-        "\n",
-        "No", 
-        "No", 
-        "No", 
-        nullptr
-    };
-    static const char* blueBtnmDesc[] = {
-        "[Reliability: INCOMPLETE] AWP for BLUE POSITIVE",
-        "[Reliability: UNTESTED] 6-Ring for BLUE NEGATIVE", 
-        "No",
-        "No", 
-        "No", 
-        "No", 
-        nullptr
-    };
-
-    static const char* skillsBtnmMap[] = {
-        "SPINNNN", "Preload", "Skills 1", "\n",  
-        "Skills 2", "Skills 3", "Skills 4", nullptr
-    };
-    static const char* skillsBtnmDesc[] = {
-        "It SPINNNNSSSSSSSS (Thats it womp womp)", "Preload", "Skills 1",  
-        "Skills 2", "Skills 3", "Skills 4", nullptr
-    };
-
-    lemlib::selector::init(999, redBtnmMap, blueBtnmMap, skillsBtnmMap, redBtnmDesc, blueBtnmDesc, skillsBtnmDesc); // declaring default auton
-
-    // TODO - temporary 
-    pros::Task watcher(autonwatcher);
-
+    // thread to for brain screen and position logging
+    pros::Task screenTask([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // log position telemetry
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            // delay to save resources
+            pros::delay(50);
+        }
+    });
 }
 
 
@@ -177,50 +110,7 @@ void competition_initialize() {}
 ASSET(GoalMovement_txt);
 ASSET(CornerS_txt);
 
-void autonomous() {  
-
-    int auton = lemlib::selector::auton;
-
-    lemlib::selector::autonStarted = true;
-    
-    if (auton >= 1 && auton <= 100) {
-        switch (auton) {
-            case 1: red1(); break;
-            case 2: red2(); break;
-            case 3: red3(); break;
-            case 4: red4(); break;
-            case 5: red5(); break;
-            case 6: red6(); break;
-            // add more red cases as needed up to 100
-        }
-    }
-    else if (auton >= -100 && auton <= -1) {
-        switch (auton) {
-            case -1: blue1(); break;
-            case -2: blue2(); break;
-            case -3: blue3(); break;
-            case -4: blue4(); break;
-            case -5: blue5(); break;
-            case -6: blue6(); break;
-            // add more blue cases as needed up to -100
-        }
-    }
-    else if (auton >= 101 && auton <= 201) {
-        switch (auton) {
-            case 101: skills1(); break;
-            case 102: skills2(); break;
-            case 103: skills3(); break;
-            case 104: skills4(); break;
-            case 105: skills5(); break;
-            case 106: skills6(); break;
-            // add more skills cases as needed up to 106
-        }
-    }
-    else {
-        // Default auton
-        auton1ring();
-    }
-}
+void autonomous() {}
 
 void opcontrol() {
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
