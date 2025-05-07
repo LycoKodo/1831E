@@ -123,9 +123,9 @@ void initialize() {
         nullptr
     };
     static const char* redBtnmDesc[] = {
-        "[Reliability: MID] AWP for RED POSITIVE", 
-        "[Reliability: FOXWELL] 6-Ring for RED NEGATIVE", 
-        "[Reliability: FOXWELL] Alex's Positive, No MID RUSH",
+        "[Reliability: BAD] 3 Ring 2 Stk for RED POSITIVE", 
+        "[Reliability: Good] 6-Ring for RED NEGATIVE", 
+        "[Reliability: Good] Alex's Positive, No MID RUSH",
         "No", 
         "No", 
         "No", 
@@ -135,7 +135,7 @@ void initialize() {
     static const char* blueBtnmMap[] = {
         "B+ AWP", 
         "B- 6-Ring", 
-        "No", 
+        "B+ No Mid", 
         "\n",
         "No", 
         "No", 
@@ -143,9 +143,9 @@ void initialize() {
         nullptr
     };
     static const char* blueBtnmDesc[] = {
-        "[Reliability: INCOMPLETE] AWP for BLUE POSITIVE",
-        "[Reliability: UNTESTED] 6-Ring for BLUE NEGATIVE", 
-        "No",
+        "[Reliability: BAD] 3 Ring 2 Stk for RED POSITIVE",
+        "[Reliability: Good] 6-Ring for BLUE NEGATIVE", 
+        "Standard B+ without scoring alliance stake.",
         "No", 
         "No", 
         "No", 

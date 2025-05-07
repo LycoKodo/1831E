@@ -39,17 +39,15 @@ int red2() {
 
     chassis.turnToHeading(-243, 500);
 
-    chassis.moveToPose(27.5, -53.5, -243, 800, {.forwards = true, .minSpeed = 30}, false);
+    chassis.moveToPose(27.5, -53.5, -243, 800, {.forwards = true, .minSpeed = 25}, false);
 
     pros::delay(300);
 
     chassis.turnToHeading(16, 500);
 
-    chassis.moveToPose(31, -47, 16, 1000, {.forwards = true, .minSpeed = 30}, false);
+    chassis.moveToPose(31, -47, 16, 1000, {.forwards = true, .minSpeed = 10}, false);
 
     chassis.turnToHeading(-57, 800);
-
-    lady.get_voltage();
 
     chassis.moveToPose(-8, -17, -57, 2000, {.forwards = true, .minSpeed = 30}, true);
 

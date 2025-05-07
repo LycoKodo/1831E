@@ -18,6 +18,7 @@
 int blue1() {
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 
+    setColorSort();
     /* ───────────── MIRRORED-FOR-RIGHT-SIDE AUTON ───────────── */
 
     chassis.setPose(0, 0, -51);
@@ -28,7 +29,7 @@ int blue1() {
     ladySmart.movePID(10000, 1000, 10, true);
 
     /* ── leave start box, back up under crossbar ── */
-    chassis.moveToPose(  8,  -8,  -51,  800,
+    chassis.moveToPose(  8,  -8,  -51,  1000,
                         {.forwards = false, .minSpeed = 40}, false);
 
     chassis.turnToHeading(-108, 800);
@@ -36,57 +37,73 @@ int blue1() {
     sos.set_value(true);
     roller.move_velocity(80);
 
-    /* ── swing out to roller ── */
-    chassis.moveToPose( -8,  -9, -103, 1800,
-                        {.forwards = true,  .minSpeed = 40}, false);
+    // /* ── swing out to roller ── */
+    chassis.moveToPose( -7.3,  -8, -108.09, 1400,
+                        {.forwards = true,  .minSpeed = 0}, false);
 
-    pros::delay(400);
+    pros::delay(300);
     sos.set_value(false);
 
-    /* ── drop to corner ── */
-    chassis.moveToPose( 11, -40,  -28, 2000,
-                        {.forwards = false, .minSpeed = 40}, false);
+    chassis.moveToPose( 7, -36,  -39, 1300,
+                        {.forwards = false, .lead=0.3, .maxSpeed = 127, .minSpeed = 0}, false);
 
     mogo_mech.set_value(true);
-    intake.move_velocity(127);
+    pros::delay(80);
     Intake_SortedMove(127, 10000, -1, true);
-
-    /* ── rotate to face bar side ── */
-    chassis.turnToHeading(-270, 900);
-
-    /* ── drive along bar ── */
-    chassis.moveToPose( 27, -35, -270, 2000,
-                        {.forwards = true,  .minSpeed = 25}, false);
-
-    pros::delay(1500);
-
-    /* ── square to field wall ── */
-    chassis.turnToHeading(-180, 1000);
-
-    mogo_mech.set_value(false);
-
-    /* ── pull back a little ── */
-    chassis.moveToPose( 27, -44, -180, 2000,
-                        {.forwards = true,  .minSpeed = 25}, false);
-
-    doinker.set_value(true);
+    
     pros::delay(400);
+    // /* ── rotate to face bar side ── */
+    chassis.turnToHeading(98.1, 900);
 
-    /* ── shove game-object home ── */
-    chassis.moveToPose( 27, -30, -270, 2000,
-                        {.forwards = false, .minSpeed = 25}, false);
+    /* ── face 2 stack ── */
+    chassis.moveToPose( 27, -40, 98.1, 1500,
+                        {.forwards = true, .lead=0.1,  .minSpeed = 0}, false);
 
-    pros::delay(500);
-    doinker.set_value(false);
 
-    /* ── straighten for final run ── */
-    chassis.turnToHeading(0, 1000);
+    pros::delay(230);
+    
+    chassis.moveToPose(1.6, -43.55, 234.27, 2000, {.forwards = true, .lead=0.2, .minSpeed=0}, false);
 
-    /* ── retreat to safe zone ── */
-    chassis.moveToPose( 27, -47,  345, 3000,
-                        {.forwards = false, .minSpeed = 25}, false);
+    ladySmart.movePID(-30000, 1000,0.5, false);
 
-    /* ───────────────────────── END OF AUTON ───────────────────────── */
+    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    // // /* ── square to field wall ── */
+    // chassis.turnToHeading(185, 1000, {.minSpeed = 15});
+    
+    // pros::delay(400);
+    // mogo_mech.set_value(false);
+    // //     // break
+
+    // // /* ── get mid ── */
+    // chassis.moveToPose( 37, -47, 185, 2000,
+    //                     {.forwards = true,  .minSpeed = 25}, false);
+
+    // doinker.set_value(true);
+    // pros::delay(400);
+
+    // // /* ── shove game-object home ── */
+    // chassis.moveToPose( 37, -37, 185, 2000,
+    //                     {.forwards = false, .lead=0.1, .minSpeed = 0}, false);
+
+    // pros::delay(500);
+    // doinker.set_value(false);
+
+    // // /* ── turn for clamp ── */
+    // chassis.turnToHeading(365, 1000);
+
+    // // /* ── retreat to safe zone ── */
+
+    // // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    // chassis.moveToPose( 34, -52.6,  389, 3000,
+    //                     {.forwards = false, .minSpeed = 25}, false);
+
+    
+    // mogo_mech.set_value(true);
+
+    // pros::delay(300);
+    
+    // Intake_SortedMove(127, 2000, -1, false);
+    // /* ───────────────────────── END OF AUTON ───────────────────────── */
 
     return 0; // success, 1 for fail
 }
