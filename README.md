@@ -29,6 +29,9 @@ This project is licensed under the MIT license. Check [LICENSE](https://github.c
 
 **Team 1831A** is a currently active V5RC **MS** team based in the same school.
 
+**Team 1831D** is a currently active V5RC **HS** team based in **The King's School, Paramatta, Sydney Australia** competing in the VEX Robotics Competition 2024-2025 "High Stakes". 
+
+
 <!--
 NOTE - Commented out
 ---
