@@ -6,6 +6,12 @@ With this project, we are aiming to extend upon the existing LemLib project (Now
 
 If you decide to use our code, please consider **starring our project** (and lemlib) to support us! (Extra credits to 1831A MS)
 
+**Version Key Features**
+ - 18 slot auton selector
+ - developers page for subsystem monitoring
+ - smartMotor class for modular subsystem PID (Fixed integral buildup issue)
+ - A secret easteregg!
+
 ---
 
 ## License
@@ -43,8 +49,12 @@ Here's an overview of the repository:
 ├── include/            # Header files for modular design  
 │  
 ├── src/                # Source code for the robot  
-│   ├── main.cpp            # Main entry point of the program  
-│   ├── controls.cpp        # Code for specific robot subsystems (e.g., drive, lift, claw)  
+│   ├── autons/         # Stores Auton routines for auton selector
+│   └── lemlib/         # Lemlib library files
+│       └── selector.cpp    # [Added feat.] Custom auton selector, contains subsystem monitoring code.
+│       └── smartMotor.cpp  # [Added feat.] Subsystem PID class
+│   ├── main.cpp           
+│   ├── controls.cpp        # Code for subsystem controls 
 │   └── robot-config.cpp    # Mostly constructurs for initiating robot devices & sensors
 │
 └── README.md           # Repository overview  
@@ -114,7 +124,3 @@ Cheers! 🍻
 Alex Cai (LycoKodo) - Programmer of 1831E
 
 Haoran Fang (venus-beetroot) - Programmer of 1831A
-
-Carlos Zhang (blatantac) - Programmer of 1831N
-
-Sky Fan (Skiiboi) - Programmer/Project Manager of 1831D
