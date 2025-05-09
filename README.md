@@ -1,11 +1,10 @@
-### LycoKodo: Im not bothered to change this XD
-## Welcome To the 1831 Common Codebase! 🔥🚀
+## Welcome To 1831E's Cafe! - This time serving: Coke 🔥🚀
 ---
-Welcome Adventurer! This repository is a merged effort between programmers of active V5RC teams **1831E and 1831A** in the "high stakes" season. 
+Welcome Adventurer! This is the **worlds comp code repository** for the active V5RC team **1831E** in the "high stakes" season. 
 
-With this project, we are aiming to extend upon the existing LemLib project by @SizzinSeal and its contributors, optimising it for the "high stakes" season. 
+With this project, we are aiming to extend upon the existing LemLib project (Now V4 or stable branch) by @SizzinSeal and its contributors, optimising it for the "high stakes" season. 
 
-If you decide to use our code, please consider **starring our project** (and lemlib) to support us!
+If you decide to use our code, please consider **starring our project** (and lemlib) to support us! (Extra credits to 1831A MS)
 
 ---
 
